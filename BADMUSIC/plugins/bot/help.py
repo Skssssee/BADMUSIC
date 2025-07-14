@@ -1,7 +1,7 @@
 import random
 from typing import Union
-from pyrogram import filters, types
-from pyrogram.types import InlineKeyboardMarkup, Message, InlineKeyboardButton
+from Badmunda import filters, types
+from Badmunda.types import InlineKeyboardMarkup, Message, InlineKeyboardButton
 from BADMUSIC import app
 from BADMUSIC.utils import help_pannel
 from BADMUSIC.utils.database import get_lang

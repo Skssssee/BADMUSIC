@@ -1,12 +1,12 @@
 from typing import List, Optional, Union
 
-from pyrogram import Client, filters
-from pyrogram.errors import ChatAdminRequired
-from pyrogram.raw.functions.channels import GetFullChannel
-from pyrogram.raw.functions.messages import GetFullChat
-from pyrogram.raw.functions.phone import CreateGroupCall, DiscardGroupCall
-from pyrogram.raw.types import InputGroupCall, InputPeerChannel, InputPeerChat
-from pyrogram.types import ChatPrivileges, Message
+from Badmunda import Client, filters
+from Badmunda.errors import ChatAdminRequired
+from Badmunda.raw.functions.channels import GetFullChannel
+from Badmunda.raw.functions.messages import GetFullChat
+from Badmunda.raw.functions.phone import CreateGroupCall, DiscardGroupCall
+from Badmunda.raw.types import InputGroupCall, InputPeerChannel, InputPeerChat
+from Badmunda.types import ChatPrivileges, Message
 
 from BADMUSIC import app
 from BADMUSIC.utils.database import *

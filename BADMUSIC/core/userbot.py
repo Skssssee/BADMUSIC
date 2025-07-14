@@ -1,4 +1,4 @@
-from pyrogram import Client
+from Badmunda import Client
 import config
 from ..logging import LOGGER
 assistants = []

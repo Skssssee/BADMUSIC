@@ -1,6 +1,6 @@
 from motor.motor_asyncio import AsyncIOMotorClient as _mongo_client_
 from pymongo import MongoClient
-from pyrogram import Client
+from Badmunda import Client
 import config
 from ..logging import LOGGER
 

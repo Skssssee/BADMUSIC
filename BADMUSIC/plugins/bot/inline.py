@@ -1,4 +1,4 @@
-from pyrogram.types import (
+from Badmunda.types import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     InlineQueryResultPhoto,

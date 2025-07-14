@@ -1,9 +1,9 @@
 import asyncio
 import os
 
-from pyrogram import filters
-from pyrogram.errors import FloodWait
-from pyrogram.types import CallbackQuery, InputMediaPhoto, Message
+from Badmunda import filters
+from Badmunda.errors import FloodWait
+from Badmunda.types import CallbackQuery, InputMediaPhoto, Message
 
 import config
 from BADMUSIC import app

@@ -1,4 +1,4 @@
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from Badmunda.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 def stats_buttons(_, status):

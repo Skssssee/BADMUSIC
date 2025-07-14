@@ -1,9 +1,9 @@
 import asyncio
 import time
 
-from pyrogram import filters
-from pyrogram.enums import ChatMembersFilter
-from pyrogram.types import CallbackQuery, Message
+from Badmunda import filters
+from Badmunda.enums import ChatMembersFilter
+from Badmunda.types import CallbackQuery, Message
 
 from BADMUSIC import app
 from BADMUSIC.core.call import Bad

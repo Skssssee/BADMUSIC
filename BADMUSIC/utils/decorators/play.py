@@ -1,13 +1,13 @@
 import asyncio
 
-from pyrogram.enums import ChatMemberStatus
-from pyrogram.errors import (
+from Badmunda.enums import ChatMemberStatus
+from Badmunda.errors import (
     ChatAdminRequired,
     InviteRequestSent,
     UserAlreadyParticipant,
     UserNotParticipant,
 )
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from Badmunda.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from BADMUSIC import YouTube, app
 from BADMUSIC.misc import SUDOERS

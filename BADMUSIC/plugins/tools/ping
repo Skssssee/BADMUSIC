@@ -1,8 +1,8 @@
 
 from datetime import datetime
 
-from pyrogram import filters
-from pyrogram.types import Message
+from Badmunda import filters
+from Badmunda.types import Message
 
 from config import BANNED_USERS, PING_IMG_URL
 from BADMUSIC import app

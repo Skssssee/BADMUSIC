@@ -1,8 +1,8 @@
 import asyncio, httpx, os, re, yt_dlp
 
 from typing import Union
-from pyrogram.types import Message
-from pyrogram.enums import MessageEntityType
+from Badmunda.types import Message
+from Badmunda.enums import MessageEntityType
 from youtubesearchpython.__future__ import VideosSearch
 from BADMUSIC.utils.database import is_on_off
 from BADMUSIC.utils.formatters import time_to_seconds

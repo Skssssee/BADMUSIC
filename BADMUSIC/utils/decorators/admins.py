@@ -1,5 +1,5 @@
-from pyrogram.enums import ChatType
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from Badmunda.enums import ChatType
+from Badmunda.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from BADMUSIC import app
 from BADMUSIC.misc import SUDOERS, db

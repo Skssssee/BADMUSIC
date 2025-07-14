@@ -1,6 +1,6 @@
 from pykeyboard import InlineKeyboard
-from pyrogram import filters
-from pyrogram.types import InlineKeyboardButton, Message
+from Badmunda import filters
+from Badmunda.types import InlineKeyboardButton, Message
 
 from BADMUSIC import app
 from BADMUSIC.utils.database import get_lang, set_lang

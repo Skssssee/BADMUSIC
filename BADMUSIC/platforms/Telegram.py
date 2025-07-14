@@ -3,7 +3,7 @@ import os
 import time
 from typing import Union
 
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Voice
+from Badmunda.types import InlineKeyboardButton, InlineKeyboardMarkup, Voice
 
 import config
 from BADMUSIC import app

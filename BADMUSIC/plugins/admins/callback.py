@@ -1,7 +1,7 @@
 import asyncio
 
-from pyrogram import filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from Badmunda import filters
+from Badmunda.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from BADMUSIC import YouTube, app
 from BADMUSIC.core.call import Bad

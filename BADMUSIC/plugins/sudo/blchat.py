@@ -1,5 +1,5 @@
-from pyrogram import filters
-from pyrogram.types import Message
+from Badmunda import filters
+from Badmunda.types import Message
 
 from BADMUSIC import app
 from BADMUSIC.misc import SUDOERS

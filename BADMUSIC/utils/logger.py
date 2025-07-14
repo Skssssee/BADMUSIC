@@ -1,4 +1,4 @@
-from pyrogram.enums import ParseMode
+from Badmunda.enums import ParseMode
 
 from BADMUSIC import app
 from BADMUSIC.utils.database import is_on_off

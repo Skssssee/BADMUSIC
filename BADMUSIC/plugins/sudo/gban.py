@@ -1,8 +1,8 @@
 import asyncio
 
-from pyrogram import filters
-from pyrogram.errors import FloodWait
-from pyrogram.types import Message
+from Badmunda import filters
+from Badmunda.errors import FloodWait
+from Badmunda.types import Message
 
 from BADMUSIC import app
 from BADMUSIC.misc import SUDOERS

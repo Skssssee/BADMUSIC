@@ -1,6 +1,6 @@
-from pyrogram import filters
-from pyrogram.enums import ChatMembersFilter, ChatMemberStatus, ChatType
-from pyrogram.types import Message
+from Badmunda import filters
+from Badmunda.enums import ChatMembersFilter, ChatMemberStatus, ChatType
+from Badmunda.types import Message
 
 from BADMUSIC import app
 from BADMUSIC.utils.database import set_cmode

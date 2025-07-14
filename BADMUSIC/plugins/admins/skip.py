@@ -1,5 +1,5 @@
-from pyrogram import filters
-from pyrogram.types import InlineKeyboardMarkup, Message
+from Badmunda import filters
+from Badmunda.types import InlineKeyboardMarkup, Message
 
 import config
 from BADMUSIC import YouTube, app
