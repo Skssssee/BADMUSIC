@@ -6,7 +6,7 @@ import yt_dlp
 from typing import Union
 from pyrogram.types import Message
 from pyrogram.enums import MessageEntityType
-from youtubesearchpython.future import VideosSearch
+from youtubesearchpython import VideosSearch
 from BADMUSIC.utils.database import is_on_off
 from BADMUSIC.utils.formatters import time_to_seconds
 import logging
