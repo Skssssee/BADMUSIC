@@ -3,7 +3,7 @@ import os
 from datetime import datetime, timedelta
 from typing import Union
 
-from Badmunda import Client
+from pyrogram import Client
 from Badmunda.types import InlineKeyboardMarkup
 from pytgcalls import PyTgCalls, filters
 from pytgcalls.exceptions import (
