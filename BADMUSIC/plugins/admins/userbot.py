@@ -1,8 +1,8 @@
 import asyncio
 
-from Badmunda import filters
-from Badmunda.enums import ChatMemberStatus
-from Badmunda.errors import InviteRequestSent
+from pyrogram import filters
+from pyrogram.enums import ChatMemberStatus
+from pyrogram.errors import InviteRequestSent
 
 from BADMUSIC import app
 from BADMUSIC.misc import SUDOERS

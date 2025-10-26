@@ -1,5 +1,5 @@
-from Badmunda import Client, errors
-from Badmunda.enums import ChatMemberStatus, ParseMode
+from pyrogram import Client, errors
+from pyrogram.enums import ChatMemberStatus, ParseMode
 
 
 import config

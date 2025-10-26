@@ -1,8 +1,8 @@
 import asyncio
 
-from Badmunda import filters
-from Badmunda.enums import ChatMembersFilter
-from Badmunda.errors import FloodWait
+from pyrogram import filters
+from pyrogram.enums import ChatMembersFilter
+from pyrogram.errors import FloodWait
 
 from BADMUSIC import app
 from BADMUSIC.misc import SUDOERS

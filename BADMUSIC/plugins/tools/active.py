@@ -1,5 +1,5 @@
-from Badmunda import Client, filters
-from Badmunda.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from pyrogram import Client, filters
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from unidecode import unidecode
 
 from BADMUSIC import app

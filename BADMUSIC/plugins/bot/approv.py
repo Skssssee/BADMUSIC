@@ -1,7 +1,7 @@
 from BADMUSIC import app
 from BADMUSIC.utils.database import get_assistant
-from Badmunda import filters
-from Badmunda.types import ChatJoinRequest, InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram import filters
+from pyrogram.types import ChatJoinRequest, InlineKeyboardButton, InlineKeyboardMarkup
 from os import environ
 
 EVAA = [

@@ -1,5 +1,5 @@
-from Badmunda.enums import MessageEntityType
-from Badmunda.types import Message, User
+from pyrogram.enums import MessageEntityType
+from pyrogram.types import Message, User
 
 from BADMUSIC import app
 

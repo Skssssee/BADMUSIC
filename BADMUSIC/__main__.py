@@ -1,7 +1,7 @@
 import asyncio
 import importlib
 
-from Badmunda import idle
+from pyrogram import idle
 from pytgcalls.exceptions import NoActiveGroupCall
 
 import config

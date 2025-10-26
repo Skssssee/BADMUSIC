@@ -1,5 +1,5 @@
-from Badmunda import filters
-from Badmunda.types import Message
+from pyrogram import filters
+from pyrogram.types import Message
 
 from BADMUSIC import app
 from BADMUSIC.utils import extract_user, int_to_Bad

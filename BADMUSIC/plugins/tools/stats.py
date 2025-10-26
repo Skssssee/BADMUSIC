@@ -2,10 +2,10 @@ import platform
 from sys import version as pyver
 
 import psutil
-from Badmunda import __version__ as pyrover
-from Badmunda import filters
-from Badmunda.errors import MessageIdInvalid
-from Badmunda.types import InputMediaPhoto, Message
+from pyrogram import __version__ as pyrover
+from pyrogram import filters
+from pyrogram.errors import MessageIdInvalid
+from pyrogram.types import InputMediaPhoto, Message
 from pytgcalls.__version__ import __version__ as pytgver
 
 import config

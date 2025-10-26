@@ -7,8 +7,8 @@ from inspect import getfullargspec
 from io import StringIO
 from time import time
 
-from Badmunda import filters
-from Badmunda.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from pyrogram import filters
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from BADMUSIC import app
 from config import OWNER_ID

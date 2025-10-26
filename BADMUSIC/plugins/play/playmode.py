@@ -1,5 +1,5 @@
-from Badmunda import filters
-from Badmunda.types import InlineKeyboardMarkup, Message
+from pyrogram import filters
+from pyrogram.types import InlineKeyboardMarkup, Message
 
 from BADMUSIC import app
 from BADMUSIC.utils.database import get_playmode, get_playtype, is_nonadmin_chat

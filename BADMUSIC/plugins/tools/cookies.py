@@ -4,7 +4,7 @@ import os
 import random
 from typing import Union
 
-from Badmunda import filters
+from pyrogram import filters
 from yt_dlp import YoutubeDL
 
 from BADMUSIC import app

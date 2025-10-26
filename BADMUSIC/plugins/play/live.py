@@ -1,4 +1,4 @@
-from Badmunda import filters
+from pyrogram import filters
 
 from BADMUSIC import YouTube, app
 from BADMUSIC.utils.channelplay import get_channeplayCB

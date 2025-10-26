@@ -1,6 +1,6 @@
 from typing import Union
 
-from Badmunda.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 def queue_markup(

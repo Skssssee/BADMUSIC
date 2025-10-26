@@ -1,4 +1,4 @@
-from Badmunda import filters
+from pyrogram import filters
 
 from BADMUSIC import app
 from BADMUSIC.misc import SUDOERS

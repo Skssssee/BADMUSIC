@@ -2,7 +2,7 @@ import socket
 import time
 
 import heroku3
-from Badmunda import filters
+from pyrogram import filters
 
 import config
 from BADMUSIC.core.mongo import mongodb

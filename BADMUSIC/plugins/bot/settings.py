@@ -1,7 +1,7 @@
-from Badmunda import filters
-from Badmunda.enums import ChatType
-from Badmunda.errors import MessageNotModified
-from Badmunda.types import (
+from pyrogram import filters
+from pyrogram.enums import ChatType
+from pyrogram.errors import MessageNotModified
+from pyrogram.types import (
     CallbackQuery,
     InlineKeyboardButton,
     InlineKeyboardMarkup,

@@ -2,7 +2,7 @@ import os
 from random import randint
 from typing import Union
 
-from Badmunda.types import InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardMarkup
 
 import config
 from BADMUSIC import Carbon, YouTube, app

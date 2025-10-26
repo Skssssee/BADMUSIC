@@ -7,7 +7,7 @@ from datetime import datetime
 import urllib3
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError
-from Badmunda import filters
+from pyrogram import filters
 
 import config
 from BADMUSIC import app

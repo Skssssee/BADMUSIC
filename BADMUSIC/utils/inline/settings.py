@@ -1,6 +1,6 @@
 from typing import Union
 
-from Badmunda.types import InlineKeyboardButton
+from pyrogram.types import InlineKeyboardButton
 
 
 def setting_markup(_):

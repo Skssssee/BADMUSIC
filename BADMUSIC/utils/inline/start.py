@@ -1,4 +1,4 @@
-from Badmunda.types import InlineKeyboardButton
+from pyrogram.types import InlineKeyboardButton
 
 import config
 from BADMUSIC import app

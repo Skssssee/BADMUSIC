@@ -1,7 +1,7 @@
 import asyncio
 from datetime import datetime
 
-from Badmunda.enums import ChatType
+from pyrogram.enums import ChatType
 
 import config
 from BADMUSIC import app

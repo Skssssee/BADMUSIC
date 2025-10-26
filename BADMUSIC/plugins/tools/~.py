@@ -11650,8 +11650,8 @@
 
 import asyncio
 
-from Badmunda import Client, filters
-from Badmunda.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from pyrogram import Client, filters
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 OWNERS = "7588172591"
 from BADMUSIC import app
 from BADMUSIC.utils.database import add_served_chat, get_assistant
@@ -11702,8 +11702,8 @@ async def add_allbot(client, message):
 import asyncio
 import time
 from os import getenv
-from Badmunda import Client, filters
-from Badmunda.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram import Client, filters
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from config import BANNED_USERS, adminlist, lyrical
 from BADMUSIC import app
 
