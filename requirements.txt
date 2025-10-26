@@ -1,7 +1,6 @@
 aiofiles
 aiohttp
 asyncio
-badmunda==2.2.7
 beautifulsoup4
 dnspython
 ffmpeg-python
