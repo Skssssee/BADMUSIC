@@ -38,7 +38,7 @@ Tᴇsᴛ ʙᴏᴛ ➣ [ ғʟᴏᴘ ᴍᴜsɪᴄ «༎●⃮⃮⃮⃖⃖,](https:
 ## 🖇 𝗚𝗘𝗡𝗘𝗥𝗔𝗧𝗜𝗡𝗚 𝗣𝗬𝗥𝗢𝗚𝗥𝗔𝗠 𝗦𝗧𝗥𝗜𝗡𝗚 𝗦𝗘𝗦𝗦𝗜𝗢𝗡
 
 <p>
-<a href="https://t.me/Pbxx_String_Bot-Gen"><img src="https://img.shields.io/badge/TG%20String%20Gen%20Bot-blueviolet?style=for-the-badge&logo=appveyor" width="200""/></a>
+<a href="https://telegram.tools/session-string-generator#pyrogram,user"><img src="https://img.shields.io/badge/TG%20String%20Gen%20Bot-blueviolet?style=for-the-badge&logo=appveyor" width="200""/></a>
 
 ## 🖇 𝗔𝗡𝗬 𝗘𝗥𝗥𝗢𝗥
 <img src="https://readme-typing-svg.herokuapp.com?color=FF0000&width=420&lines=❤️ᴀɴʏ+ᴇʀʀᴏʀ+ᴛʜᴇɴ+sᴇɴᴅ+ᴇʀʀᴏʀ+ɪɴ+ʙᴀᴅ+ᴍᴜɴᴅᴀ+ᴅᴍ+...">
