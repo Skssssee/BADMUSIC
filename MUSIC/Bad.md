@@ -4,11 +4,11 @@
 </h2>
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
-![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=Badhacker98&repo=BADMUSIC&theme=flag-india)
+![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=masoombalak88&repo=BADMUSIC&theme=flag-india)
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
-[![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=ㅤ+𝚆𝙴𝙻𝙲𝙾𝙼𝙴+𝚃𝙾+ʙᴀᴅ+𝙼𝚄𝚂𝙸𝙲+𝚁𝙴𝙿𝙾+;ㅤ+𝚃𝙷𝙸𝚂+𝙸𝚂+𝙰+𝙰𝙳𝚅𝙰𝙽𝙲𝙴+𝙼𝚄𝚂𝙸𝙲+𝙱𝙾𝚃;𝙿𝙾𝚆𝙴𝚁𝙴𝙳+𝙱𝚈+☞+𝗕𝗔𝗗)](https://gitlab.com/Badhacker98/BADMUSIC)
+[![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=ㅤ+𝚆𝙴𝙻𝙲𝙾𝙼𝙴+𝚃𝙾+ʙᴀᴅ+𝙼𝚄𝚂𝙸𝙲+𝚁𝙴𝙿𝙾+;ㅤ+𝚃𝙷𝙸𝚂+𝙸𝚂+𝙰+𝙰𝙳𝚅𝙰𝙽𝙲𝙴+𝙼𝚄𝚂𝙸𝙲+𝙱𝙾𝚃;𝙿𝙾𝚆𝙴𝚁𝙴𝙳+𝙱𝚈+☞+𝗕𝗔𝗗)](https://gitHub.com/masoombalak88/BADMUSIC)
 
 
 
@@ -23,16 +23,16 @@
 ## ⚠️ 𝗧𝗘𝗦𝗧 𝗕𝗢𝗧
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Tᴇsᴛ ʙᴏᴛ ➣ [ ғʟᴏᴘ ᴍᴜsɪᴄ «༎●⃮⃮⃮⃖⃖,](https://t.me/FlopMusic_Bot)
+Tᴇsᴛ ʙᴏᴛ ➣ [ ғʟᴏᴘ ᴍᴜsɪᴄ «༎●⃮⃮⃮⃖⃖,](https://t.me/Gaana_MusicBot)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ### 𝗗𝗘𝗣𝗟𝗢𝗬 𝗧𝗢 𝗛𝗘𝗥𝗢𝗞𝗨, 𝗩𝗣𝗦, 𝗟𝗢𝗖𝗔𝗟, 𝗥𝗘𝗡𝗗𝗘𝗥 𝗛𝗢𝗦𝗧𝗜𝗡𝗚.
 
  - **Heroku hosting**
-- - [![Vps](https://img.shields.io/badge/ʙᴀᴅᴍᴜsɪᴄ-ᴅᴇᴘʟᴏʏ%20ᴛᴏ%20ʜᴇʀᴏᴋᴜ-blue?style=for-the-badge&logo=vps)](https://gitlab.com/Badhacker98/BADMUSIC/blob/bad/MUSIC/heorku.md)
+- - [![Vps](https://img.shields.io/badge/ʙᴀᴅᴍᴜsɪᴄ-ᴅᴇᴘʟᴏʏ%20ᴛᴏ%20ʜᴇʀᴏᴋᴜ-blue?style=for-the-badge&logo=vps)](https://gitHub.com/masoombalak88/BADMUSIC/blob/bad/MUSIC/heorku.md)
  
 - **VPS/Local hosting**
-- - [![Vps](https://img.shields.io/badge/ʙᴀᴅᴍᴜsɪᴄ-ᴅᴇᴘʟᴏʏ%20ᴛᴏ%20ᴠᴘs-blue?style=for-the-badge&logo=vps)](https://gitlab.com/Badhacker98/BADMUSIC/blob/bad/MUSIC/local.md)
+- - [![Vps](https://img.shields.io/badge/ʙᴀᴅᴍᴜsɪᴄ-ᴅᴇᴘʟᴏʏ%20ᴛᴏ%20ᴠᴘs-blue?style=for-the-badge&logo=vps)](https://gitHub.com/masoombalak88/BADMUSIC/blob/bad/MUSIC/local.md)
   - 
 
 ## 🖇 𝗚𝗘𝗡𝗘𝗥𝗔𝗧𝗜𝗡𝗚 𝗣𝗬𝗥𝗢𝗚𝗥𝗔𝗠 𝗦𝗧𝗥𝗜𝗡𝗚 𝗦𝗘𝗦𝗦𝗜𝗢𝗡
@@ -46,11 +46,12 @@ Tᴇsᴛ ʙᴏᴛ ➣ [ ғʟᴏᴘ ᴍᴜsɪᴄ «༎●⃮⃮⃮⃖⃖,](https:
 
 
 
+
 ### Contact :
 <a href="https://t.me/ll_BAD_MUNDA_ll"><img title="Telegram" src="https://img.shields.io/badge/Telegram-%23000000.svg?&style=for-the-badge&logo=telegram&logoColor=61DAFB"></a>
 <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sukhwinderwarval50@gmail.com"><img title="GMAIL" src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white"></a>
 <a href="https://instagram.com/lll_bad_munda_lll"><img title="Instagram" src="https://img.shields.io/badge/instagram-%23E4405F.svg?&style=for-the-badge&logo=instagram&logoColor=white"></a>
 
-[![Contributors](https://contrib.rocks/image?repo=Badhacker98/BADMUSIC)](https://gitlab.com/Badhacker98/BADMUSIC/graphs/contributors)
+[![Contributors](https://contrib.rocks/image?repo=masoombalak88/BADMUSIC)](https://gitHub.com/masoombalak88/BADMUSIC/graphs/contributors)
 
-<p><img width="500" align="center" src="https://github-readme-stats.vercel.app/api/top-langs?username=Badhacker98&show_icons=true&locale=en&layout=compact" alt="Badhacker98" /></p>
+<p><img width="500" align="center" src="https://github-readme-stats.vercel.app/api/top-langs?username=masoombalak88&show_icons=true&locale=en&layout=compact" alt="masoombalak88" /></p>
