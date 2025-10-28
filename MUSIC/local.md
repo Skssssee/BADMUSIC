@@ -54,7 +54,7 @@ curl -fssL https://deb.nodesource.com/setup_18.x | sudo -E bash - && sudo apt-ge
 
 11.
 ```
-git clone https://gitlab.com/Badhacker98/BADMUSIC && cd BADMUSIC
+git clone https://github.com/masoombalak88/BADMUSIC && cd BADMUSIC
 ```
 
 12.
