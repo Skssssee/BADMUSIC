@@ -42,7 +42,7 @@ Tᴇsᴛ ʙᴏᴛ ➣ [ ғʟᴏᴘ ᴍᴜsɪᴄ «༎●⃮⃮⃮⃖⃖,](https:
 
 ## 🖇 𝗔𝗡𝗬 𝗘𝗥𝗥𝗢𝗥
 <img src="https://readme-typing-svg.herokuapp.com?color=FF0000&width=420&lines=❤️ᴀɴʏ+ᴇʀʀᴏʀ+ᴛʜᴇɴ+sᴇɴᴅ+ᴇʀʀᴏʀ+ɪɴ+ʙᴀᴅ+ᴍᴜɴᴅᴀ+ᴅᴍ+...">
-<a href="https://t.me/ll_BAD_MUNDA_ll"><img src="https://img.shields.io/badge/DM%20TO%20BADMUNDA-blueviolet?style=for-the-badge&logo=appveyor" width="200""/></a>
+<a href="https://t.me/BadMundaXD"><img src="https://img.shields.io/badge/DM%20TO%20BADMUNDA-blueviolet?style=for-the-badge&logo=appveyor" width="200""/></a>
 
 
 
