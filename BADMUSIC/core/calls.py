@@ -3,8 +3,8 @@ from pyrogram.types import InputMediaPhoto, Message
 from pytgcalls import PyTgCalls, exceptions, types
 from pytgcalls.pytgcalls_session import PyTgCallsSession
 
-from anony import app, config, db, lang, logger, queue, userbot, yt
-from anony.helpers import Media, Track, buttons, thumb
+from BADMUSIC import app, config, db, lang, logger, queue, userbot, yt
+from BADMUSIC.helpers import Media, Track, buttons, thumb
 
 
 class TgCall(PyTgCalls):
