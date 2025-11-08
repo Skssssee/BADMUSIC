@@ -4,7 +4,7 @@ from pytgcalls import PyTgCalls, exceptions, types
 from pytgcalls.pytgcalls_session import PyTgCallsSession
 
 from BADMUSIC import app, config, db, lang, logger, queue, userbot, yt
-from BADMUSIC.helpers import Media, Track, buttons, thumb
+from BADMUSIC.utils import Media, Track, buttons, thumb
 
 
 class TgCall(PyTgCalls):
