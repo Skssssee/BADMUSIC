@@ -1,4 +1,4 @@
-from collections import defaultdict
+# calls.py (Modified to support bass boost and speed filters)
 from ntgcalls import ConnectionNotFound, TelegramServerError
 from pyrogram.types import InputMediaPhoto, Message
 from pytgcalls import PyTgCalls, exceptions, types
@@ -11,7 +11,6 @@ from BADMUSIC.utils import Media, Track, buttons, thumb
 class TgCall(PyTgCalls):
     def __init__(self):
         self.clients = []
-        self.effects = defaultdict(lambda: {'bass': 0.0, 'speed': 1.0})
 
     async def pause(self, chat_id: int) -> bool:
         client = await db.get_assistant(chat_id)
@@ -54,19 +53,27 @@ class TgCall(PyTgCalls):
         if not media.file_path:
             return await message.edit_text(_lang["error_no_file"].format(config.SUPPORT_CHAT))
 
-        # Effects handling
-        effects = self.effects[chat_id]
+        # Get audio effects from DB (assume db.get_audio_effects returns {'bass': 0, 'speed': 1.0})
+        effects = await db.get_audio_effects(chat_id) or {'bass': 0, 'speed': 1.0}
+        bass_level = effects.get('bass', 0)
+        speed = effects.get('speed', 1.0)
+
+        # Build FFmpeg parameters
+        params = []
+        if seek_time > 0:
+            params.append(f"-ss {seek_time}")
+
         filters = []
-        if effects['bass'] > 0:
-            filters.append(f"bass=g={effects['bass']}")
-        if effects['speed'] != 1.0:
-            filters.append(f"atempo={effects['speed']}")
-        af = ','.join(filters)
-        af_str = f"-af \"{af}\"" if af else ""
-        seek_str = f"-ss {seek_time}" if seek_time > 0 else ""
-        ffmpeg_parameters = f"{seek_str} {af_str}".strip()
-        if not ffmpeg_parameters:
-            ffmpeg_parameters = None
+        if bass_level > 0:
+            filters.append(f"bass=g={bass_level}")
+        if speed != 1.0:
+            # For speed > 2.0 or < 0.5, chain atempo, but keep simple for now
+            filters.append(f"atempo={speed}")
+
+        if filters:
+            params.append(f'-af "{",".join(filters)}"')
+
+        ffmpeg_params = " ".join(params) if params else None
 
         stream = types.MediaStream(
             media_path=media.file_path,
@@ -78,7 +85,7 @@ class TgCall(PyTgCalls):
                 if media.video
                 else types.MediaStream.Flags.IGNORE
             ),
-            ffmpeg_parameters=ffmpeg_parameters,
+            ffmpeg_parameters=ffmpeg_params,
         )
         try:
             await client.play(
@@ -151,6 +158,7 @@ class TgCall(PyTgCalls):
                 )
 
         media.message_id = msg.id
+        media.time = 0  # Reset time for next track
         await self.play_media(chat_id, msg, media)
 
     async def ping(self) -> float:
