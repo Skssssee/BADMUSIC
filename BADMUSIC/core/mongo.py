@@ -74,7 +74,7 @@ class MongoDB:
         return bool(self.active_calls[chat_id])
 
     async def get_admins(self, chat_id: int, reload: bool = False) -> list[int]:
-        from BADMUSIC.helpers._admins import reload_admins
+        from BADMUSIC.utils.admins import reload_admins
 
         if chat_id not in self.admin_list or reload:
             self.admin_list[chat_id] = await reload_admins(chat_id)
