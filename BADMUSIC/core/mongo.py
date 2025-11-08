@@ -39,6 +39,10 @@ class MongoDB:
         self.users = []
         self.usersdb = self.db.users
 
+        # Audio Effects
+        self.effects = {}
+        self.effectsdb = self.db.effects
+
     async def connect(self) -> None:
         """Check if we can connect to the database.
 
@@ -268,37 +272,84 @@ class MongoDB:
             self.users.extend([user["_id"] async for user in self.usersdb.find()])
         return self.users
 
+    # AUDIO EFFECTS METHODS
+    async def _get_effects(self, chat_id: int) -> dict:
+        if chat_id not in self.effects:
+            doc = await self.effectsdb.find_one({"_id": chat_id}) or {}
+            self.effects[chat_id] = {
+                "bass": doc.get("bass", 0),
+                "speed": doc.get("speed", 1.0)
+            }
+        return self.effects[chat_id]
+
+    async def get_audio_effects(self, chat_id: int) -> dict:
+        return await self._get_effects(chat_id)
+
+    async def set_bass(self, chat_id: int, level: int) -> None:
+        effects = await self._get_effects(chat_id)
+        effects["bass"] = level
+        await self.effectsdb.update_one(
+            {"_id": chat_id},
+            {"$set": {"bass": level}},
+            upsert=True,
+        )
+        self.effects[chat_id] = effects
+
+    async def get_bass(self, chat_id: int) -> int:
+        return (await self._get_effects(chat_id))["bass"]
+
+    async def set_speed(self, chat_id: int, speed: float) -> None:
+        effects = await self._get_effects(chat_id)
+        effects["speed"] = speed
+        await self.effectsdb.update_one(
+            {"_id": chat_id},
+            {"$set": {"speed": speed}},
+            upsert=True,
+        )
+        self.effects[chat_id] = effects
+
+    async def get_speed(self, chat_id: int) -> float:
+        return (await self._get_effects(chat_id))["speed"]
 
     async def migrate_coll(self) -> None:
         from bson import ObjectId
         logger.info("Migrating users and chats from old collections...")
 
-        musers = []
-        done = []
+        musers, mchats, done = [], [], []
         ulist = [user async for user in self.db.tgusersdb.find()]
         ulist.extend([user async for user in self.usersdb.find()])
 
         for user in ulist:
             if isinstance(user.get("_id"), ObjectId):
                 user_id = int(user["user_id"])
+                if user_id in done:
+                    continue
+                done.append(user_id)
+                musers.append(user)
             else:
                 user_id = int(user["_id"])
-            if user_id in done:
-                continue
-            done.append(user_id)
-            musers.append({"_id": user_id})
+                if user_id in done:
+                    continue
+                done.append(user_id)
+                musers.append({"_id": user_id})
         await self.usersdb.drop()
         await self.db.tgusersdb.drop()
         if musers:
             await self.usersdb.insert_many(musers)
 
-        mchats = []
-        for chat in [chat async for chat in self.chatsdb.find()]:
+        async for chat in self.chatsdb.find():
             if isinstance(chat.get("_id"), ObjectId):
                 chat_id = int(chat["chat_id"])
+                if chat_id in mchats:
+                    continue
+                done.append(chat_id)
+                mchats.append(chat)
             else:
                 chat_id = int(chat["_id"])
-            mchats.append({"_id": chat_id})
+                if chat_id in done:
+                    continue
+                done.append(chat_id)
+                mchats.append({"_id": chat_id})
         await self.chatsdb.drop()
         if mchats:
             await self.chatsdb.insert_many(mchats)
