@@ -45,7 +45,7 @@ async def play_hndlr(
         setattr(sent, "lang", m.lang)
         file = await tg.download(m.reply_to_message, sent)
 
-    if file.duration_sec > 3600:
+    if file.duration_sec > 18000:
         return await sent.edit_text(m.lang["play_duration_limit"])
 
     if await db.is_logger():
