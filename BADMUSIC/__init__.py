@@ -52,4 +52,4 @@ from BADMUSIC.helpers import Queue
 queue = Queue()
 
 from BADMUSIC.core.calls import TgCall
-anon = TgCall()
+Bad = TgCall()
