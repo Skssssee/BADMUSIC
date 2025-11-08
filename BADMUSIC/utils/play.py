@@ -2,7 +2,7 @@ import asyncio
 
 from pyrogram import enums, errors, types
 
-from BADMUSICy import app, config, db, yt
+from BADMUSIC import app, config, db, yt
 
 
 def checkUB(play):
