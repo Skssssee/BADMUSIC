@@ -197,7 +197,7 @@ class MongoDB:
     async def get_lang(self, chat_id: int) -> str:
         if chat_id not in self.lang:
             doc = await self.langdb.find_one({"_id": chat_id})
-            self.lang[chat_id] = doc["lang"] if doc else "en"
+            self.lang[chat_id] = doc["lang"] if doc else "sm"
         return self.lang[chat_id]
 
     # LOGGER METHODS
