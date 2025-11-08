@@ -4,7 +4,7 @@ from PIL import (Image, ImageDraw, ImageEnhance,
                  ImageFilter, ImageFont, ImageOps)
 
 from BADMUSIC import config
-from BADMUSIC.helpers import Track
+from BADMUSIC.utils import Track
 
 
 class Thumbnail:
