@@ -2,7 +2,7 @@ from pyrogram import filters, types
 
 from BADMUSIC import Bad, app, config, db, lang, queue, tg, yt
 from BADMUSIC.utils import buttons, utils
-from BADMUSIC.utils._play import checkUB
+from BADMUSIC.utils.play import checkUB
 
 
 @app.on_message(
