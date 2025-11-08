@@ -5,21 +5,20 @@ from pathlib import Path
 from BADMUSIC import db, logger
 
 lang_codes = {
-    "ar": "Arabic",
-    "de": "German",
-    "en": "English",
-    "sm": "smallcap",
-    "es": "Spanish",
-    "fr": "French",
-    "hi": "Hindi",
-    "ja": "Japanese",
-    "my": "Burmese",
-    "pa": "Punjabi",
-    "pt": "Portuguese",
-    "ru": "Russian",
-    "zh": "Chinese",
+    "ar": "اَلْعَرَبِيَّةُ",
+    "de": "ᴅᴇᴜᴛsᴄʜ",
+    "en": "ᴇɴɢʟɪsʜ",
+    "sm": "sᴍᴀʟʟᴄᴀᴘ",
+    "es": "ᴇsᴘᴀñᴏʟ",
+    "fr": "ғʀᴀɴçᴀɪs",
+    "hi": "हिंदी",
+    "ja": "にほんご",
+    "my": "မြန်မာ",
+    "pa": "ਪੰਜਾਬੀ",
+    "pt": "ᴘᴏʀᴛᴜɢᴜês", 
+    "ru": "ʀᴜᴄᴄᴋɪʏ",
+    "zh": "中文",
 }
-
 
 class Language:
     """
