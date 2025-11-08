@@ -48,7 +48,7 @@ from BADMUSIC.core.youtube import YouTube
 tg = Telegram()
 yt = YouTube()
 
-from BADMUSIC.helpers import Queue
+from BADMUSIC.utils import Queue
 queue = Queue()
 
 from BADMUSIC.core.calls import TgCall
