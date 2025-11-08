@@ -1,7 +1,7 @@
 from pyrogram import filters, types
 
 from BADMUSIC import Bad, app, db, lang
-from BADMUSIC.helpers import buttons, can_manage_vc
+from BADMUSIC.utils import buttons, can_manage_vc
 
 
 @app.on_message(filters.command(["resume"]) & filters.group & ~app.bl_users)
