@@ -39,10 +39,6 @@ class MongoDB:
         self.users = []
         self.usersdb = self.db.users
 
-        # Audio Effects
-        self.effects = {}
-        self.effectsdb = self.db.effects
-
     async def connect(self) -> None:
         """Check if we can connect to the database.
 
@@ -272,44 +268,6 @@ class MongoDB:
             self.users.extend([user["_id"] async for user in self.usersdb.find()])
         return self.users
 
-    # AUDIO EFFECTS METHODS
-    async def _get_effects(self, chat_id: int) -> dict:
-        if chat_id not in self.effects:
-            doc = await self.effectsdb.find_one({"_id": chat_id}) or {}
-            self.effects[chat_id] = {
-                "bass": doc.get("bass", 0),
-                "speed": doc.get("speed", 1.0)
-            }
-        return self.effects[chat_id]
-
-    async def get_audio_effects(self, chat_id: int) -> dict:
-        return await self._get_effects(chat_id)
-
-    async def set_bass(self, chat_id: int, level: int) -> None:
-        effects = await self._get_effects(chat_id)
-        effects["bass"] = level
-        await self.effectsdb.update_one(
-            {"_id": chat_id},
-            {"$set": {"bass": level}},
-            upsert=True,
-        )
-        self.effects[chat_id] = effects
-
-    async def get_bass(self, chat_id: int) -> int:
-        return (await self._get_effects(chat_id))["bass"]
-
-    async def set_speed(self, chat_id: int, speed: float) -> None:
-        effects = await self._get_effects(chat_id)
-        effects["speed"] = speed
-        await self.effectsdb.update_one(
-            {"_id": chat_id},
-            {"$set": {"speed": speed}},
-            upsert=True,
-        )
-        self.effects[chat_id] = effects
-
-    async def get_speed(self, chat_id: int) -> float:
-        return (await self._get_effects(chat_id))["speed"]
 
     async def migrate_coll(self) -> None:
         from bson import ObjectId
