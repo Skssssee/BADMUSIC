@@ -1,3 +1,4 @@
+from collections import defaultdict
 from ntgcalls import ConnectionNotFound, TelegramServerError
 from pyrogram.types import InputMediaPhoto, Message
 from pytgcalls import PyTgCalls, exceptions, types
@@ -10,6 +11,7 @@ from BADMUSIC.utils import Media, Track, buttons, thumb
 class TgCall(PyTgCalls):
     def __init__(self):
         self.clients = []
+        self.effects = defaultdict(lambda: {'bass': 0.0, 'speed': 1.0})
 
     async def pause(self, chat_id: int) -> bool:
         client = await db.get_assistant(chat_id)
@@ -34,7 +36,6 @@ class TgCall(PyTgCalls):
         except:
             pass
 
-
     async def play_media(
         self,
         chat_id: int,
@@ -53,6 +54,20 @@ class TgCall(PyTgCalls):
         if not media.file_path:
             return await message.edit_text(_lang["error_no_file"].format(config.SUPPORT_CHAT))
 
+        # Effects handling
+        effects = self.effects[chat_id]
+        filters = []
+        if effects['bass'] > 0:
+            filters.append(f"bass=g={effects['bass']}")
+        if effects['speed'] != 1.0:
+            filters.append(f"atempo={effects['speed']}")
+        af = ','.join(filters)
+        af_str = f"-af \"{af}\"" if af else ""
+        seek_str = f"-ss {seek_time}" if seek_time > 0 else ""
+        ffmpeg_parameters = f"{seek_str} {af_str}".strip()
+        if not ffmpeg_parameters:
+            ffmpeg_parameters = None
+
         stream = types.MediaStream(
             media_path=media.file_path,
             audio_parameters=types.AudioQuality.HIGH,
@@ -63,7 +78,7 @@ class TgCall(PyTgCalls):
                 if media.video
                 else types.MediaStream.Flags.IGNORE
             ),
-            ffmpeg_parameters=f"-ss {seek_time}" if seek_time > 1 else None,
+            ffmpeg_parameters=ffmpeg_parameters,
         )
         try:
             await client.play(
@@ -96,7 +111,6 @@ class TgCall(PyTgCalls):
             await self.stop(chat_id)
             await message.edit_text(_lang["error_tg_server"])
 
-
     async def replay(self, chat_id: int) -> None:
         if not await db.get_call(chat_id):
             return
@@ -105,7 +119,6 @@ class TgCall(PyTgCalls):
         _lang = await lang.get_lang(chat_id)
         msg = await app.send_message(chat_id=chat_id, text=_lang["play_again"])
         await self.play_media(chat_id, msg, media)
-
 
     async def play_next(self, chat_id: int) -> None:
         if not await db.get_call(chat_id):
@@ -140,11 +153,9 @@ class TgCall(PyTgCalls):
         media.message_id = msg.id
         await self.play_media(chat_id, msg, media)
 
-
     async def ping(self) -> float:
         pings = [client.ping for client in self.clients]
         return round(sum(pings) / len(pings), 2)
-
 
     async def decorators(self, client: PyTgCalls) -> None:
         for client in self.clients:
@@ -161,7 +172,6 @@ class TgCall(PyTgCalls):
                         types.ChatUpdate.Status.CLOSED_VOICE_CHAT,
                     ]:
                         await self.stop(update.chat_id)
-
 
     async def boot(self) -> None:
         PyTgCallsSession.notice_displayed = True
