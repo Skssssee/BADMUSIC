@@ -13,7 +13,7 @@ import yt_dlp
 from py_yt import VideosSearch
 from pyrogram import enums, types
 
-from BADMUSIC.helpers import Track, utils
+from BADMUSIC.utils import Track, utils
 
 
 class YouTube:
