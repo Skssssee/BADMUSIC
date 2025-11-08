@@ -4,7 +4,7 @@ import time
 
 from pyrogram import types
 
-from BADMUSIC.helpers import Media, buttons, utils
+from BADMUSIC.utils import Media, buttons, utils
 
 
 class Telegram:
