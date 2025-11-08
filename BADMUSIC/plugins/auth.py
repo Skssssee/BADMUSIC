@@ -3,7 +3,7 @@ import time
 from pyrogram import filters, types
 
 from BADMUSIC import app, db, lang
-from BADMUSIC.helpers import admin_check, is_admin, utils
+from BADMUSIC.utils import admin_check, is_admin, utils
 
 
 @app.on_message(filters.command(["auth", "unauth"]) & filters.group & ~app.bl_users)
