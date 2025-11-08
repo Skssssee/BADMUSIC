@@ -8,6 +8,7 @@ lang_codes = {
     "ar": "Arabic",
     "de": "German",
     "en": "English",
+    "bl": "ensmallcap",
     "es": "Spanish",
     "fr": "French",
     "hi": "Hindi",
