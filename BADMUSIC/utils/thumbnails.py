@@ -12,8 +12,8 @@ class Thumbnail:
         self.rect = (914, 514)
         self.fill = (255, 255, 255)
         self.mask = Image.new("L", self.rect, 0)
-        self.font1 = ImageFont.truetype("BADMUSIC/helpers/font.ttf", 30)
-        self.font2 = ImageFont.truetype("BADMUSIC/helpers/font2.ttf", 30)
+        self.font1 = ImageFont.truetype("BADMUSIC/utils/font.ttf", 30)
+        self.font2 = ImageFont.truetype("BADMUSIC/utils/font2.ttf", 30)
 
     async def save_thumb(self, output_path: str, url: str) -> str:
         async with aiohttp.ClientSession() as session:
