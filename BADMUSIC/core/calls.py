@@ -170,4 +170,4 @@ class TgCall(PyTgCalls):
             await client.start()
             self.clients.append(client)
             await self.decorators(client)
-        logger.info("PyTgCalls client(s) started.")
+        logger.info("❖ ᴘʏᴛɢᴄᴀʟʟꜱ ᴄʟɪᴇɴᴛꜱ ꜱᴛᴀʀᴛᴇᴅ ⚡")
