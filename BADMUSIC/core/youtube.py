@@ -13,6 +13,7 @@ import yt_dlp
 from py_yt import VideosSearch
 from pyrogram import enums, types
 
+from BADMUSIC import config, logger
 from BADMUSIC.utils import Track, utils
 
 
