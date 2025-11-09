@@ -20,12 +20,6 @@ class Bot(pyrogram.Client):
         self.sudoers = pyrogram.filters.user(self.owner)
 
     async def boot(self):
-        """
-        Starts the bot and performs initial setup.
-
-        Raises:
-            SystemExit: If the bot fails to access the log group or is not an administrator in the logger group.
-        """
         await super().start()
         self.id = self.me.id
         self.name = self.me.first_name
@@ -33,19 +27,17 @@ class Bot(pyrogram.Client):
         self.mention = self.me.mention
 
         try:
-            await self.send_message(self.logger, "Bot Started")
+            await self.send_message(self.logger, "❖<b> {self.mention} ʙᴏᴛ sᴛᴀʀᴛᴇᴅ</b>\n\n● ɪᴅ ➥ <code>{self.id}</code>\n● ɴᴀᴍᴇ ➥ {self.name}\n● ᴜsᴇʀɴᴀᴍᴇ ➥ @{self.username}",
+            )
             get = await self.get_chat_member(self.logger, self.id)
         except Exception as ex:
-            raise SystemExit(f"Bot has failed to access the log group: {self.logger}\nReason: {ex}")
+            raise SystemExit(f"❖ ʙᴏᴛ ʜᴀꜱ ꜰᴀɪʟᴇᴅ ᴛᴏ ᴀᴄᴄᴇꜱꜱ ᴛʜᴇ ʟᴏɢ ɢʀᴏᴜᴘ/ᴄʜᴀɴɴᴇʟ.\n● ʀᴇᴀꜱᴏɴ ➥ {self.logger}\n {ex}")
 
         if get.status != pyrogram.enums.ChatMemberStatus.ADMINISTRATOR:
-            raise SystemExit("Please promote the bot as an admin in logger group.")
-        logger.info(f"Bot started as @{self.username}")
+            raise SystemExit("❖ ʙᴏᴛ ʜᴀꜱ ꜰᴀɪʟᴇᴅ ᴛᴏ ᴀᴄᴄᴇꜱꜱ ᴛʜᴇ ʟᴏɢ ɢʀᴏᴜᴘ/ᴄʜᴀɴɴᴇʟ. ᴍᴀᴋᴇ ꜱᴜʀᴇ ᴛʜᴀᴛ ʏᴏᴜ ʜᴀᴠᴇ ᴀᴅᴅᴇᴅ ʏᴏᴜʀ ʙᴏᴛ ᴛᴏ ʏᴏᴜʀ ʟᴏɢ ɢʀᴏᴜᴘ/ᴄʜᴀɴɴᴇʟ.")
+        logger.info(f"❖ ʙᴀᴅ ᴍᴜꜱɪᴄ ʙᴏᴛ ꜱᴛᴀʀᴛᴇᴅ ᴀꜱ ➥ {self.name} ...♥")
 
     async def exit(self):
-        """
-        Asynchronously stops the bot.
-        """
         await super().stop()
-        logger.info("Bot stopped.")
+        logger.info("❖ ʙᴏᴛ ꜱᴛᴏᴘᴘᴇᴅ 😥")
       
