@@ -18,6 +18,9 @@ class Config:
         self.SESSION2 = getenv("SESSION2", None)
         self.SESSION3 = getenv("SESSION3", None)
 
+        self.API_URL = getenv("API_URL", "http://47.129.201.23:2020/try")
+        self.API_ENABLED = bool(getenv("API_ENABLED", "True"))
+
         self.SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/PBX_UPDATE")
         self.SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/PBX_CHAT")
 
@@ -35,4 +38,3 @@ class Config:
         ]
         if missing:
             raise SystemExit(f"ᴍɪꜱꜱɪɴɢ ʀᴇQᴜɪʀᴇᴅ ᴇɴᴠɪʀᴏɴᴍᴇɴᴛ ᴠᴀʀɪᴀʙʟᴇꜱ: {', '.join(missing)}")
-            
