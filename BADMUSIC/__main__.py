@@ -3,7 +3,7 @@ import importlib
 
 from pyrogram import idle
 
-from BADMUSIC import Bad, app, db, logger, tasks, userbot
+from BADMUSIC import Bad, app, db, logger, tasks, userbot, yt
 from BADMUSIC.plugins import all_modules
 
 
@@ -12,6 +12,9 @@ async def main():
     await app.boot()
     await userbot.boot()
     await Bad.boot()
+
+    # Check API status at startup
+    await yt.check_api_status()
 
     for module in all_modules:
         importlib.import_module(f"BADMUSIC.plugins.{module}")
