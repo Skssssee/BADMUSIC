@@ -75,9 +75,10 @@ class YouTube:
         api_url = config.API_URL
         vid = "true" if streamtype.lower() == "video" else "false"
         params = {"query": query, "vid": vid}
+        timeout = aiohttp.ClientTimeout(total=10)
 
         try:
-            async with aiohttp.ClientSession() as session:
+            async with aiohttp.ClientSession(timeout=timeout) as session:
                 async with session.get(api_url, params=params) as response:
                     data = await response.json()
                     return data
@@ -311,8 +312,10 @@ class YouTube:
             return
         logger.info("Checking API status at startup...")
         try:
-            # Test with a dummy query to check API
-            test_data = await self.fetch_song("test query", "audio")
+            # Test with specific video ID
+            video_id = "pEjbOzUhSSc"
+            title = await self.title(video_id, True)
+            test_data = await self.fetch_song(title, "audio")
             if test_data and "link" in test_data and not test_data.get("error"):
                 logger.info("API is active and ready for use at startup.")
             else:
