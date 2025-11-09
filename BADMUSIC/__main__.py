@@ -15,15 +15,15 @@ async def main():
 
     for module in all_modules:
         importlib.import_module(f"BADMUSIC.plugins.{module}")
-    logger.info(f"ʟᴏᴀᴅᴇᴅ {len(all_modules)} ᴍᴏᴅᴜʟᴇꜱ 💫")
+    logger.info(f"❖ ʟᴏᴀᴅᴇᴅ {len(all_modules)} ᴍᴏᴅᴜʟᴇꜱ 💫")
 
     sudoers = await db.get_sudoers()
     app.sudoers.update(sudoers)
     app.bl_users.update(await db.get_blacklisted())
-    logger.info(f"ʟᴏᴀᴅᴇᴅ {len(app.sudoers)} ꜱᴜᴅᴏ ᴜꜱᴇʀꜱ 🎉")
+    logger.info(f"❖ ʟᴏᴀᴅᴇᴅ {len(app.sudoers)} ꜱᴜᴅᴏ ᴜꜱᴇʀꜱ 🎉")
 
     await idle()
-    logger.info("ꜱᴛᴏᴘᴘɪɴɢ...😥")
+    logger.info("❖ ꜱᴛᴏᴘᴘɪɴɢ...😥")
     await app.exit()
     await userbot.exit()
     await db.close()
@@ -33,7 +33,7 @@ async def main():
             await task
         except:
             pass
-    logger.info("ꜱᴛᴏᴘᴘᴇᴅ😥")
+    logger.info("❖ ꜱᴛᴏᴘᴘᴇᴅ😥")
 
 
 if __name__ == "__main__":
