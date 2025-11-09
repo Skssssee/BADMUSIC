@@ -22,12 +22,14 @@ class Bot(pyrogram.Client):
     async def boot(self):
         await super().start()
         self.id = self.me.id
-        self.name = self.me.first_name + " " + (self.me.last_name or "")
+        self.name = self.me.first_name
         self.username = self.me.username
         self.mention = self.me.mention
 
         try:
-            await self.send_message(self.logger, "❖<b> {self.mention} ʙᴏᴛ sᴛᴀʀᴛᴇᴅ</b>\n\n● ɪᴅ ➥ <code>{self.id}</code>\n● ɴᴀᴍᴇ ➥ {self.name}\n● ᴜsᴇʀɴᴀᴍᴇ ➥ @{self.username}",
+            await self.send_message(
+                self.logger,
+                f"❖<b> {self.mention} ʙᴏᴛ sᴛᴀʀᴛᴇᴅ</b>\n\n● ɪᴅ ➥ <code>{self.id}</code>\n● ɴᴀᴍᴇ ➥ {self.name}\n● ᴜsᴇʀɴᴀᴍᴇ ➥ @{self.username}",
             )
             get = await self.get_chat_member(self.logger, self.id)
         except Exception as ex:
@@ -40,4 +42,3 @@ class Bot(pyrogram.Client):
     async def exit(self):
         await super().stop()
         logger.info("❖ ʙᴏᴛ ꜱᴛᴏᴘᴘᴇᴅ 😥")
-      
