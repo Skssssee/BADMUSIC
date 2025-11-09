@@ -309,3 +309,18 @@ class YouTube:
             return filename
 
         return await asyncio.to_thread(_download)
+
+    async def check_api_status(self):
+        if not config.API_ENABLED:
+            logger.info("API disabled at startup, using Cookies for download")
+            return
+        logger.info("API check on at startup")
+        try:
+            # Test with a dummy query to check API
+            test_data = await self.fetch_song("test query", "audio")
+            if test_data and "link" in test_data and not test_data.get("error"):
+                logger.info("Run on API at startup")
+            else:
+                logger.info("API failed at startup, Cookies active for download")
+        except Exception as e:
+            logger.info(f"API check failed at startup: {e}, Cookies active for download")
