@@ -53,5 +53,3 @@ queue = Queue()
 
 from BADMUSIC.core.calls import TgCall
 Bad = TgCall()
-
-logger.info(f"❖ Bot started at {time.strftime('%d-%b-%y %H:%M:%S', time.localtime(boot))} 🕐")
