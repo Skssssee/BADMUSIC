@@ -117,7 +117,7 @@ class YouTube:
             return fname
 
         except Exception as e:
-            logging.error(f"Error downloading TG media: {e}")
+            logging.error(f"ᴇʀʀᴏʀ ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ᴛɢ ᴍᴇᴅɪᴀ: {e}")
             return None
 
     def valid(self, url: str) -> bool:
@@ -243,7 +243,7 @@ class YouTube:
         song_data = await self.fetch_song(query, streamtype)
 
         if not song_data or "error" in song_data or "link" not in song_data:
-            error_msg = song_data.get("error", "Failed to process query")
+            error_msg = song_data.get("error", "ꜰᴀɪʟᴇᴅ ᴛᴏ ᴘʀᴏᴄᴇꜱꜱ Qᴜᴇʀʏ")
             return None, None, error_msg
 
         song_url = song_data["link"]
@@ -260,8 +260,6 @@ class YouTube:
             return filename
 
         if config.API_ENABLED:
-            logger.info("API check on")
-            #  API first
             query = title or (await self.title(video_id, True))
             streamtype = "video" if video else "audio"
             song_data = await self.fetch_song(query, streamtype)
