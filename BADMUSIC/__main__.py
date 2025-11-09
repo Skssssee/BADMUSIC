@@ -12,8 +12,6 @@ async def main():
     await app.boot()
     await userbot.boot()
     await Bad.boot()
-
-    # Check API status at startup
     await yt.check_api_status()
 
     for module in all_modules:
