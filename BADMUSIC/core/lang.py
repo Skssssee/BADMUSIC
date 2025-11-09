@@ -21,9 +21,6 @@ lang_codes = {
 }
 
 class Language:
-    """
-    Language class for managing multilingual support using JSON language files.
-    """
 
     def __init__(self):
         self.lang_codes = lang_codes
@@ -36,7 +33,7 @@ class Language:
         for lang_code, lang_file in lang_files.items():
             with open(lang_file, "r", encoding="utf-8") as file:
                 languages[lang_code] = json.load(file)
-        logger.info(f"Loaded languages: {', '.join(languages.keys())}")
+        logger.info(f"❖ ʟᴏᴀᴅᴇᴅ ʟᴀɴɢᴜᴀɢᴇꜱ: {len(languages)} 🏁")
         return languages
 
     async def get_lang(self, chat_id: int) -> dict:
@@ -77,4 +74,3 @@ class Language:
             return wrapper
 
         return decorator
-      
