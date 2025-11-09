@@ -165,6 +165,8 @@ class YouTube:
     async def details(self, link: str, videoid: Union[bool, str] = None) -> Tuple[str, str, int, str, str]:
         if videoid:
             link = self.base + link
+        if "?" in link:
+            link = link.split("?")[0]
         if "&" in link:
             link = link.split("&")[0]
         results = VideosSearch(link, limit=1)
@@ -179,6 +181,8 @@ class YouTube:
     async def title(self, link: str, videoid: Union[bool, str] = None) -> str:
         if videoid:
             link = self.base + link
+        if "?" in link:
+            link = link.split("?")[0]
         if "&" in link:
             link = link.split("&")[0]
         results = VideosSearch(link, limit=1)
@@ -187,6 +191,8 @@ class YouTube:
     async def duration(self, link: str, videoid: Union[bool, str] = None) -> str:
         if videoid:
             link = self.base + link
+        if "?" in link:
+            link = link.split("?")[0]
         if "&" in link:
             link = link.split("&")[0]
         results = VideosSearch(link, limit=1)
@@ -195,6 +201,8 @@ class YouTube:
     async def thumbnail(self, link: str, videoid: Union[bool, str] = None) -> str:
         if videoid:
             link = self.base + link
+        if "?" in link:
+            link = link.split("?")[0]
         if "&" in link:
             link = link.split("&")[0]
         results = VideosSearch(link, limit=1)
@@ -203,6 +211,8 @@ class YouTube:
     async def track(self, link: str, videoid: Union[bool, str] = None) -> Tuple[dict, str]:
         if videoid:
             link = self.base + link
+        if "?" in link:
+            link = link.split("?")[0]
         if "&" in link:
             link = link.split("&")[0]
         results = VideosSearch(link, limit=1)
@@ -219,6 +229,8 @@ class YouTube:
     async def slider(self, link: str, query_type: int, videoid: Union[bool, str] = None) -> Tuple[str, str, str, str]:
         if videoid:
             link = self.base + link
+        if "?" in link:
+            link = link.split("?")[0]
         if "&" in link:
             link = link.split("&")[0]
         results = VideosSearch(link, limit=10)
