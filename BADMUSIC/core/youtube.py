@@ -261,22 +261,17 @@ class YouTube:
 
         if config.API_ENABLED:
             logger.info("API check on")
-            # Try API first
+            #  API first
             query = title or (await self.title(video_id, True))
             streamtype = "video" if video else "audio"
             song_data = await self.fetch_song(query, streamtype)
             if song_data and "link" in song_data and not song_data.get("error"):
-                logger.info("Run on API")
                 tg_link = song_data["link"]
                 if tg_link.startswith("https://t.me/"):
                     local_path = await self.download_tg_media(tg_link)
                     if local_path:
                         return local_path
-                return tg_link  # Direct stream URL if not TG
-            else:
-                logger.info("API failed, Cookies active for download")
-        else:
-            logger.info("API disabled, using Cookies for download")
+                return tg_link 
 
         # Fallback to direct yt_dlp
         base_opts = {
@@ -312,15 +307,15 @@ class YouTube:
 
     async def check_api_status(self):
         if not config.API_ENABLED:
-            logger.info("API disabled at startup, using Cookies for download")
+            logger.info("API is disabled at startup. Falling back to Cookies for downloads.")
             return
-        logger.info("API check on at startup")
+        logger.info("Checking API status at startup...")
         try:
             # Test with a dummy query to check API
             test_data = await self.fetch_song("test query", "audio")
             if test_data and "link" in test_data and not test_data.get("error"):
-                logger.info("Run on API at startup")
+                logger.info("API is active and ready for use at startup.")
             else:
-                logger.info("API failed at startup, Cookies active for download")
+                logger.info("API test failed at startup. Switching to Cookies for downloads.")
         except Exception as e:
-            logger.info(f"API check failed at startup: {e}, Cookies active for download")
+            logger.info(f"API connectivity check failed at startup: {e}. Using Cookies for downloads.")
