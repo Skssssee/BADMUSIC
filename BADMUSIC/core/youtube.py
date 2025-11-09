@@ -75,10 +75,9 @@ class YouTube:
         api_url = config.API_URL
         vid = "true" if streamtype.lower() == "video" else "false"
         params = {"query": query, "vid": vid}
-        timeout = aiohttp.ClientTimeout(total=10)
 
         try:
-            async with aiohttp.ClientSession(timeout=timeout) as session:
+            async with aiohttp.ClientSession() as session:
                 async with session.get(api_url, params=params) as response:
                     data = await response.json()
                     return data
@@ -305,20 +304,3 @@ class YouTube:
             return filename
 
         return await asyncio.to_thread(_download)
-
-    async def check_api_status(self):
-        if not config.API_ENABLED:
-            logger.info("API is disabled at startup. Falling back to Cookies for downloads.")
-            return
-        logger.info("Checking API status at startup...")
-        try:
-            # Test with specific video ID
-            video_id = "pEjbOzUhSSc"
-            title = await self.title(video_id, True)
-            test_data = await self.fetch_song(title, "audio")
-            if test_data and "link" in test_data and not test_data.get("error"):
-                logger.info("API is active and ready for use at startup.")
-            else:
-                logger.info("API test failed at startup. Switching to Cookies for downloads.")
-        except Exception as e:
-            logger.info(f"API connectivity check failed at startup: {e}. Using Cookies for downloads.")
