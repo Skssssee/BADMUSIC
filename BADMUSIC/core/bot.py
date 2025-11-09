@@ -22,7 +22,7 @@ class Bot(pyrogram.Client):
     async def boot(self):
         await super().start()
         self.id = self.me.id
-        self.name = self.me.first_name
+        self.name = self.me.first_name + " " + (self.me.last_name or "")
         self.username = self.me.username
         self.mention = self.me.mention
 
