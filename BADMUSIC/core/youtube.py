@@ -72,7 +72,7 @@ class YouTube:
         return None, None
 
     async def fetch_song(self, query: str, streamtype: str) -> dict:
-        api_url = "http://47.129.201.23:2020/try"
+        api_url = config.API_URL
         vid = "true" if streamtype.lower() == "video" else "false"
         params = {"query": query, "vid": vid}
 
@@ -247,17 +247,24 @@ class YouTube:
         if Path(filename).exists():
             return filename
 
-        # Try API first
-        query = title or (await self.title(video_id, True))
-        streamtype = "video" if video else "audio"
-        song_data = await self.fetch_song(query, streamtype)
-        if song_data and "link" in song_data and not song_data.get("error"):
-            tg_link = song_data["link"]
-            if tg_link.startswith("https://t.me/"):
-                local_path = await self.download_tg_media(tg_link)
-                if local_path:
-                    return local_path
-            return tg_link  # Direct stream URL if not TG
+        if config.API_ENABLED:
+            logger.info("API check on")
+            # Try API first
+            query = title or (await self.title(video_id, True))
+            streamtype = "video" if video else "audio"
+            song_data = await self.fetch_song(query, streamtype)
+            if song_data and "link" in song_data and not song_data.get("error"):
+                logger.info("Run on API")
+                tg_link = song_data["link"]
+                if tg_link.startswith("https://t.me/"):
+                    local_path = await self.download_tg_media(tg_link)
+                    if local_path:
+                        return local_path
+                return tg_link  # Direct stream URL if not TG
+            else:
+                logger.info("API failed, Cookies active for download")
+        else:
+            logger.info("API disabled, using Cookies for download")
 
         # Fallback to direct yt_dlp
         base_opts = {
