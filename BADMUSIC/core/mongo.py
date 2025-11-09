@@ -48,15 +48,15 @@ class MongoDB:
         try:
             start = time()
             await self.mongo.admin.command("ping")
-            logger.info(f"Database connection successful. ({time() - start:.2f}s)")
+            logger.info(f"✦ ᴄᴏɴɴᴇᴄᴛᴇᴅ ᴛᴏ ʏᴏᴜʀ ᴍᴏɴɢᴏ ᴅᴀᴛᴀʙᴀꜱᴇ...🃏 ({time() - start:.2f}s)")
             await self.load_cache()
         except Exception as e:
-            raise SystemExit(f"Database connection failed: {type(e).__name__}") from e
+            raise SystemExit(f"✦ ꜰᴀɪʟᴇᴅ ᴛᴏ ᴄᴏɴɴᴇᴄᴛ ᴛᴏ ʏᴏᴜʀ ᴍᴏɴɢᴏ ᴅᴀᴛᴀʙᴀꜱᴇ: {type(e).__name__}🥲") from e
 
     async def close(self) -> None:
         """Close the connection to the database."""
         await self.mongo.close()
-        logger.info("Database connection closed.")
+        logger.info("✦ ᴄʟᴏꜱᴇᴅ ᴛᴏ ʏᴏᴜʀ ᴍᴏɴɢᴏ ᴅᴀᴛᴀʙᴀꜱᴇ...🍃")
 
     # CACHE
     async def get_call(self, chat_id: int) -> bool:
@@ -271,7 +271,7 @@ class MongoDB:
 
     async def migrate_coll(self) -> None:
         from bson import ObjectId
-        logger.info("Migrating users and chats from old collections...")
+        logger.info("✦ ᴍɪɢʀᴀᴛɪɴɢ ᴜꜱᴇʀꜱ ᴀɴᴅ ᴄʜᴀᴛꜱ ꜰʀᴏᴍ ᴏʟᴅ ᴄᴏʟʟᴇᴄᴛɪᴏɴꜱ 🔥")
 
         musers, mchats, done = [], [], []
         ulist = [user async for user in self.db.tgusersdb.find()]
@@ -313,7 +313,7 @@ class MongoDB:
             await self.chatsdb.insert_many(mchats)
 
         await self.cache.insert_one({"_id": "migrated"})
-        logger.info("Migration completed.")
+        logger.info("✦ ᴍɪɢʀᴀᴛɪᴏɴ ᴄᴏᴍᴘʟᴇᴛᴇᴅ 🥀")
 
     async def load_cache(self) -> None:
         doc = await self.cache.find_one({"_id": "migrated"})
@@ -324,4 +324,4 @@ class MongoDB:
         await self.get_users()
         await self.get_blacklisted(True)
         await self.get_logger()
-        logger.info("Database cache loaded.")
+        logger.info("✦ ᴅᴀᴛᴀʙᴀꜱᴇ ᴄᴀᴄʜᴇ ʟᴏᴀᴅᴇᴅ ☠️")
