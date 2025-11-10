@@ -24,7 +24,7 @@ class Language:
 
     def __init__(self):
         self.lang_codes = lang_codes
-        self.lang_dir = Path("BADMUSIC/lang")
+        self.lang_dir = Path("BADMUSIC/utils/lang")
         self.languages = self.load_files()
 
     def load_files(self):
