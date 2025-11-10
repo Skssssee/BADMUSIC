@@ -125,11 +125,5 @@ async def _restart(_, m: types.Message):
     except:
         pass
 
-    for task in tasks:
-        task.cancel()
-        try:
-            await task
-        except:
-            pass    
-
-    os.execl(sys.executable, sys.executable, "-m", "BADMUSIC")
+    os.system(f"kill -9 {os.getpid()} && bash start")
+    exit()
