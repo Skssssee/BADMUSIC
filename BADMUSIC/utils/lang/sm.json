@@ -84,6 +84,12 @@
     "_comment":" --- LOG MESSAGES ---",
     "log_chat": "<u><b>» ɴᴇᴡ ᴄʜᴀᴛ ʟᴏɢ «</b></u>\n\n<b>ᴄʜᴀᴛ:</b> <code>{0}</code> | {1}\n<b>ᴜsᴇʀ:</b> <code>{2}</code> | {3}.",
     "log_user": "<u><b>» ɴᴇᴡ ᴜsᴇʀ ʟᴏɢ «</b></u>\n\n<b>ɪᴅ:</b> <code>{0}</code>\n<b>ɴᴀᴍᴇ:</b> {1} | {2}.",
+    
+    "_comment":" --- New Logger Messages ---",
+    "logger_new_group": "🎉 <b><u>Mᴜsɪᴄ Bᴏᴛ Aᴅᴅᴇᴅ ɪɴ #New_Group</u></b> 🎉\n\n• <b>Chat Name:</b> <code>{0}</code>\n• <b>Chat ID:</b> <code>{1}</code>\n• <b>Chat Username:</b> <code>{2}</code>\n• <b>Total Members:</b> <code>{3}</code>\n• <b>Added:</b> {4}",
+    "logger_group_leave": "❌ <b><u>Bᴏᴛ Rᴇᴍᴏᴠᴇᴅ ғʀᴏᴍ Gʀᴏᴜᴘ #Left_group</u></b> ❌\n\n• <b>Chat Name:</b> <code>{0}</code>\n• <b>Chat ID:</b> <code>{1}</code>\n• <b>Chat Username:</b> <code>{2}</code>\n• <b>Removed:</b> {3}",
+    "group_welcome": "ʜᴇʏ {0},\nᴛʜɪs ɪs {1}\n\nᴛʜᴀɴᴋs ғᴏʀ ᴀᴅᴅɪɴɢ ᴍᴇ ɪɴ {2}, {1} ᴄᴀɴ ɴᴏᴡ ᴩʟᴀʏ sᴏɴɢs ɪɴ ᴛʜɪs ᴄʜᴀᴛ.",
+
 
     "_comment":" --- LANGUAGE MESSAGES ---",
     "lang_choose": "» ᴘʟᴇᴀsᴇ ᴄʜᴏᴏsᴇ ᴛʜᴇ ʟᴀɴɢᴜᴀɢᴇ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ sᴇᴛ ғᴏʀ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ ᴄʜᴀᴛ: .",
@@ -120,7 +126,7 @@
     "#play": "PLAY COMMANDS",
     "play_usage": "<u><b>» ᴜsᴀɢᴇ: «</b></u>\n\n<code>/play ᴀᴛᴛᴇɴᴛɪᴏɴ</code>.",
     "play_searching": "🧪",
-    "play_invite": "» ʜᴏʟᴅ ᴏɴ ᴀ ᴍᴏᴍᴇɴᴛ...\n\nɪɴᴠɪᴛɪɴɢ {0} ᴀssɪsᴛᴀɴᴛ ᴛᴏ ʏᴏᴜʀ ᴄʜᴀᴛ. .",
+    "play_invite": "» ʜᴏʟᴅ ᴏɴ ᴀ ᴍᴏᴍᴇɴᴛ...\n\nɪɴᴠɪᴛɪɴɢ {0} ᴀssɪsᴛᴀɴᴛ ᴛᴏ ᴛʜᴇ ᴄʜᴀᴛ. .",
     "play_admin": "<u><b>» ᴀᴅᴍɪɴ ᴏɴʟʏ ᴘʟᴀʏ «</b></u>\n\n» ᴏɴʟʏ ᴀᴅᴍɪɴs ᴀʀᴇ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʟᴀʏ ɪɴ ᴛʜɪs ᴄʜᴀᴛ. .",
     "play_banned": "<u><b>» {0} ᴀssɪsᴛᴀɴᴛ ɪs ʙᴀɴɴᴇᴅ ʏᴏᴜʀ ᴄʜᴀᴛ «</b></u>\n\n<b>ɪᴅ:</b> <code>{1}</code>\n<b>ɴᴀᴍᴇ:</b> {2}\n<b>ᴜsᴇʀɴᴀᴍᴇ:</b> {3}.",
     "play_duration_limit": "» sᴛʀᴇᴀᴍs ʟᴏɴɢᴇʀ ᴛʜᴀɴ 60 ᴍɪɴᴜᴛᴇs ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʟᴀʏ. .",
