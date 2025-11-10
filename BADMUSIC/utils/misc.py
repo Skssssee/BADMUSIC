@@ -2,8 +2,7 @@ import socket
 import time
 import heroku3
 
-import config
-from .logging import LOGGER
+from BADMUSIC import config, logger
 
 HAPP = None
 _boot_ = time.time()
@@ -39,8 +38,8 @@ def heroku():
             try:
                 Heroku = heroku3.from_key(config.HEROKU_API_KEY)
                 HAPP = Heroku.app(config.HEROKU_APP_NAME)
-                LOGGER(__name__).info("✦ ʜᴇʀᴏᴋᴜ ᴀᴘᴘ ᴄᴏɴꜰɪɢᴜʀᴇᴅ...💙")
+                logger(__name__).info("✦ ʜᴇʀᴏᴋᴜ ᴀᴘᴘ ᴄᴏɴꜰɪɢᴜʀᴇᴅ...💙")
             except BaseException:
-                LOGGER(__name__).warning(
+                logger(__name__).warning(
                     "✦ ᴘʟᴇᴀꜱᴇ ᴍᴀᴋᴇ ꜱᴜʀᴇ ʏᴏᴜʀ ʜᴇʀᴏᴋᴜ ᴀᴘɪ ᴋᴇʏ ᴀɴᴅ ᴀᴘᴘ ɴᴀᴍᴇ ᴀʀᴇ ᴄᴏɴꜰɪɢᴜʀᴇᴅ ᴄᴏʀʀᴇᴄᴛʟʏ...💚"
                 )
