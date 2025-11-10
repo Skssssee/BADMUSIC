@@ -81,7 +81,7 @@ async def _logs(_, m: types.Message):
     sent = await m.reply_text(m.lang["log_fetch"])
     if not os.path.exists("log.txt"):
         return await sent.edit_text(m.lang["log_not_found"])
-    await sent.edit(
+    await sent.edit_media(
         media=types.InputMediaDocument(
             media="log.txt",
             caption=m.lang["log_sent"].format(app.name),
