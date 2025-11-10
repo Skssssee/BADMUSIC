@@ -59,6 +59,11 @@
     "logger_on": "Registrador habilitado.",
     "logger_off": "Registrador deshabilitado.",
     "logger_usage": "<b>Uso:</b>\n\n/{0} [on|off]",
+    
+    "logger_new_group": "🎉 <b><u>Bot de Música Agregado en #Nuevo_Grupo</u></b> 🎉\n\n• <b>Nombre del Chat:</b> <code>{0}</code>\n• <b>ID del Chat:</b> <code>{1}</code>\n• <b>Nombre de Usuario del Chat:</b> <code>{2}</code>\n• <b>Miembros Totales:</b> <code>{3}</code>\n• <b>Agregado por:</b> {4}",
+    "logger_group_leave": "❌ <b><u>Bot Removido del Grupo #Grupo_Abandonado</u></b> ❌\n\n• <b>Nombre del Chat:</b> <code>{0}</code>\n• <b>ID del Chat:</b> <code>{1}</code>\n• <b>Nombre de Usuario del Chat:</b> <code>{2}</code>\n• <b>Removido por:</b> {3}",
+    "group_welcome": "¡Hola, {0}!\nSoy {1}\n\nGracias por agregarme a {2}, {1} ahora puede reproducir canciones en este chat.",
+    
     "not_playing": "El bot no está transmitiendo en el chat de video.",
     "pinging": "Haciendo ping… por favor espera…",
     "ping_pong": "<u><b>¡Pong!</b></u>\n\n<b>Latencia:</b> <code>{0}ms</code>\n\n<b>Tiempo de actividad:</b> {1}\n<b>CPU:</b> <code>{2}%</code>\n<b>RAM:</b> <code>{3}%</code>\n<b>Disco:</b> <code>{4}%</code>\n<b>Latencia de PyTgCalls:</b> <code>{5}ms</code>",
@@ -66,7 +71,7 @@
     "play_banned": "<u><b>El asistente {0} ha prohibido tu chat</b></u>\n\n<b>ID:</b> <code>{1}</code>\n<b>Nombre:</b> {2}\n<b>Nombre de usuario:</b> {3}",
     "play_media": "<u><b>| Se inició la transmisión</b></u>\n\n<b>Título:</b> <a href={0}>{1}</a>\n\n<b>Duración:</b> {2} min\n<b>Solicitado por:</b> {3}",
     "play_log": "<u>Registro de reproducción de {0}</u>\n\n<b>Chat:</b> <code>{1}</code> | {2}\n<b>Usuario:</b> <code>{3}</code> | {4}\n<b>Enlace del mensaje:</b> {5}\n\n<b>Título:</b> {6}\n<b>Duración:</b> {7} min",
-    "play_queued": "<u><b>Agregado a la cola: {0}\n\n<b>Título:</b> <a href={1}>{2}</a>\n\n<b>Duración:</b> {3} min\n<b>Solicitado por:</b> {4}",
+    "play_queued": "<u><b>Agregado a la cola: {0}</b></u>\n\n<b>Título:</b> <a href={1}>{2}</a>\n\n<b>Duración:</b> {3} min\n<b>Solicitado por:</b> {4}",
     "play_usage": "<b>Uso:</b>\n\n<code>/play attention</code>",
     "play_seeking": "Buscando en la transmisión actual...",
     "play_again": "Reproduciendo de nuevo el medio actual...",
@@ -145,3 +150,4 @@
     "help_7": "Estadísticas",
     "help_8": "Sudoers"
 }
+
