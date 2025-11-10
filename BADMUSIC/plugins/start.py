@@ -78,6 +78,7 @@ async def settings(_, message: types.Message):
 
 
 @app.on_message(filters.new_chat_members, group=-1)
+@lang.language()
 async def on_new_member(_, message: Message):
     if message.chat.type != enums.ChatType.SUPERGROUP:
         return await message.chat.leave()
@@ -85,7 +86,9 @@ async def on_new_member(_, message: Message):
     for member in message.new_chat_members:
         if member.id == app.id:
             # Logging for bot added
-            if await db.is_logger():
+            if not await db.is_logger():
+                pass
+            else:
                 chat = message.chat
                 count = await app.get_chat_members_count(chat.id)
                 username = f"@{chat.username}" if chat.username else "Private Chat"
@@ -94,19 +97,13 @@ async def on_new_member(_, message: Message):
                     if message.from_user
                     else "Unknown User"
                 )
-                
-                # Get logger message from default language (assuming logging is in default/english)
-                logger_msg = lang.ENGLISH["logger_new_group"].format(
-                    chat.title,
-                    chat.id,
-                    username,
-                    count,
-                    added_by
+                msg = message.lang["logger_new_group"].format(
+                    chat.title, chat.id, username, count, added_by
                 )
 
                 await app.send_message(
                     config.LOGGER_ID,
-                    text=logger_msg,
+                    text=msg,
                     reply_markup=InlineKeyboardMarkup(
                         [
                             [
@@ -129,14 +126,14 @@ async def on_new_member(_, message: Message):
             await utils.send_log(message, True)
             await db.add_chat(message.chat.id)
 
-            # Get welcome message from default language
-            key = buttons.start_key(lang.ENGLISH, False) 
-            caption = lang.ENGLISH["group_welcome"].format(
-                message.from_user.mention, 
-                app.mention, 
-                message.chat.title
+            # Send welcome photo
+            key = buttons.start_key(message.lang, False)
+            caption = message.lang["group_welcome"].format(
+                message.from_user.mention,
+                app.mention,
+                message.chat.title,
+                app.mention,
             )
-            
             await message.reply_photo(
                 photo=random.choice(config.START_IMG),
                 caption=caption,
@@ -148,6 +145,7 @@ async def on_new_member(_, message: Message):
 
 
 @app.on_message(filters.left_chat_member)
+@lang.language()
 async def on_bot_kicked(_, message: Message):
     if not await db.is_logger():
         return
@@ -161,13 +159,8 @@ async def on_bot_kicked(_, message: Message):
             else "Unknown User"
         )
         username = f"@{chat.username}" if chat.username else "Private Chat"
-        
-        # Get logger message from default language
-        left_msg = lang.ENGLISH["logger_group_leave"].format(
-            chat.title,
-            chat.id,
-            username,
-            remove_by
+        left_msg = message.lang["logger_group_leave"].format(
+            chat.title, chat.id, username, remove_by
         )
 
         await app.send_message(
@@ -177,7 +170,7 @@ async def on_bot_kicked(_, message: Message):
                 [
                     [
                         InlineKeyboardButton(
-                            text="👤 ᴠɪᴇᴡ ᴀᴅᴅᴇᴅ ᴜꜱᴇʀ", # Assuming this button text is constant
+                            text="👤 ᴠɪᴇᴡ ᴀᴅᴅᴇᴅ ᴜꜱᴇʀ",
                             url=f"tg://user?id={message.from_user.id}",
                         )
                     ]
@@ -191,4 +184,3 @@ async def on_bot_kicked(_, message: Message):
             await userbot.leave_chat(chat.id)
         except:
             pass
-            
