@@ -59,6 +59,11 @@
     "logger_on": "ロガーが有効になりました。",
     "logger_off": "ロガーが無効になりました。",
     "logger_usage": "<b>使用法:</b>\n\n/{0} [on|off]",
+    
+    "logger_new_group": "🎉 <b><u>ミュージックボットが#新しいグループに追加されました</u></b> 🎉\n\n• <b>チャット名:</b> <code>{0}</code>\n• <b>チャットID:</b> <code>{1}</code>\n• <b>チャットユーザー名:</b> <code>{2}</code>\n• <b>総メンバー数:</b> <code>{3}</code>\n• <b>追加者:</b> {4}",
+    "logger_group_leave": "❌ <b><u>ボットがグループから削除されました #グループ退出</u></b> ❌\n\n• <b>チャット名:</b> <code>{0}</code>\n• <b>チャットID:</b> <code>{1}</code>\n• <b>チャットユーザー名:</b> <code>{2}</code>\n• <b>削除者:</b> {3}",
+    "group_welcome": "こんにちは {0}、\n{1}です\n\n{2}に私を追加してくれてありがとう、{1}はこれでこのチャットで曲を再生できます。",
+    
     "not_playing": "ボットはビデオチャットでストリーミングしていません。",
     "pinging": "Ping中…お待ちください…",
     "ping_pong": "<u><b>ポン!</b></u>\n\n<b>レイテンシ:</b> <code>{0}ms</code>\n\n<b>稼働時間:</b> {1}\n<b>CPU:</b> <code>{2}%</code>\n<b>RAM:</b> <code>{3}%</code>\n<b>ディスク:</b> <code>{4}%</code>\n<b>PyTgCallsレイテンシ:</b> <code>{5}ms</code>",
@@ -66,7 +71,7 @@
     "play_banned": "<u><b>{0}アシスタントがあなたのチャットを禁止しました</b></u>\n\n<b>ID:</b> <code>{1}</code>\n<b>名前:</b> {2}\n<b>ユーザー名:</b> {3}",
     "play_media": "<u><b>| ストリーミングを開始しました</b></u>\n\n<b>タイトル:</b> <a href={0}>{1}</a>\n\n<b>時間:</b> {2}分\n<b>リクエスト者:</b> {3}",
     "play_log": "<u>{0}再生ログ</u>\n\n<b>チャット:</b> <code>{1}</code> | {2}\n<b>ユーザー:</b> <code>{3}</code> | {4}\n<b>メッセージリンク:</b> {5}\n\n<b>タイトル:</b> {6}\n<b>時間:</b> {7}分",
-    "play_queued": "<u><b>キューに追加しました: {0}\n\n<b>タイトル:</b> <a href={1}>{2}</a>\n\n<b>時間:</b> {3}分\n<b>リクエスト者:</b> {4}",
+    "play_queued": "<u><b>キューに追加しました: {0}</b></u>\n\n<b>タイトル:</b> <a href={1}>{2}</a>\n\n<b>時間:</b> {3}分\n<b>リクエスト者:</b> {4}",
     "play_usage": "<b>使用法:</b>\n\n<code>/play attention</code>",
     "play_seeking": "現在のストリームをシークしています...",
     "play_again": "現在のメディアをリプレイしています...",
@@ -139,9 +144,10 @@
     "help_1": "認証",
     "help_2": "ブラックリスト",
     "help_3": "言語",
-    "help_4": "Ping",
+    "help_4": "ピング",
     "help_5": "再生",
     "help_6": "キュー",
     "help_7": "統計",
-    "help_8": "Sudoers"
+    "help_8": "スードユーザー"
 }
+
