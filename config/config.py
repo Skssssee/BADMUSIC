@@ -118,6 +118,9 @@ class Config:
         ]
         
         self.VIDEO_PLAY: bool = getenv("VIDEO_PLAY", True)
+        self.UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "Bad")
+        self.HEROKU_API_KEY = getenv("HEROKU_API_KEY")
+        self.HEROKU_APP_NAME = getenv("HEROKU_APP_NAME")
 
     def check(self):
         missing = [
