@@ -59,6 +59,11 @@
     "logger_on": "Logger enabled.",
     "logger_off": "Logger disabled.",
     "logger_usage": "<b>Usage:</b>\n\n/{0} [on|off]",
+    
+    "logger_new_group": "🎉 <b><u>Music Bot Added in #New_Group</u></b> 🎉\n\n• <b>Chat Name:</b> <code>{0}</code>\n• <b>Chat ID:</b> <code>{1}</code>\n• <b>Chat Username:</b> <code>{2}</code>\n• <b>Total Members:</b> <code>{3}</code>\n• <b>Added:</b> {4}",
+    "logger_group_leave": "❌ <b><u>Bot Removed from Group #Left_group</u></b> ❌\n\n• <b>Chat Name:</b> <code>{0}</code>\n• <b>Chat ID:</b> <code>{1}</code>\n• <b>Chat Username:</b> <code>{2}</code>\n• <b>Removed:</b> {3}",
+    "group_welcome": "Hey {0},\nThis is {1}\n\nThanks for adding me in {2}, {1} can now play songs in this chat.",
+
     "not_playing": "The bot isn't streaming in the video chat.",
     "pinging": "Pinging… please wait…",
     "ping_pong": "<u><b>Pong!</b></u>\n\n<b>Latency:</b> <code>{0}ms</code>\n\n<b>Uptime:</b> {1}\n<b>CPU:</b> <code>{2}%</code>\n<b>RAM:</b> <code>{3}%</code>\n<b>Disk:</b> <code>{4}%</code>\n<b>PyTgCalls Latency:</b> <code>{5}ms</code>",
@@ -66,7 +71,7 @@
     "play_banned": "<u><b>{0} assistant is banned your chat</b></u>\n\n<b>ID:</b> <code>{1}</code>\n<b>Name:</b> {2}\n<b>Username:</b> {3}",
     "play_media": "<u><b>| Started streaming</b></u>\n\n<b>Title:</b> <a href={0}>{1}</a>\n\n<b>Duration:</b> {2} min\n<b>Requested by:</b> {3}",
     "play_log": "<u>{0} Play Log</u>\n\n<b>Chat:</b> <code>{1}</code> | {2}\n<b>User:</b> <code>{3}</code> | {4}\n<b>Message link:</b> {5}\n\n<b>Title:</b> {6}\n<b>Duration:</b> {7} min",
-    "play_queued": "<u><b>Added to queue: {0}\n\n<b>Title:</b> <a href={1}>{2}</a>\n\n<b>Duration:</b> {3} min\n<b>Requested by:</b> {4}",
+    "play_queued": "<u><b>Added to queue: {0}</b></u>\n\n<b>Title:</b> <a href={1}>{2}</a>\n\n<b>Duration:</b> {3} min\n<b>Requested by:</b> {4}",
     "play_usage": "<b>Usage:</b>\n\n<code>/play attention</code>",
     "play_seeking": "Seeking the current stream...",
     "play_again": "Replaying the current media...",
