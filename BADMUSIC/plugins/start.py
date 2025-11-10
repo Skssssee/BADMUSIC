@@ -85,7 +85,7 @@ async def on_new_member(_, message: Message):
     for member in message.new_chat_members:
         if member.id == app.id:
             # Logging for bot added
-            if not await db.is_on_off(config.LOG):  # Assuming db.is_on_off and config.LOG exist
+            if not await db.is_logger():
                 pass
             else:
                 chat = message.chat
@@ -121,7 +121,7 @@ async def on_new_member(_, message: Message):
                 )
 
                 if chat.username:
-                    userbot = await db.get_assistant(chat.id)  # Assuming db.get_assistant exists
+                    userbot = await db.get_assistant(chat.id)
                     await userbot.join_chat(chat.username)
 
             # Welcome message in group
@@ -150,7 +150,7 @@ async def on_new_member(_, message: Message):
 
 @app.on_message(filters.left_chat_member)
 async def on_bot_kicked(_, message: Message):
-    if not await db.is_on_off(config.LOG):  # Assuming db.is_on_off and config.LOG exist
+    if not await db.is_logger():
         return
 
     left_chat_member = message.left_chat_member
@@ -185,6 +185,9 @@ async def on_bot_kicked(_, message: Message):
             ),
         )
 
-        await db.delete_served_chat(chat.id)  # Assuming db.delete_served_chat exists
-        userbot = await db.get_assistant(chat.id)  # Assuming db.get_assistant exists
-        await userbot.leave_chat(chat.id)
+        await db.rm_chat(chat.id)
+        try:
+            userbot = await db.get_assistant(chat.id)
+            await userbot.leave_chat(chat.id)
+        except:
+            pass
