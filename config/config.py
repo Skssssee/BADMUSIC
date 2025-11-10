@@ -20,6 +20,7 @@ class Config:
 
         self.API_URL = getenv("API_URL", "http://47.129.201.23:2020/try")
         self.API_ENABLED = bool(getenv("API_ENABLED", "True"))
+        self.COOKIES_ENABLED = bool(getenv("COOKIES_ENABLED", "False"))
 
         self.SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/PBX_UPDATE")
         self.SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/PBX_CHAT")
