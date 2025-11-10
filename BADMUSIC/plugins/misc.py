@@ -49,7 +49,7 @@ async def track_time():
                 continue
             media.time += 1
             if media.time >= media.duration_sec:
-                await app.send_message(chat_id, "**🎧 ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ🥺**")
+                await app.send_message(chat_id, "🎧 ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ 🥺")
 
 
 async def update_timer(length=10):
