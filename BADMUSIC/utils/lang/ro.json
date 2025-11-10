@@ -62,7 +62,7 @@
     
     "logger_new_group": "🎉 <b><u>Botul de Muzică Adăugat în #Grup_Nou</u></b> 🎉\n\n• <b>Nume Chat:</b> <code>{0}</code>\n• <b>ID Chat:</b> <code>{1}</code>\n• <b>Nume Utilizator Chat:</b> <code>{2}</code>\n• <b>Total Membri:</b> <code>{3}</code>\n• <b>Adăugat de:</b> {4}",
     "logger_group_leave": "❌ <b><u>Botul Eliminat din Grup #Grup_Părăsit</u></b> ❌\n\n• <b>Nume Chat:</b> <code>{0}</code>\n• <b>ID Chat:</b> <code>{1}</code>\n• <b>Nume Utilizator Chat:</b> <code>{2}</code>\n• <b>Eliminat de:</b> {3}",
-    "group_welcome": "Salut {0},\nAcesta este {1}\n\Mulțumesc că m-ai adăugat în {2}, {1} poate acum reda melodii în acest chat.",
+    "group_welcome": "Salut {0},\nAcesta este {1}\n\nulțumesc că m-ai adăugat în {2}, {1} poate acum reda melodii în acest chat.",
 
     "not_playing": "Botul nu transmite în chatul video.",
     "pinging": "Ping în curs… vă rugăm să așteptați…",
