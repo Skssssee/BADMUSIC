@@ -1,5 +1,5 @@
 {
-    "_comment":"**GENERAL & UTILITY MESSAGES**",
+    "_comment":" --- GENERAL & UTILITY MESSAGES ---",
     "add_me": "• ᴧᴅᴅ мᴇ ʙᴧʙʏ •",
     "help": "• ʜᴇʟᴘ ᴧɴᴅ ᴄᴏᴍᴍᴧɴᴅs •",
     "channel": "• ᴜᴘᴅᴧᴛᴇ •",
@@ -14,19 +14,19 @@
     "processing": "ᴘʀᴏᴄᴇssɪɴɢ...",
     "play_expired": "» ᴛʜɪs ʙᴜᴛᴛᴏɴ ʜᴀs ᴇxᴘɪʀᴇᴅ. .",
 
-    // --- START & SETTINGS MESSAGES ---
+    "_comment":" --- START & SETTINGS MESSAGES ---",
     "start_pm": "ʜᴇʏ {0},\nᴛʜɪs ɪs <b>{1}</b> !\n\n» ᴀ ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ʙᴏᴛ ᴡɪᴛʜ sᴏᴍᴇ ᴀᴡᴇsᴏᴍᴇ ᴀɴᴅ ᴜsᴇғᴜʟ ғᴇᴀᴛᴜʀᴇs. .\n\n<b><i>ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʜᴇʟᴘ ʙᴜᴛᴛᴏɴ ғᴏʀ ᴍᴏʀᴇ ɪɴғᴏ.</i></b>",
     "start_gp": "ʜᴇʏ,\nᴛʜɪs ɪs <b>{0}</b>\n\n<u><b>» ᴀ ᴍᴜsɪᴄ ᴘʟᴀʏᴇʀ ʙᴏᴛ ᴡɪᴛʜ sᴏᴍᴇ ᴀᴡᴇsᴏᴍᴇ ᴀɴᴅ ᴜsᴇғᴜʟ ғᴇᴀᴛᴜʀᴇs. «</b></u>.",
     "start_settings": "<u><b>» {0} sᴇᴛᴛɪɴɢs «</b></u>\n\n» ᴄʟɪᴄᴋ ᴛʜᴇ ʙᴜᴛᴛᴏɴs ʙᴇʟᴏᴡ ᴛᴏ ᴄʜᴀɴɢᴇ ᴛʜɪs ᴄʜᴀᴛ's ᴄᴜʀʀᴇɴᴛ sᴇᴛᴛɪɴɢs. .",
 
-    // --- PING & STATS MESSAGES ---
+    "_comment":" --- PING & STATS MESSAGES ---",
     "pinging": "» ᴘɪɴɢɪɴɢ… ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ… .",
     "ping_pong": "<u><b>» ᴘᴏɴɢ! «</b></u>\n\n<b>ʟᴀᴛᴇɴᴄʏ:</b> <code>{0}ᴍs</code>\n\n<b>ᴜᴘᴛɪᴍᴇ:</b> {1}\n<b>ᴄᴘᴜ:</b> <code>{2}%</code>\n<b>ʀᴀᴍ:</b> <code>{3}%</code>\n<b>ᴅɪsᴋ:</b> <code>{4}%</code>\n<b>ᴘʏᴛɢᴄᴀʟʟs ʟᴀᴛᴇɴᴄʏ:</b> <code>{5}ᴍs</code>.",
     "stats_fetching": "» ғᴇᴛᴄʜɪɴɢ sᴛᴀᴛs... .",
     "stats_user": "<u><b>» {0} sᴛᴀᴛs «</b></u>\n\n<b>» ᴀssɪsᴛᴀɴᴛs:</b> {1}\n<b>» ᴀᴜᴛᴏ ʟᴇᴀᴠᴇ:</b> {2}\n\n<b>» ʙʟᴏᴄᴋᴇᴅ ᴄʜᴀᴛs:</b> {3}\n<b>» ʙʟᴏᴄᴋᴇᴅ ᴜsᴇʀs:</b> {4}\n<b>» sᴜᴅᴏ ᴜsᴇʀs:</b> {5}\n\n<b>» sᴇʀᴠᴇᴅ ᴄʜᴀᴛs:</b> {6}\n<b>» sᴇʀᴠᴇᴅ ᴜsᴇʀs:</b> {7}.",
     "stats_sudo": "\n\n<b>» ᴍᴏᴅᴜʟᴇs:</b> {0}\n<b>» ᴘʟᴀᴛғᴏʀᴍ:</b> {1}\n<b>» ʀᴀᴍ ᴜsᴀɢᴇ:</b> <code>{2}ᴍʙ | {3}ɢʙ</code>\n<b>» ᴄᴘᴜ ᴜsᴀɢᴇ:</b> <code>{4}% ({5} ᴄᴏʀᴇs)</code>\n<b>» sᴛᴏʀᴀɢᴇ:</b> <code>{6}ɢʙ | {7}ɢʙ</code>\n\n<b>» ᴘʏᴛʜᴏɴ:</b> <code>ᴠ{8}</code>\n<b>» ᴘʏʀᴏɢʀᴀᴍ:</b> <code>ᴠ{9}</code>\n<b>» ᴘʏᴛɢᴄᴀʟʟs:</b> <code>ᴠ{10}</code>.",
 
-    // --- ADMIN & AUTH MESSAGES ---
+    "_comment":" --- ADMIN & AUTH MESSAGES ---",
     "admin_required": "» ʙᴏᴛ ʀᴇǫᴜɪʀᴇs ᴛʜᴇ <b>ɪɴᴠɪᴛᴇ ᴜsᴇʀs ᴠɪᴀ ʟɪɴᴋ</b> ᴘᴇʀᴍɪssɪᴏɴ ᴛᴏ ᴡᴏʀᴋ. .",
     "user_not_admin": "» ᴏʜ sᴜʀᴇ, ɢᴏ ᴀʜᴇᴀᴅ ᴀɴᴅ ᴍᴀɴᴀɢᴇ ᴛʜᴇ ᴠɪᴅᴇᴏ ᴄʜᴀᴛ... ᴏʜ ᴡᴀɪᴛ, ʏᴏᴜ'ʀᴇ ɴᴏᴛ ᴀɴ ᴀᴅᴍɪɴ. .",
     "user_no_perms": "» ʏᴏᴜ? ᴍᴀɴᴀɢᴇ ᴛʜᴇ ᴠɪᴅᴇᴏ ᴄʜᴀᴛ? ɴᴏᴛ ᴡɪᴛʜ ᴛʜᴏsᴇ ᴘᴇʀᴍɪssɪᴏɴs, sᴡᴇᴇᴛɪᴇ. .",
@@ -37,7 +37,7 @@
     "auth_removed": "» ʀᴇᴍᴏᴠᴇᴅ {0} ғʀᴏᴍ ᴛʜᴇ ᴀᴜᴛʜᴏʀɪᴢᴇᴅ ᴜsᴇʀs ʟɪsᴛ. .",
     "auth_is_admin": "» ᴛʜᴇ ᴜsᴇʀ ɪs ᴀʟʀᴇᴀᴅʏ ᴀɴ <b>ᴀᴅᴍɪɴ</b> ᴀɴᴅ ᴄᴀɴ'ᴛ ʙᴇ ᴀᴅᴅᴇᴅ ᴛᴏ ᴀᴜᴛʜᴏʀɪᴢᴇᴅ ᴜsᴇʀs. .",
 
-    // --- SUDO COMMANDS ---
+    "_comment":" --- SUDO COMMANDS ---",
     "sudo_already": "» {0} ɪs ᴀʟʀᴇᴀᴅʏ ᴀ sᴜᴅᴏ ᴜsᴇʀ. .",
     "sudo_added": "» ᴀᴅᴅᴇᴅ {0} ᴛᴏ ᴛʜᴇ sᴜᴅᴏ ᴜsᴇʀs ʟɪsᴛ. .",
     "sudo_not": "» {0} ɪs ɴᴏᴛ ᴀ sᴜᴅᴏ ᴜsᴇʀ. .",
@@ -61,7 +61,7 @@
     "vc_fetching": "» ғᴇᴛᴄʜɪɴɢ ʟɪsᴛ ᴏғ ᴀᴄᴛɪᴠᴇ sᴛʀᴇᴀᴍs... .",
     "vc_list": "<u><b>» ʟɪsᴛ ᴏғ ᴀᴄᴛɪᴠᴇ sᴛʀᴇᴀᴍs: «</b></u>",
 
-    // --- BROADCAST MESSAGES ---
+    "_comment":" --- BROADCAST MESSAGES ---",
     "gcast_usage": "» ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ғᴏʀ ʙʀᴏᴀᴅᴄᴀsᴛɪɴɢ ᴛʜᴇ ᴍᴇssᴀɢᴇ. .",
     "gcast_active": "» ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ ғᴏʀ ᴛʜᴇ ᴏɴɢᴏɪɴɢ ʙʀᴏᴀᴅᴄᴀsᴛ ᴛᴏ ғɪɴɪsʜ. .",
     "gcast_inactive": "» ʙʀᴏᴀᴅᴄᴀsᴛɪɴɢ ɪs ᴄᴜʀʀᴇɴᴛʟʏ ɪɴᴀᴄᴛɪᴠᴇ. .",
@@ -72,7 +72,7 @@
     "gcast_stop_log": "» ʙʀᴏᴀᴅᴄᴀsᴛ sᴛᴏᴘᴘᴇᴅ ʙʏ <code>{0}</code> | {1}.",
     "gcast_end": "» ʙʀᴏᴀᴅᴄᴀsᴛᴇᴅ ᴛʜᴇ ᴍᴇssᴀɢᴇ ᴛᴏ <b>{0} ɢʀᴏᴜᴘs</b> ᴀɴᴅ <b>{1} ᴜsᴇʀs</b>. .",
 
-    // --- BLACKLIST MESSAGES ---
+    "_comment":" --- BLACKLIST MESSAGES ---",
     "bl_usage": "<u><b>» ᴜsᴀɢᴇ: «</b></u>\n\n/{0} [ᴄʜᴀᴛ_ɪᴅ|ᴜsᴇʀ_ɪᴅ].",
     "bl_invalid": "» ᴏɴʟʏ ᴄʜᴀᴛ ɪᴅs ᴀɴᴅ ᴜsᴇʀ ɪᴅs ᴀʀᴇ sᴜᴘᴘᴏʀᴛᴇᴅ. .",
     "bl_already": "» ᴛʜɪs ᴄʜᴀᴛ ɪs ᴀʟʀᴇᴀᴅʏ ʙʟᴀᴄᴋʟɪsᴛᴇᴅ. .",
@@ -81,17 +81,17 @@
     "bl_removed": "» ᴛʜɪs ᴄʜᴀᴛ ʜᴀs ʙᴇᴇɴ ʀᴇᴍᴏᴠᴇᴅ ғʀᴏᴍ ᴛʜᴇ ʙʟᴀᴄᴋʟɪsᴛ. .",
     "bl_user_notify": "» ʏᴏᴜ'ᴠᴇ ʙᴇᴇɴ ʙʟᴀᴄᴋʟɪsᴛᴇᴅ ғʀᴏᴍ ᴜsɪɴɢ ᴛʜɪs ʙᴏᴛ. ᴘʟᴇᴀsᴇ ʀᴇᴀᴄʜ ᴏᴜᴛ ɪɴ ᴛʜᴇ <a href={0}>sᴜᴘᴘᴏʀᴛ ᴄʜᴀᴛ</ᴀ> ғᴏʀ ᴍᴏʀᴇ ɪɴғᴏ. .",
 
-    // --- LOG MESSAGES ---
+    "_comment":" --- LOG MESSAGES ---",
     "log_chat": "<u><b>» ɴᴇᴡ ᴄʜᴀᴛ ʟᴏɢ «</b></u>\n\n<b>ᴄʜᴀᴛ:</b> <code>{0}</code> | {1}\n<b>ᴜsᴇʀ:</b> <code>{2}</code> | {3}.",
     "log_user": "<u><b>» ɴᴇᴡ ᴜsᴇʀ ʟᴏɢ «</b></u>\n\n<b>ɪᴅ:</b> <code>{0}</code>\n<b>ɴᴀᴍᴇ:</b> {1} | {2}.",
 
-    // --- LANGUAGE MESSAGES ---
+    "_comment":" --- LANGUAGE MESSAGES ---",
     "lang_choose": "» ᴘʟᴇᴀsᴇ ᴄʜᴏᴏsᴇ ᴛʜᴇ ʟᴀɴɢᴜᴀɢᴇ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ sᴇᴛ ғᴏʀ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ ᴄʜᴀᴛ: .",
     "lang_change": "» ᴄʜᴀɴɢɪɴɢ ᴛʜᴇ ʟᴀɴɢᴜᴀɢᴇ ᴏғ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ ᴄʜᴀᴛ ᴛᴏ: <b>{0}</b> .",
     "lang_changed": "» ᴛʜᴇ ʟᴀɴɢᴜᴀɢᴇ ᴏғ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ ᴄʜᴀᴛ ʜᴀs ʙᴇᴇɴ ᴄʜᴀɴɢᴇᴅ ᴛᴏ: <i>{0}</i> .",
     "lang_same": "» ᴛʜᴇ ʟᴀɴɢᴜᴀɢᴇ ᴏғ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ ᴄʜᴀᴛ ɪs ᴀʟʀᴇᴀᴅʏ sᴇᴛ ᴛᴏ: <b>{0}</b> .",
 
-    // --- DOWNLOAD MESSAGES (DL) ---
+    "_comment":" --- DOWNLOAD MESSAGES (DL) ---",
     "dl_active": "» ᴀʟʀᴇᴀᴅʏ ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ᴛʜᴀᴛ ғɪʟᴇ. ᴍɪɴᴅ ᴡᴀɪᴛɪɴɢ? .",
     "dl_limit": "» ғᴀɪʟᴇᴅ ᴛᴏ ᴘʀᴏᴄᴇss ᴛʜᴇ ғɪʟᴇ. ᴛʜᴇ ᴍᴀxɪᴍᴜᴍ ᴅᴏᴡɴʟᴏᴀᴅ ʟɪᴍɪᴛ ɪs <b>200 ᴍʙ</b>. .",
     "dl_progress": "<u><b>» ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ғɪʟᴇ «</b></u>\n\n<b>ᴘʀᴏɢʀᴇss:</b> {0} / {1} [<b>{2:.1f}%</b>]\n<b>sᴘᴇᴇᴅ:</b> {3}/s | <b>ᴇᴛᴀ:</b> {4}.",
@@ -100,7 +100,7 @@
     "dl_cancel": "» ᴅᴏᴡɴʟᴏᴀᴅ ᴄᴀɴᴄᴇʟᴇᴅ ʙʏ {0} .",
     "dl_not_found": "» ᴅᴏᴡɴʟᴏᴀᴅ ᴀʟʀᴇᴀᴅʏ ᴄᴀɴᴄᴇʟʟᴇᴅ. .",
 
-    // --- ERROR MESSAGES ---
+    "_comment":" --- ERROR MESSAGES ---",
     "error_no_call": "<u><b>» ɴᴏ ᴀᴄᴛɪᴠᴇ ᴠɪᴅᴇᴏ ᴄʜᴀᴛ ғᴏᴜɴᴅ. «</b></u>\n\n» ᴘʟᴇᴀsᴇ sᴛᴀʀᴛ ᴏɴᴇ ᴀɴᴅ <b>ᴛʀʏ ᴀɢᴀɪɴ</b>. .",
     "error_no_file": "» ᴅᴏᴡɴʟᴏᴀᴅ ғᴀɪʟᴇᴅ.\n\nɪғ ᴛʜᴇ ɪssᴜᴇ ᴘᴇʀsɪsᴛs, ʀᴇᴘᴏʀᴛ ɪᴛ ᴛᴏ ᴛʜᴇ <a href={0}>sᴜᴘᴘᴏʀᴛ ᴄʜᴀᴛ</ᴀ> .",
     "error_tg_server": "<u><b>» ᴛᴇʟᴇɢʀᴀᴍ sᴇʀᴠᴇʀ ᴇʀʀᴏʀ «</b></u>\n\n» ᴛᴇʟᴇɢʀᴀᴍ ɪs ᴇxᴘᴇʀɪᴇɴᴄɪɴɢ ɪɴᴛᴇʀɴᴀʟ ɪssᴜᴇs. ᴄʟᴇᴀʀɪɴɢ ᴛʜᴇ ǫᴜᴇᴜᴇ ᴀɴᴅ ʟᴇᴀᴠɪɴɢ ᴛʜᴇ ᴠɪᴅᴇᴏ ᴄʜᴀᴛ. .",
@@ -110,13 +110,13 @@
     "play_invite_error": "» ғᴀɪʟᴇᴅ ᴛᴏ ɪɴᴠɪᴛᴇ ᴀssɪsᴛᴀɴᴛ ᴛᴏ ᴛʜᴇ ᴄʜᴀᴛ.\n\n<b>ʀᴇᴀsᴏɴ:</b> <code>{0}</code> .",
     "play_not_found": "» ғᴀɪʟᴇᴅ ᴛᴏ ᴘʀᴏᴄᴇss ᴛʜᴇ ǫᴜᴇʀʏ.\n\nɪғ ᴛʜᴇ ɪssᴜᴇ ᴘᴇʀsɪsᴛs, ʀᴇᴘᴏʀᴛ ɪᴛ ᴛᴏ ᴛʜᴇ <a href={0}>sᴜᴘᴘᴏʀᴛ ᴄʜᴀᴛ</ᴀ>. .",
 
-    // --- QUEUE MESSAGES ---
+    "_comment":" --- QUEUE MESSAGES ---",
     "queue_fetching": "» ғᴇᴛᴄʜɪɴɢ ǫᴜᴇᴜᴇ... .",
     "queue_curr": "<u><b>» ᴄᴜʀʀᴇɴᴛʟʏ ᴘʟᴀʏɪɴɢ: «</b></u>\n\n<b>» ᴛɪᴛʟᴇ:</b> <a href={0}>{1}</a>\n<b>» ᴅᴜʀᴀᴛɪᴏɴ:</b> {2}.\n<b>» ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ:</b> {3}.\n\n.",
     "queue_item": "<b>{0}. » ᴛɪᴛʟᴇ:</b> {1}\n     - {2} ᴍɪɴ.\n\n.",
     "play_queue_full": "» ᴛʜᴇ ǫᴜᴇᴜᴇ ʟɪᴍɪᴛ (20) ʜᴀs ʙᴇᴇɴ ʀᴇᴀᴄʜᴇᴅ. ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ ғᴏʀ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛʟʏ ǫᴜᴇᴜᴇᴅ ᴛʀᴀᴄᴋs ᴛᴏ ғɪɴɪsʜ ᴘʟᴀʏɪɴɢ, ᴛʜᴇɴ ᴛʀʏ ᴀɢᴀɪɴ. .",
 
-    // --- PLAY COMMANDS (#play) ---
+    "_comment":" --- PLAY COMMANDS ---",
     "#play": "PLAY COMMANDS",
     "play_usage": "<u><b>» ᴜsᴀɢᴇ: «</b></u>\n\n<code>/play ᴀᴛᴛᴇɴᴛɪᴏɴ</code>.",
     "play_searching": "🧪",
@@ -132,7 +132,7 @@
     "not_playing": "» ᴛʜᴇ ʙᴏᴛ ɪsɴ'ᴛ sᴛʀᴇᴀᴍɪɴɢ ɪɴ ᴛʜᴇ ᴠɪᴅᴇᴏ ᴄʜᴀᴛ. .",
     "auto_left": "» ɪ ᴡᴀɪᴛᴇᴅ, ɪ ᴡᴀᴛᴄʜᴇᴅ, ɪ ʏᴀᴡɴᴇᴅ... ᴀɴᴅ ᴛʜᴇɴ ɪ ʟᴇғᴛ ᴛʜᴇ ᴠɪᴅᴇᴏ ᴄʜᴀᴛ. .",
 
-    // --- PLAYER CONTROL COMMANDS (#play) ---
+    "_comment":" --- PLAYER CONTROL COMMANDS  ---",
     "play_seeking": "» sᴇᴇᴋɪɴɢ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ sᴛʀᴇᴀᴍ... .",
     "play_again": "» ʀᴇᴘʟᴀʏɪɴɢ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ ᴍᴇᴅɪᴀ... .",
     "play_seek_usage": "<u><b>» ᴜsᴀɢᴇ: «</b></u> /{0} ᴅᴜʀᴀᴛɪᴏɴ\n<b>» ᴇxᴀᴍᴘʟᴇ:</b> <code>/{0} 15</code>.",
@@ -147,7 +147,7 @@
     "play_stopped": "<b>» sᴛʀᴇᴀᴍ ᴇɴᴅᴇᴅ ʙʏ</b> {0} .",
     "play_seeked": "<b>» sᴛʀᴇᴀᴍ sᴋɪᴘᴘᴇᴅ {0} ᴀɴᴅ sᴛᴀʀᴛᴇᴅ ғʀᴏᴍ {1} sᴇᴄᴏɴᴅs ʙʏ</b> {2} .",
 
-    // --- PLAYER BUTTON TEXTS (#button) ---
+    "_comment":" --- PLAYER BUTTON TEXTS ---",
     "#button": "BUTTON TEXTS",
     "play_mode": "ᴀᴅᴍɪɴ ᴏɴʟʏ ᴘʟᴀʏ",
     "playing": "ᴘʟᴀʏɪɴɢ",
@@ -157,7 +157,7 @@
     "replayed": "sᴛʀᴇᴀᴍ ʀᴇᴘʟᴀʏᴇᴅ",
     "play_now": "ᴘʟᴀʏ ɴᴏᴡ",
 
-    // --- HELP MENU ENTRIES (BUTTON TEXTS) (#button) ---
+    "_comment":" --- HELP MENU ENTRIES BUTTON TEXTS---",
     "#button_help_menu_entries": "HELP MENU BUTTONS",
     "help_0": "ᴀᴅᴍɪɴ",
     "help_1": "ᴀᴜᴛʜ",
@@ -169,7 +169,7 @@
     "help_7": "sᴛᴀᴛs",
     "help_8": "sᴜᴅᴏᴇʀs",
 
-    // --- HELP COMMANDS CONTENT ---
+    "_comment":" --- HELP COMMANDS CONTENT ---",
     "help_menu": "<u><b>» ᴄʟɪᴄᴋ ᴛʜᴇ ʙᴜᴛᴛᴏɴs ʙᴇʟᴏᴡ ᴛᴏ ɢᴇᴛ ɪɴғᴏʀᴍᴀᴛɪᴏɴ ᴀʙᴏᴜᴛ ᴍʏ ᴄᴏᴍᴍᴀɴᴅs. «</b></u>\n\n<i>ɴᴏᴛᴇ: ᴀʟʟ ᴄᴏᴍᴍᴀɴᴅs ᴄᴀɴ ʙᴇ ᴜsᴇᴅ ᴡɪᴛʜ /</i>.",
     "help_admins": "<u><b>» ᴀᴅᴍɪɴ ᴄᴏᴍᴍᴀɴᴅs: «</b></u>\n\n/pause: ᴘᴜᴀsᴇ ᴛʜᴇ ᴏɴɢᴏɪɴɢ sᴛʀᴇᴀᴍ.\n/resume: ʀᴇsᴜᴍᴇ ᴛʜᴇ ᴘᴀᴜsᴇᴅ sᴛʀᴇᴀᴍ.\n/skip: sᴋɪᴘ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ sᴛʀᴇᴀᴍ.\n/stop: sᴛᴏᴘ ᴛʜᴇ ᴏɴɢᴏɪɴɢ sᴛʀᴇᴀᴍ.\n\n/seek [ᴅᴜʀᴀᴛɪᴏɴ ɪɴ sᴇᴄᴏɴᴅs]: sᴇᴇᴋ ᴛʜᴇ ᴏɴɢᴏɪɴɢ sᴛʀᴇᴀᴍ.\n/seekback [ᴅᴜʀᴀᴛɪᴏɴ ɪɴ sᴇᴄᴏɴᴅs]: sᴇᴇᴋ ᴛʜᴇ ᴏɴɢᴏɪɴɢ sᴛʀᴇᴀᴍ ʙᴀᴄᴋᴡᴀʀᴅ.\n\n/reload: ʀᴇʟᴏᴀᴅs ᴛʜᴇ ᴀᴅᴍɪɴ ᴄᴀᴄʜᴇ.",
     "help_auth": "<u><b>» ᴀᴜᴛʜ ᴄᴏᴍᴍᴀɴᴅs: «</b></u>\n<i>ᴀᴜᴛʜᴏʀɪᴢᴇᴅ ᴜsᴇʀs ᴄᴀɴ ᴄᴏɴᴛʀᴏʟ ᴛʜᴇ ᴏɴɢᴏɪɴɢ sᴛʀᴇᴀᴍ ᴡɪᴛʜᴏᴜᴛ ʙᴇɪɴɢ ᴀɴ ᴀᴅᴍɪɴ.</i>\n\n/auth: ᴀᴅᴅ ᴀ ᴜsᴇʀ ᴛᴏ ᴛʜᴇ ᴀᴜᴛʜᴏʀɪᴢᴇᴅ ᴜsᴇʀs ʟɪsᴛ.\n/unauth: ʀᴇᴍᴏᴠᴇ ᴀ ᴜsᴇʀ ғʀᴏᴍ ᴛʜᴇ ᴀᴜᴛʜᴏʀɪᴢᴇᴅ ᴜsᴇʀs ʟɪsᴛ.",
@@ -181,4 +181,3 @@
     "help_stats": "<u><b>» sᴛᴀᴛs ᴄᴏᴍᴍᴀɴᴅs: «</b></u>\n\n/stats: sʜᴏᴡs ᴛʜᴇ ʙᴏᴛ's sᴛᴀᴛs.",
     "help_sudo": "<u><b>» sᴜᴅᴏ ᴄᴏᴍᴍᴀɴᴅs: «</b></u>\n\n/ac: sʜᴏᴡs ᴛʜᴇ ᴀᴄᴛɪᴠᴇ ᴄᴀʟʟs ᴄᴏᴜɴᴛ.\n\n/activevc: sʜᴏᴡs ᴛʜᴇ ʟɪsᴛ ᴏғ ᴛʜᴇ ᴀᴄᴛɪᴠᴇ ᴄᴀʟʟs.\n\n/broadcast [ʀᴇᴘʟʏ ᴛᴏ ᴍᴇssᴀɢᴇ]: ʙʀᴏᴀᴅᴄᴀsᴛs ᴛʜᴇ ᴍᴇssᴀɢᴇ ᴛᴏ ᴀʟʟ ᴛʜᴇ ᴄʜᴀᴛs.\n-ɴᴏᴄʜᴀᴛ: ᴇxᴄʟᴜᴅᴇs ɢʀᴏᴜᴘs ғʀᴏᴍ ᴛʜᴇ ʙʀᴏᴀᴅᴄᴀsᴛ.\n-ᴜsᴇʀ: ɪɴᴄʟᴜᴅᴇ ᴜsᴇʀs ɪɴ ᴛʜᴇ ʙʀᴏᴀᴅᴄᴀsᴛ.\n-ᴄᴏᴘʏ: ʀᴇᴍᴏᴠᴇs ᴛʜᴇ ғᴏʀᴡᴀʀᴅᴇᴅ ᴛᴀɢ ғʀᴏᴍ ᴛʜᴇ ʙʀᴏᴀᴅᴄᴀsᴛ ᴍᴇssᴀɢᴇ.\n<b>ᴇxᴀᴍᴘʟᴇ:</b> <code>/broadcast -ᴜsᴇʀ -ᴄᴏᴘʏ</code>\n\n/eval: ᴇxᴇᴄᴜᴛᴇs ᴛʜᴇ ɢɪᴠᴇɴ ᴄᴏᴅᴇ.\n\n/logs: sᴇɴᴅs ᴛʜᴇ ʟᴏɢ ғɪʟᴇ.\n\n/logger [ᴏɴ|ᴏғғ]: ᴇɴᴀʙʟᴇs/ᴅɪsᴀʙʟᴇs ᴛʜᴇ ʟᴏɢɢᴇʀ.\n\n/restart: ʀᴇsᴛᴀʀᴛs ᴛʜᴇ ʙᴏᴛ.\n\n/addsudo: ᴀᴅᴅ ᴀ ᴜsᴇʀ ᴛᴏ ᴛʜᴇ sᴜᴅᴏ ᴜsᴇʀs ʟɪsᴛ.\n/rmsudo: ʀᴇᴍᴏᴠᴇ ᴀ ᴜsᴇʀ ғʀᴏᴍ ᴛʜᴇ sᴜᴅᴏ ᴜsᴇʀs ʟɪsᴛ."
 }
-
