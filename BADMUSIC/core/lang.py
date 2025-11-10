@@ -34,8 +34,15 @@ class Language:
         languages = {}
         lang_files = {file.stem: file for file in self.lang_dir.glob("*.json")}
         for lang_code, lang_file in lang_files.items():
-            with open(lang_file, "r", encoding="utf-8") as file:
-                languages[lang_code] = json.load(file)
+            try:
+                with open(lang_file, "r", encoding="utf-8") as file:
+                    languages[lang_code] = json.load(file)
+            except json.JSONDecodeError as e:
+                logger.error(f"❖ JSON decode error in language file '{lang_code}.json' ({self.lang_codes.get(lang_code, lang_code)}): {e}")
+                continue
+            except Exception as e:
+                logger.error(f"❖ Error loading language file '{lang_code}.json' ({self.lang_codes.get(lang_code, lang_code)}): {e}")
+                continue
         logger.info(f"❖ ʟᴏᴀᴅᴇᴅ ʟᴀɴɢᴜᴀɢᴇꜱ: {len(languages)} 🏁")
         return languages
 
