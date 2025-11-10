@@ -1,3 +1,5 @@
+好的, 我已经根据您的要求更新了中文本地化文件 (Zh.json), 修正了 play_queued 格式错误, 添加了日志记录和群组欢迎消息, 并将 help_8 翻译为Sudo用户。
+这是更新后的 Zh.json 文件:
 {
     "add_me": "将我添加到您的群组",
     "admin_required": "机器人需要<b>通过链接邀请用户</b>的权限才能工作。",
@@ -59,6 +61,11 @@
     "logger_on": "记录器已启用。",
     "logger_off": "记录器已禁用。",
     "logger_usage": "<b>用法: </b>\n\n/{0} [on|off]",
+    
+    "logger_new_group": "🎉 <b><u>音乐机器人已添加到 #新群组</u></b> 🎉\n\n• <b>聊天名称:</b> <code>{0}</code>\n• <b>聊天 ID:</b> <code>{1}</code>\n• <b>聊天用户名:</b> <code>{2}</code>\n• <b>成员总数:</b> <code>{3}</code>\n• <b>添加者:</b> {4}",
+    "logger_group_leave": "❌ <b><u>机器人已从 #群组中移除</u></b> ❌\n\n• <b>聊天名称:</b> <code>{0}</code>\n• <b>聊天 ID:</b> <code>{1}</code>\n• <b>聊天用户名:</b> <code>{2}</code>\n• <b>移除者:</b> {3}",
+    "group_welcome": "嗨, {0}！\n这是 {1}\n\n感谢您将我添加到 {2}, {1} 现在可以在此聊天中播放歌曲。",
+
     "not_playing": "机器人未在视频聊天中直播。",
     "pinging": "正在 Ping… 请稍候…",
     "ping_pong": "<u><b>Pong!</b></u>\n\n<b>延迟: </b> <code>{0}ms</code>\n\n<b>正常运行时间: </b> {1}\n<b>CPU: </b> <code>{2}%</code>\n<b>RAM: </b> <code>{3}%</code>\n<b>磁盘: </b> <code>{4}%</code>\n<b>PyTgCalls 延迟: </b> <code>{5}ms</code>",
@@ -66,7 +73,7 @@
     "play_banned": "<u><b>{0} 助手已禁止您的聊天</b></u>\n\n<b>ID: </b> <code>{1}</code>\n<b>姓名: </b> {2}\n<b>用户名: </b> {3}",
     "play_media": "<u><b>| 已开始直播</b></u>\n\n<b>标题: </b> <a href={0}>{1}</a>\n\n<b>持续时间: </b> {2} 分钟\n<b>请求者: </b> {3}",
     "play_log": "<u>{0} 播放日志</u>\n\n<b>聊天: </b> <code>{1}</code> | {2}\n<b>用户: </b> <code>{3}</code> | {4}\n<b>消息链接: </b> {5}\n\n<b>标题: </b> {6}\n<b>持续时间: </b> {7} 分钟",
-    "play_queued": "<u><b>已添加到队列: {0}\n\n<b>标题: </b> <a href={1}>{2}</a>\n\n<b>持续时间: </b> {3} 分钟\n<b>请求者: </b> {4}",
+    "play_queued": "<u><b>已添加到队列: {0}</b></u>\n\n<b>标题: </b> <a href={1}>{2}</a>\n\n<b>持续时间: </b> {3} 分钟\n<b>请求者: </b> {4}",
     "play_usage": "<b>用法: </b>\n\n<code>/play attention</code>",
     "play_seeking": "正在查找当前流...",
     "play_again": "正在重播当前媒体...",
@@ -143,5 +150,6 @@
     "help_5": "播放",
     "help_6": "队列",
     "help_7": "统计",
-    "help_8": "Sudoers"
+    "help_8": "用户"
 }
+
