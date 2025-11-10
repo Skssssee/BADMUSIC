@@ -113,11 +113,7 @@ async def vc_watcher(sleep=15):
                 await sent.reply_text(_lang["auto_left"])
 
 
-# 🔔 NEW: Voice Chat Join/Leave Tracker
 async def vc_activity_tracker(sleep=10):
-    """
-    Track voice chat join/leave events and send notifications.
-    """
     last_participants = {}
 
     while True:
@@ -137,7 +133,7 @@ async def vc_activity_tracker(sleep=10):
                     username = f"@{user.username}" if user.username else "None"
                     await app.send_message(
                         chat_id,
-                        f"❖ ᴊᴏɪɴ ᴠᴄ\n\n● ɪᴅ ➥ {user.id} ● ɴᴀᴍᴇ ➥ {user.first_name} ● ᴜsᴇʀɴᴀᴍᴇ ➥ {username}",
+                        f"❖ ᴊᴏɪɴ ᴠᴄ\n\n● ɪᴅ ➥ {user.id} \n● ɴᴀᴍᴇ ➥ {user.first_name} \n● ᴜsᴇʀɴᴀᴍᴇ ➥ {username}",
                     )
 
                 for user_id in left:
@@ -145,7 +141,7 @@ async def vc_activity_tracker(sleep=10):
                     username = f"@{user.username}" if user.username else "None"
                     await app.send_message(
                         chat_id,
-                        f"❖ ʟᴇᴀᴠᴇ ᴠᴄ\n\n● ɪᴅ ➥ {user.id} ● ɴᴀᴍᴇ ➥ {user.first_name} ● ᴜsᴇʀɴᴀᴍᴇ ➥ {username}",
+                        f"❖ ʟᴇᴀᴠᴇ ᴠᴄ\n\n● ɪᴅ ➥ {user.id} \n● ɴᴀᴍᴇ ➥ {user.first_name} \n● ᴜsᴇʀɴᴀᴍᴇ ➥ {username}",
                     )
 
                 last_participants[chat_id] = current_ids
@@ -154,7 +150,6 @@ async def vc_activity_tracker(sleep=10):
                 continue
 
 
-# ✅ Task registrations
 if config.AUTO_LEAVE:
     tasks.append(asyncio.create_task(auto_leave()))
 
