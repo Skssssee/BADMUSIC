@@ -42,8 +42,8 @@ MAX_TITLE_WIDTH = 580
 class Thumbnail:
     def __init__(self):
         try:
-            self.title_font = ImageFont.truetype("BADMUSIC/utils/font2.ttf", 32)
-            self.regular_font = ImageFont.truetype("BADMUSIC/utils/font.ttf", 18)
+            self.title_font = ImageFont.truetype("BADMUSIC/utils/resources/fonts/font2.ttf", 32)
+            self.regular_font = ImageFont.truetype("BADMUSIC/utils/resources/fonts/font.ttf", 18)
         except OSError:
             self.title_font = self.regular_font = ImageFont.load_default()
 
@@ -120,7 +120,7 @@ class Thumbnail:
             draw.text((end_x, BAR_Y + 15), end_text, fill="red" if is_live else "black", font=self.regular_font)
 
             # Icons (assuming path exists)
-            icons_path = "BADMUSIC/utils/play_icons.png"  
+            icons_path = "BADMUSIC/utils/resources/images/play_icons.png"  
             if os.path.isfile(icons_path):
                 ic = Image.open(icons_path).resize((ICONS_W, ICONS_H)).convert("RGBA")
                 r, g, b, a = ic.split()
