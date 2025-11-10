@@ -111,8 +111,50 @@ async def vc_watcher(sleep=15):
                 await sent.reply_text(_lang["auto_left"])
 
 
+# 🔔 NEW: Voice Chat Join/Leave Tracker
+async def vc_activity_tracker(sleep=10):
+    """
+    Track voice chat join/leave events and send notifications.
+    """
+    last_participants = {}
+
+    while True:
+        await asyncio.sleep(sleep)
+        for chat_id in db.active_calls.copy():
+            try:
+                client = await db.get_assistant(chat_id)
+                info = await client.get_participants(chat_id)
+                current_ids = {p.user_id for p in info}
+
+                old_ids = last_participants.get(chat_id, set())
+                joined = current_ids - old_ids
+                left = old_ids - current_ids
+
+                for user_id in joined:
+                    user = await app.get_users(user_id)
+                    await app.send_message(
+                        chat_id,
+                        f"🎧 <b>{user.first_name}</b> joined the voice chat.",
+                    )
+
+                for user_id in left:
+                    user = await app.get_users(user_id)
+                    await app.send_message(
+                        chat_id,
+                        f"👋 <b>{user.first_name}</b> left the voice chat.",
+                    )
+
+                last_participants[chat_id] = current_ids
+            except Exception as e:
+                print(f"[VC_TRACK] {e}")
+                continue
+
+
+# ✅ Task registrations
 if config.AUTO_LEAVE:
     tasks.append(asyncio.create_task(auto_leave()))
+
 tasks.append(asyncio.create_task(track_time()))
 tasks.append(asyncio.create_task(update_timer()))
 tasks.append(asyncio.create_task(vc_watcher()))
+tasks.append(asyncio.create_task(vc_activity_tracker()))
