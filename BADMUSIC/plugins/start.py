@@ -1,4 +1,5 @@
 from pyrogram import enums, filters, types
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 import random
 
 from BADMUSIC import app, config, db, lang
@@ -8,9 +9,24 @@ from BADMUSIC.utils import buttons, utils
 @app.on_message(filters.command(["help"]) & filters.private & ~app.bl_users)
 @lang.language()
 async def _help(_, m: types.Message):
-    await m.reply_text(
-        text=m.lang["help_menu"],
+    await m.reply_photo(
+        photo=random.choice(config.HELP_IMG),
+        caption=m.lang["help_menu"],
         reply_markup=buttons.help_markup(m.lang),
+        quote=True,
+        has_spoiler=True,
+    )
+
+
+@app.on_message(filters.command(["help"]) & filters.group & ~app.bl_users)
+@lang.language()
+async def group_help(_, message: types.Message):
+    markup = InlineKeyboardMarkup(
+        [[InlineKeyboardButton("• ʜᴇʟᴘ ᴧɴᴅ ᴄᴏᴍᴍᴧɴᴅs •", url=f"https://t.me/{app.username}?start=help")]]
+    )
+    await message.reply_text(
+        "ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴜᴛᴛᴏɴ ʙᴇʟᴏᴡ ᴛᴏ ɢᴇᴛ ᴍʏ ʜᴇʟᴘ ᴍᴇɴᴜ ɪɴ ʏᴏᴜʀ ᴘᴍ.",
+        reply_markup=markup,
         quote=True,
     )
 
@@ -37,6 +53,7 @@ async def start(_, message: types.Message):
         caption=_text,
         reply_markup=key,
         quote=not private,
+        has_spoiler=True,
     )
 
     if private:
