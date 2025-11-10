@@ -1,4 +1,5 @@
 from pyrogram import enums, filters, types
+import random
 
 from BADMUSIC import app, config, db, lang
 from BADMUSIC.utils import buttons, utils
@@ -32,7 +33,7 @@ async def start(_, message: types.Message):
 
     key = buttons.start_key(message.lang, private)
     await message.reply_photo(
-        photo=config.START_IMG,
+        photo=random.choice(config.START_IMG),
         caption=_text,
         reply_markup=key,
         quote=not private,
@@ -71,4 +72,3 @@ async def _new_member(_, message: types.Message):
                 return
             await utils.send_log(message, True)
             await db.add_chat(message.chat.id)
-  
