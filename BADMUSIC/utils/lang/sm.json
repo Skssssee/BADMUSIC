@@ -135,7 +135,7 @@
     // --- PLAYER CONTROL COMMANDS (#play) ---
     "play_seeking": "» sᴇᴇᴋɪɴɢ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ sᴛʀᴇᴀᴍ... .",
     "play_again": "» ʀᴇᴘʟᴀʏɪɴɢ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ ᴍᴇᴅɪᴀ... .",
-    "play_seek_usage": "<u><b>» ᴜsᴀɢᴇ: «</b></u> /%s ᴅᴜʀᴀᴛɪᴏɴ\n<b>» ᴇxᴀᴍᴘʟᴇ:</b> <code>/%s 15</code>.",
+    "play_seek_usage": "<u><b>» ᴜsᴀɢᴇ: «</b></u> /{0} ᴅᴜʀᴀᴛɪᴏɴ\n<b>» ᴇxᴀᴍᴘʟᴇ:</b> <code>/{0} 15</code>.",
     "play_seek_no_dur": "» ғᴀɪʟᴇᴅ ᴛᴏ ғᴇᴛᴄʜ ᴛʜᴇ ᴅᴜʀᴀᴛɪᴏɴ ᴏғ ᴛʜᴇ ᴏɴɢᴏɪɴɢ sᴛʀᴇᴀᴍ. .",
     "play_seek_min": "» ᴍɪɴɪᴍᴜᴍ sᴇᴇᴋ ᴛɪᴍᴇ ɪs 10 sᴇᴄᴏɴᴅs — ᴛʀʏ ᴀ ʙɪᴛ ʟᴏɴɢᴇʀ! .",
     "play_already_paused": "» ᴅᴏ ʏᴏᴜ ʀᴇᴍᴇᴍʙᴇʀ ᴛʜᴀᴛ ʏᴏᴜ ʀᴇsᴜᴍᴇᴅ ᴛʜᴇ sᴛʀᴇᴀᴍ? .",
