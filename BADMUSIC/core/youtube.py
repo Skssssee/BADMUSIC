@@ -13,7 +13,7 @@ import yt_dlp
 from py_yt import VideosSearch
 from pyrogram import enums, types
 
-from BADMUSIC import config, logger
+from BADMUSIC import config
 from BADMUSIC.utils import Track, utils
 
 
@@ -28,6 +28,8 @@ class YouTube:
         self._info_cache = {}
 
     def get_cookies(self):
+        if not config.COOKIES_ENABLED:
+            return None
         if not self.checked:
             folder_path = os.path.join(os.getcwd(), "BADMUSIC/cookies")
             txt_files = glob.glob(os.path.join(folder_path, '*.txt'))
@@ -44,6 +46,8 @@ class YouTube:
         return self._cached_cookie
 
     def cookie_txt_file(self):
+        if not config.COOKIES_ENABLED:
+            return None
         if self._cached_cookie:
             return self._cached_cookie
         return self.get_cookies()
@@ -72,6 +76,8 @@ class YouTube:
         return None, None
 
     async def fetch_song(self, query: str, streamtype: str) -> dict:
+        if not config.API_ENABLED:
+            return {"error": "API is disabled"}
         api_url = config.API_URL
         vid = "true" if streamtype.lower() == "video" else "false"
         params = {"query": query, "vid": vid}
@@ -117,7 +123,7 @@ class YouTube:
             return fname
 
         except Exception as e:
-            logging.error(f"ᴇʀʀᴏʀ ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ᴛɢ ᴍᴇᴅɪᴀ: {e}")
+            logging.error(f"Error downloading TG media: {e}")
             return None
 
     def valid(self, url: str) -> bool:
@@ -165,8 +171,6 @@ class YouTube:
     async def details(self, link: str, videoid: Union[bool, str] = None) -> Tuple[str, str, int, str, str]:
         if videoid:
             link = self.base + link
-        if "?" in link:
-            link = link.split("?")[0]
         if "&" in link:
             link = link.split("&")[0]
         results = VideosSearch(link, limit=1)
@@ -181,8 +185,6 @@ class YouTube:
     async def title(self, link: str, videoid: Union[bool, str] = None) -> str:
         if videoid:
             link = self.base + link
-        if "?" in link:
-            link = link.split("?")[0]
         if "&" in link:
             link = link.split("&")[0]
         results = VideosSearch(link, limit=1)
@@ -191,8 +193,6 @@ class YouTube:
     async def duration(self, link: str, videoid: Union[bool, str] = None) -> str:
         if videoid:
             link = self.base + link
-        if "?" in link:
-            link = link.split("?")[0]
         if "&" in link:
             link = link.split("&")[0]
         results = VideosSearch(link, limit=1)
@@ -201,8 +201,6 @@ class YouTube:
     async def thumbnail(self, link: str, videoid: Union[bool, str] = None) -> str:
         if videoid:
             link = self.base + link
-        if "?" in link:
-            link = link.split("?")[0]
         if "&" in link:
             link = link.split("&")[0]
         results = VideosSearch(link, limit=1)
@@ -211,8 +209,6 @@ class YouTube:
     async def track(self, link: str, videoid: Union[bool, str] = None) -> Tuple[dict, str]:
         if videoid:
             link = self.base + link
-        if "?" in link:
-            link = link.split("?")[0]
         if "&" in link:
             link = link.split("&")[0]
         results = VideosSearch(link, limit=1)
@@ -229,8 +225,6 @@ class YouTube:
     async def slider(self, link: str, query_type: int, videoid: Union[bool, str] = None) -> Tuple[str, str, str, str]:
         if videoid:
             link = self.base + link
-        if "?" in link:
-            link = link.split("?")[0]
         if "&" in link:
             link = link.split("&")[0]
         results = VideosSearch(link, limit=10)
@@ -239,11 +233,13 @@ class YouTube:
         return selected["title"], selected["duration"], selected["thumbnails"][0]["url"].split("?")[0], selected["id"]
 
     async def get_download_link(self, query: str, video_stream: bool = False) -> Tuple[Optional[str], Optional[int], Optional[str]]:
+        if not config.API_ENABLED:
+            return None, None, "API is disabled"
         streamtype = "video" if video_stream else "audio"
         song_data = await self.fetch_song(query, streamtype)
 
         if not song_data or "error" in song_data or "link" not in song_data:
-            error_msg = song_data.get("error", "ꜰᴀɪʟᴇᴅ ᴛᴏ ᴘʀᴏᴄᴇꜱꜱ Qᴜᴇʀʏ")
+            error_msg = song_data.get("error", "Failed to process query")
             return None, None, error_msg
 
         song_url = song_data["link"]
@@ -259,6 +255,8 @@ class YouTube:
         if Path(filename).exists():
             return filename
 
+        # Try API first if enabled
+        local_path = None
         if config.API_ENABLED:
             query = title or (await self.title(video_id, True))
             streamtype = "video" if video else "audio"
@@ -267,9 +265,11 @@ class YouTube:
                 tg_link = song_data["link"]
                 if tg_link.startswith("https://t.me/"):
                     local_path = await self.download_tg_media(tg_link)
-                    if local_path:
-                        return local_path
-                return tg_link 
+                else:
+                    return tg_link  # Direct stream URL if not TG
+
+        if local_path:
+            return local_path
 
         # Fallback to direct yt_dlp
         base_opts = {
