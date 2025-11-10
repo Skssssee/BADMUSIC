@@ -121,8 +121,8 @@ async def vc_activity_tracker(sleep=10):
         await asyncio.sleep(sleep)
         for ub in userbot.clients:  # loop over all assistant clients
             try:
-                dialogs = await ub.get_dialogs()
-                for dialog in dialogs:
+                # ✅ FIXED: async for instead of await
+                async for dialog in ub.get_dialogs():
                     if dialog.chat.type not in [
                         enums.ChatType.GROUP,
                         enums.ChatType.SUPERGROUP,
@@ -131,11 +131,14 @@ async def vc_activity_tracker(sleep=10):
 
                     chat_id = dialog.chat.id
                     try:
-                        participants = await ub.get_participants(chat_id)
+                        # ✅ Some versions also return async generator for participants
+                        participants = []
+                        async for p in ub.get_participants(chat_id):
+                            participants.append(p)
                     except Exception:
                         continue
 
-                    current_ids = {p.user_id for p in participants}
+                    current_ids = {p.user.id if hasattr(p, "user") else p.id for p in participants}
                     old_ids = last_participants.get(chat_id, set())
 
                     joined = current_ids - old_ids
@@ -159,8 +162,7 @@ async def vc_activity_tracker(sleep=10):
             except Exception as e:
                 print(f"[VC_TRACK_ERR] {e}")
                 continue
-
-
+                
 # ✅ Task registrations
 if config.AUTO_LEAVE:
     tasks.append(asyncio.create_task(auto_leave()))
