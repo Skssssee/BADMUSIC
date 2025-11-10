@@ -111,42 +111,53 @@ async def vc_watcher(sleep=15):
                 await sent.reply_text(_lang["auto_left"])
 
 
-# 🔔 NEW: Voice Chat Join/Leave Tracker
 async def vc_activity_tracker(sleep=10):
     """
-    Track voice chat join/leave events and send notifications.
+    Track voice chat join/leave events even when music isn't playing.
     """
     last_participants = {}
 
     while True:
         await asyncio.sleep(sleep)
-        for chat_id in db.active_calls.copy():
+        for ub in userbot.clients:  # loop over all assistant clients
             try:
-                client = await db.get_assistant(chat_id)
-                info = await client.get_participants(chat_id)
-                current_ids = {p.user_id for p in info}
+                dialogs = await ub.get_dialogs()
+                for dialog in dialogs:
+                    if dialog.chat.type not in [
+                        enums.ChatType.GROUP,
+                        enums.ChatType.SUPERGROUP,
+                    ]:
+                        continue
 
-                old_ids = last_participants.get(chat_id, set())
-                joined = current_ids - old_ids
-                left = old_ids - current_ids
+                    chat_id = dialog.chat.id
+                    try:
+                        participants = await ub.get_participants(chat_id)
+                    except Exception:
+                        continue
 
-                for user_id in joined:
-                    user = await app.get_users(user_id)
-                    await app.send_message(
-                        chat_id,
-                        f"🎧 <b>{user.first_name}</b> joined the voice chat.",
-                    )
+                    current_ids = {p.user_id for p in participants}
+                    old_ids = last_participants.get(chat_id, set())
 
-                for user_id in left:
-                    user = await app.get_users(user_id)
-                    await app.send_message(
-                        chat_id,
-                        f"👋 <b>{user.first_name}</b> left the voice chat.",
-                    )
+                    joined = current_ids - old_ids
+                    left = old_ids - current_ids
 
-                last_participants[chat_id] = current_ids
+                    for user_id in joined:
+                        user = await app.get_users(user_id)
+                        await app.send_message(
+                            chat_id,
+                            f"🎧 <b>{user.first_name}</b> joined the voice chat.",
+                        )
+
+                    for user_id in left:
+                        user = await app.get_users(user_id)
+                        await app.send_message(
+                            chat_id,
+                            f"👋 <b>{user.first_name}</b> left the voice chat.",
+                        )
+
+                    last_participants[chat_id] = current_ids
             except Exception as e:
-                print(f"[VC_TRACK] {e}")
+                print(f"[VC_TRACK_ERR] {e}")
                 continue
 
 
