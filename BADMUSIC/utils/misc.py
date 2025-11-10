@@ -12,7 +12,6 @@ def is_heroku():
     return "heroku" in socket.getfqdn()
 
 
-# Heroku git push command parts (used by update system)
 XCB = [
     "/",
     "@",
