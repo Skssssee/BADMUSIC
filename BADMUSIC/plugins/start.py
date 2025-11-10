@@ -85,9 +85,7 @@ async def on_new_member(_, message: Message):
     for member in message.new_chat_members:
         if member.id == app.id:
             # Logging for bot added
-            if not await db.is_logger():
-                pass
-            else:
+            if await db.is_logger():
                 chat = message.chat
                 count = await app.get_chat_members_count(chat.id)
                 username = f"@{chat.username}" if chat.username else "Private Chat"
@@ -96,18 +94,19 @@ async def on_new_member(_, message: Message):
                     if message.from_user
                     else "Unknown User"
                 )
-                msg = (
-                    "🎉 <b><u>Mᴜsɪᴄ Bᴏᴛ Aᴅᴅᴇᴅ ɪɴ #New_Group</u></b> 🎉\n\n"
-                    f"• <b>Chat Name:</b> <code>{chat.title}</code>\n"
-                    f"• <b>Chat ID:</b> <code>{chat.id}</code>\n"
-                    f"• <b>Chat Username:</b> <code>{username}</code>\n"
-                    f"• <b>Total Members:</b> <code>{count}</code>\n"
-                    f"• <b>Added:</b> {added_by}"
+                
+                # Get logger message from default language (assuming logging is in default/english)
+                logger_msg = lang.ENGLISH["logger_new_group"].format(
+                    chat.title,
+                    chat.id,
+                    username,
+                    count,
+                    added_by
                 )
 
                 await app.send_message(
                     config.LOGGER_ID,
-                    text=msg,
+                    text=logger_msg,
                     reply_markup=InlineKeyboardMarkup(
                         [
                             [
@@ -130,14 +129,14 @@ async def on_new_member(_, message: Message):
             await utils.send_log(message, True)
             await db.add_chat(message.chat.id)
 
-            # Send welcome photo
-            key = buttons.start_key(lang.ENGLISH, False)  # Assuming default lang, adjust if needed
-            caption = (
-                f"ʜᴇʏ {message.from_user.mention},\n"
-                f"ᴛʜɪs ɪs {app.mention}\n\n"
-                f"ᴛʜᴀɴᴋs ғᴏʀ ᴀᴅᴅɪɴɢ ᴍᴇ ɪɴ {message.chat.title}, "
-                f"{app.mention} ᴄᴀɴ ɴᴏᴡ ᴩʟᴀʏ sᴏɴɢs ɪɴ ᴛʜɪs ᴄʜᴀᴛ."
+            # Get welcome message from default language
+            key = buttons.start_key(lang.ENGLISH, False) 
+            caption = lang.ENGLISH["group_welcome"].format(
+                message.from_user.mention, 
+                app.mention, 
+                message.chat.title
             )
+            
             await message.reply_photo(
                 photo=random.choice(config.START_IMG),
                 caption=caption,
@@ -162,12 +161,13 @@ async def on_bot_kicked(_, message: Message):
             else "Unknown User"
         )
         username = f"@{chat.username}" if chat.username else "Private Chat"
-        left_msg = (
-            "❌ <b><u>Bᴏᴛ Rᴇᴍᴏᴠᴇᴅ ғʀᴏᴍ Gʀᴏᴜᴘ #Left_group</u></b> ❌\n\n"
-            f"• <b>Chat Name:</b> <code>{chat.title}</code>\n"
-            f"• <b>Chat ID:</b> <code>{chat.id}</code>\n"
-            f"• <b>Chat Username:</b> <code>{username}</code>\n"
-            f"• <b>Removed:</b> {remove_by}"
+        
+        # Get logger message from default language
+        left_msg = lang.ENGLISH["logger_group_leave"].format(
+            chat.title,
+            chat.id,
+            username,
+            remove_by
         )
 
         await app.send_message(
@@ -177,7 +177,7 @@ async def on_bot_kicked(_, message: Message):
                 [
                     [
                         InlineKeyboardButton(
-                            text="👤 ᴠɪᴇᴡ ᴀᴅᴅᴇᴅ ᴜꜱᴇʀ",
+                            text="👤 ᴠɪᴇᴡ ᴀᴅᴅᴇᴅ ᴜꜱᴇʀ", # Assuming this button text is constant
                             url=f"tg://user?id={message.from_user.id}",
                         )
                     ]
@@ -191,3 +191,4 @@ async def on_bot_kicked(_, message: Message):
             await userbot.leave_chat(chat.id)
         except:
             pass
+            
