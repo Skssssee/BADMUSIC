@@ -48,6 +48,8 @@ async def track_time():
             if not media.playing:
                 continue
             media.time += 1
+            if media.time >= media.duration_sec:
+                await app.send_message(chat_id, "**🎧 ꜱᴏɴɢ ʜᴀꜱ ᴇɴᴅᴇᴅ ɪɴ ᴠᴄ🥺**")
 
 
 async def update_timer(length=10):
@@ -111,58 +113,47 @@ async def vc_watcher(sleep=15):
                 await sent.reply_text(_lang["auto_left"])
 
 
+# 🔔 NEW: Voice Chat Join/Leave Tracker
 async def vc_activity_tracker(sleep=10):
     """
-    Track voice chat join/leave events even when music isn't playing.
+    Track voice chat join/leave events and send notifications.
     """
     last_participants = {}
 
     while True:
         await asyncio.sleep(sleep)
-        for ub in userbot.clients:  # loop over all assistant clients
+        for chat_id in db.active_calls.copy():
             try:
-                # ✅ FIXED: async for instead of await
-                async for dialog in ub.get_dialogs():
-                    if dialog.chat.type not in [
-                        enums.ChatType.GROUP,
-                        enums.ChatType.SUPERGROUP,
-                    ]:
-                        continue
+                client = await db.get_assistant(chat_id)
+                info = await client.get_participants(chat_id)
+                current_ids = {p.user_id for p in info}
 
-                    chat_id = dialog.chat.id
-                    try:
-                        # ✅ Some versions also return async generator for participants
-                        participants = []
-                        async for p in ub.get_participants(chat_id):
-                            participants.append(p)
-                    except Exception:
-                        continue
+                old_ids = last_participants.get(chat_id, set())
+                joined = current_ids - old_ids
+                left = old_ids - current_ids
 
-                    current_ids = {p.user.id if hasattr(p, "user") else p.id for p in participants}
-                    old_ids = last_participants.get(chat_id, set())
+                for user_id in joined:
+                    user = await app.get_users(user_id)
+                    username = f"@{user.username}" if user.username else "None"
+                    await app.send_message(
+                        chat_id,
+                        f"❖ ᴊᴏɪɴ ᴠᴄ\n\n● ɪᴅ ➥ {user.id} ● ɴᴀᴍᴇ ➥ {user.first_name} ● ᴜsᴇʀɴᴀᴍᴇ ➥ {username}",
+                    )
 
-                    joined = current_ids - old_ids
-                    left = old_ids - current_ids
+                for user_id in left:
+                    user = await app.get_users(user_id)
+                    username = f"@{user.username}" if user.username else "None"
+                    await app.send_message(
+                        chat_id,
+                        f"❖ ʟᴇᴀᴠᴇ ᴠᴄ\n\n● ɪᴅ ➥ {user.id} ● ɴᴀᴍᴇ ➥ {user.first_name} ● ᴜsᴇʀɴᴀᴍᴇ ➥ {username}",
+                    )
 
-                    for user_id in joined:
-                        user = await app.get_users(user_id)
-                        await app.send_message(
-                            chat_id,
-                            f"🎧 <b>{user.first_name}</b> joined the voice chat.",
-                        )
-
-                    for user_id in left:
-                        user = await app.get_users(user_id)
-                        await app.send_message(
-                            chat_id,
-                            f"👋 <b>{user.first_name}</b> left the voice chat.",
-                        )
-
-                    last_participants[chat_id] = current_ids
+                last_participants[chat_id] = current_ids
             except Exception as e:
-                print(f"[VC_TRACK_ERR] {e}")
+                print(f"[VC_TRACK] {e}")
                 continue
-                
+
+
 # ✅ Task registrations
 if config.AUTO_LEAVE:
     tasks.append(asyncio.create_task(auto_leave()))
