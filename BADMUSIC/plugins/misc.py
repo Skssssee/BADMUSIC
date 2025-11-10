@@ -121,8 +121,10 @@ async def vc_activity_tracker(sleep=10):
         for chat_id in db.active_calls.copy():
             try:
                 client = await db.get_assistant(chat_id)
+                me = await client.get_me()
+                my_id = me.id
                 info = await client.get_participants(chat_id)
-                current_ids = {p.user_id for p in info}
+                current_ids = {p.user_id for p in info if p.user_id != my_id}
 
                 old_ids = last_participants.get(chat_id, set())
                 joined = current_ids - old_ids
