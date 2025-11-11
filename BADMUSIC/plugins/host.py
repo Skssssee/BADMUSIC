@@ -199,12 +199,5 @@ UPSTREAM_BRANCH=main""")
                 log_tail = f"Could not read log file: {log_read_error}"
         
         # The corrected success message definition
-        success_msg = f"""
-✅ **Your Bot Hosted Successfully!**
-
-📁 **Instance Directory**: `{instance_dir}`
-🔗 **Repo**: {REPO_URL}
-📄 **Configuration**: `.env` file created.
-▶️ **Bot Status**: Started in background.
-
-**Recent Log Snippet (first 1000 chars):**"""
+        success_msg = f"✅ **Your Bot Hosted Successfully!**"
+        
