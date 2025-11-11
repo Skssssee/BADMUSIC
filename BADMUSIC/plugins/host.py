@@ -177,12 +177,4 @@ UPSTREAM_BRANCH=main""")
             except:
                 pass
         
-        success_msg = f"""✅ **Your Bot Hosted Successfully!**
-
-📁 Instance Directory: `{instance_dir}`
-🔗 Repo: {REPO_URL}
-📄 .env: Configured with your API_ID, API_HASH, BOT_TOKEN, SESSION, MONGO_URL, OWNER_ID, LOGGER_ID
-📦 Dependencies: Installed
-▶️ Bot Started!
-
-**Recent Logs:**
+        success_msg = f"""✅ **Your Bot Hosted Successfully!**📁 Instance Directory: `{instance_dir}`🔗 Repo: {REPO_URL}📄 .env: Configured with your API_ID, API_HASH, BOT_TOKEN, SESSION, MONGO_URL, OWNER_ID, LOGGER_ID📦 Dependencies: Installed▶️ Bot Started!**Recent Logs:**"""
