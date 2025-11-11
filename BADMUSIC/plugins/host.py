@@ -106,7 +106,7 @@ async def finalize_hosting(user_id: int, m: types.Message):
     state = user_states[user_id]
     data = state["data"]
     
-    # Validation (keeping original validation logic)
+    # Validation
     api_id = data.get("API_ID")
     api_hash = data.get("API_HASH")
     mongo_url = data.get("MONGO_URL")
@@ -117,7 +117,6 @@ async def finalize_hosting(user_id: int, m: types.Message):
     
     if not all([api_id, api_hash, mongo_url, owner_id, string_session, logger_id, bot_token]):
         await m.reply_text("❌ Missing data. Restart with /host.")
-        # Do NOT delete state here, let the finally block handle it below
         return
     
     if not api_id.isdigit() or not owner_id.isdigit() or not logger_id.isdigit():
@@ -135,22 +134,21 @@ async def finalize_hosting(user_id: int, m: types.Message):
     state["instance_dir"] = instance_dir
     os.makedirs(instance_dir, exist_ok=True)
     
-    try: # --- START OF MAIN HOSTING TRY BLOCK ---
-        
+    try:
         # Clone repo
         await m.reply_text(f"🔄 Cloning **{REPO_URL}** to `{instance_dir}`...")
         clone_cmd = ["git", "clone", REPO_URL, instance_dir]
-        process = await asyncio.create_subprocess_exec(*clone_cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
+        process = await asyncio.create_subprocess_exec(
+            *clone_cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+        )
         stdout, stderr = await process.communicate()
         
         if process.returncode != 0:
-            # Check if the clone failed and raise an exception to be caught below
             raise Exception(f"Git clone failed:\n{stderr.decode()}")
         
         # Create .env file
         env_path = os.path.join(instance_dir, ".env")
         with open(env_path, "w") as f:
-            # Ensure the structure of the .env file is correct
             f.write(f"""API_ID={api_id}
 API_HASH={api_hash}
 BOT_TOKEN={bot_token}
@@ -166,22 +164,18 @@ UPSTREAM_BRANCH=main""")
         await m.reply_text("📦 Installing dependencies from `requirements.txt`...")
         pip_cmd = ["pip3", "install", "-r", "requirements.txt"]
         
-        # Use subprocess.run for simple blocking execution (instead of async for setup steps)
-        # Using create_subprocess_exec as in the original code, but ensuring we wait
         pip_process = await asyncio.create_subprocess_exec(
             *pip_cmd, cwd=instance_dir, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
         )
         pip_stdout, pip_stderr = await pip_process.communicate()
         
         if pip_process.returncode != 0:
-            # Check if installation failed and raise an exception
             raise Exception(f"Dependency installation failed:\n{pip_stderr.decode()}")
         
         await m.reply_text("✅ Dependencies installed!")
         
         # Start bot in background
         await m.reply_text("🚀 Starting your bot instance in the background (using `nohup`)...")
-        # Use shell=True for os.system for complex shell command
         start_cmd = f"cd {instance_dir} && nohup python3 -m BADMUSIC &> bot.log &"
         os.system(start_cmd)
         
@@ -193,11 +187,28 @@ UPSTREAM_BRANCH=main""")
         if os.path.exists(log_path):
             try:
                 with open(log_path, "r") as log_f:
-                    # Reading the start of the log file
                     log_tail = log_f.read(1000)
             except Exception as log_read_error:
                 log_tail = f"Could not read log file: {log_read_error}"
         
-        # The corrected success message definition
-        success_msg = f"✅ **Your Bot Hosted Successfully!**"
-        
+        # Success message
+        success_msg = f"""
+✅ **Your Bot Hosted Successfully!**
+
+📁 **Instance Directory**: `{instance_dir}`
+🔗 **Repo**: {REPO_URL}
+📄 **Configuration**: `.env` file created.
+▶️ **Bot Status**: Started in background.
+
+**Recent Log Snippet (first 1000 chars):**
+<pre>{log_tail}</pre>
+"""
+        await m.reply_text(success_msg)
+    
+    except Exception as e:
+        await m.reply_text(f"❌ Hosting failed:\n<code>{e}</code>")
+    
+    finally:
+        # Clean up user state after completion or failure
+        if user_id in user_states:
+            del user_states[user_id]
