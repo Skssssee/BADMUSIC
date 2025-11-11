@@ -7,11 +7,7 @@ from pyrogram import filters, types
 from pyrogram.handlers import MessageHandler
 
 # Assuming BADMUSIC and config are correctly imported from the main application structure
-# from BADMUSIC import app, config
-# from BADMUSIC.core.lang import lang
-# Since I don't have access to the full project structure, I will use placeholder names
-# If the app object is not defined, this will fail at runtime, but I must keep the original imports.
-
+# If 'BADMUSIC' isn't available, this code will need external context to run.
 from BADMUSIC import app, config
 from BADMUSIC import lang
 
@@ -107,37 +103,46 @@ async def finalize_hosting(user_id: int, m: types.Message):
     data = state["data"]
     
     # Validation
-    api_id = data.get("API_ID")
-    api_hash = data.get("API_HASH")
-    mongo_url = data.get("MONGO_URL")
-    owner_id = data.get("OWNER_ID")
-    string_session = data.get("STRING_SESSION")
-    logger_id = data.get("LOGGER_ID")
-    bot_token = data.get("BOT_TOKEN")
+    api_id = data.get("API_ID", "")
+    api_hash = data.get("API_HASH", "")
+    mongo_url = data.get("MONGO_URL", "")
+    owner_id = data.get("OWNER_ID", "")
+    string_session = data.get("STRING_SESSION", "")
+    logger_id = data.get("LOGGER_ID", "")
+    bot_token = data.get("BOT_TOKEN", "")
     
+    # 1. Check for missing data
     if not all([api_id, api_hash, mongo_url, owner_id, string_session, logger_id, bot_token]):
-        await m.reply_text("❌ Missing data. Restart with /host.")
+        await m.reply_text("❌ Missing data. Please ensure all values were provided correctly. Restart with /host.")
+        del user_states[user_id]
         return
     
-    # Updated validation to handle negative IDs for OWNER_ID and LOGGER_ID
+    # 2. Check IDs (API_ID, OWNER_ID, LOGGER_ID) for integer validity
     try:
+        # API_ID and OWNER_ID must be positive integers
         api_id_int = int(api_id)
         owner_id_int = int(owner_id)
-        logger_id_int = int(logger_id)
+        
+        if api_id_int <= 0 or owner_id_int <= 0:
+            await m.reply_text("❌ Invalid API_ID or OWNER_ID. They must be positive numbers greater than 0.")
+            return
+
+        # LOGGER_ID can be negative (for channels/groups) or positive (for user IDs)
+        logger_id_int = int(logger_id) 
+
     except ValueError:
-        await m.reply_text("❌ Invalid API_ID, OWNER_ID, or LOGGER_ID. Must be integers.")
+        await m.reply_text("❌ Invalid API_ID, OWNER_ID, or LOGGER_ID. They must be whole numbers (LOGGER_ID can be negative for chat IDs).")
         return
     
-    if api_id_int < 0:
-        await m.reply_text("❌ API_ID cannot be negative.")
-        return
-    
+    # 3. Check specific format rules
     if not bot_token.startswith("bot"):
         await m.reply_text("❌ Invalid BOT_TOKEN. Must start with 'bot'.")
         return
     if not mongo_url.startswith("mongodb://"):
         await m.reply_text("❌ Invalid MONGO_URL. Must start with 'mongodb://'.")
         return
+    
+    # All checks passed. Proceed to hosting.
     
     # Create unique directory
     instance_dir = f"hosted_bot_{user_id}_{int(datetime.datetime.now().timestamp())}"
@@ -186,6 +191,7 @@ UPSTREAM_BRANCH=main""")
         
         # Start bot in background
         await m.reply_text("🚀 Starting your bot instance in the background (using `nohup`)...")
+        # NOTE: Using a relative path for nohup to ensure it targets the correct directory
         start_cmd = f"cd {instance_dir} && nohup python3 -m BADMUSIC &> bot.log &"
         os.system(start_cmd)
         
@@ -196,8 +202,11 @@ UPSTREAM_BRANCH=main""")
         
         if os.path.exists(log_path):
             try:
+                # Read the log content
                 with open(log_path, "r") as log_f:
-                    log_tail = log_f.read(1000)
+                    log_content = log_f.read()
+                # Take the last 1000 characters if it's long, or the whole thing
+                log_tail = log_content[-1000:]
             except Exception as log_read_error:
                 log_tail = f"Could not read log file: {log_read_error}"
         
@@ -210,7 +219,7 @@ UPSTREAM_BRANCH=main""")
 📄 **Configuration**: `.env` file created.
 ▶️ **Bot Status**: Started in background.
 
-**Recent Log Snippet (first 1000 chars):**
+**Recent Log Snippet:**
 <pre>{log_tail}</pre>
 """
         await m.reply_text(success_msg)
