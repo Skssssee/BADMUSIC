@@ -119,9 +119,19 @@ async def finalize_hosting(user_id: int, m: types.Message):
         await m.reply_text("❌ Missing data. Restart with /host.")
         return
     
-    if not api_id.isdigit() or not owner_id.isdigit() or not logger_id.isdigit():
-        await m.reply_text("❌ Invalid API_ID, OWNER_ID, or LOGGER_ID. Must be numbers.")
+    # Updated validation to handle negative IDs for OWNER_ID and LOGGER_ID
+    try:
+        api_id_int = int(api_id)
+        owner_id_int = int(owner_id)
+        logger_id_int = int(logger_id)
+    except ValueError:
+        await m.reply_text("❌ Invalid API_ID, OWNER_ID, or LOGGER_ID. Must be integers.")
         return
+    
+    if api_id_int < 0:
+        await m.reply_text("❌ API_ID cannot be negative.")
+        return
+    
     if not bot_token.startswith("bot"):
         await m.reply_text("❌ Invalid BOT_TOKEN. Must start with 'bot'.")
         return
