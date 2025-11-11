@@ -13,7 +13,7 @@ from pyrogram.handlers import MessageHandler
 # If the app object is not defined, this will fail at runtime, but I must keep the original imports.
 
 from BADMUSIC import app, config
-from BADMUSIC.core.lang import lang 
+from BADMUSIC import lang
 
 # Global state dictionary to track user conversations
 user_states = {}
