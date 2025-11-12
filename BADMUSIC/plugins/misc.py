@@ -113,6 +113,14 @@ async def vc_watcher(sleep=15):
                 await sent.reply_text(_lang["auto_left"])
 
 
+async def delay_delete(chat_id, message_id, delay):
+    await asyncio.sleep(delay)
+    try:
+        await app.delete_message(chat_id, message_id)
+    except:
+        pass
+
+
 async def vc_activity_tracker(sleep=10):
     last_participants = {}
 
@@ -131,18 +139,20 @@ async def vc_activity_tracker(sleep=10):
                 for user_id in joined:
                     user = await app.get_users(user_id)
                     username = f"@{user.username}" if user.username else "None"
-                    await app.send_message(
+                    msg = await app.send_message(
                         chat_id,
                         f"❖ ᴊᴏɪɴ ᴠᴄ\n\n● ɴᴀᴍᴇ ➥ {user.first_name} \n● ɪᴅ ➥ {user.id} \n● ᴜsᴇʀɴᴀᴍᴇ ➥ {username}",
                     )
+                    asyncio.create_task(delay_delete(chat_id, msg.id, 10))
 
                 for user_id in left:
                     user = await app.get_users(user_id)
                     username = f"@{user.username}" if user.username else "None"
-                    await app.send_message(
+                    msg = await app.send_message(
                         chat_id,
                         f"❖ ʟᴇᴀᴠᴇ ᴠᴄ\n\n● ɴᴀᴍᴇ ➥ {user.first_name} \n● ɪᴅ ➥ {user.id} \n● ᴜsᴇʀɴᴀᴍᴇ ➥ {username}",
                     )
+                    asyncio.create_task(delay_delete(chat_id, msg.id, 10))
 
                 last_participants[chat_id] = current_ids
             except Exception as e:
