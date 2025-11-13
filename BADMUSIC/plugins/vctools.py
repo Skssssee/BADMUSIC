@@ -12,7 +12,7 @@ from pyrogram.raw.types import ChatAdminRights
 from BADMUSIC import app, db
 
 # ==========================
-#  Filter Shortcuts
+#  Filters
 # ==========================
 other_filters = filters.group & ~filters.via_bot & ~filters.forwarded
 other_filters2 = filters.private & ~filters.via_bot & ~filters.forwarded
@@ -29,10 +29,13 @@ async def get_group_call(
     client: Client, message: Message, err_msg: str = ""
 ) -> Optional[InputGroupCall]:
     assistant = await db.get_assistant(message.chat.id)
-    if hasattr(assistant, "client"):
-        cli = assistant.client
-    else:
-        cli = assistant
+
+    # Access Pyrogram client from PyTgCalls
+    cli = getattr(assistant, "_client", None)
+    if cli is None:
+        await app.send_message(message.chat.id, "❌ Assistant client not found.")
+        return False
+
     chat_peer = await cli.resolve_peer(message.chat.id)
 
     if isinstance(chat_peer, (InputPeerChannel, InputPeerChat)):
@@ -58,8 +61,10 @@ async def start_group_call(c: Client, m: Message):
     if assistant is None:
         return await app.send_message(chat_id, "❌ Error: Assistant not found!")
 
-    # Ensure assistant client exists
-    cli = assistant.client if hasattr(assistant, "client") else assistant
+    cli = getattr(assistant, "_client", None)
+    if cli is None:
+        return await app.send_message(chat_id, "❌ Assistant Pyrogram client missing!")
+
     ass_user = await cli.get_me()
     assid = ass_user.id
 
@@ -79,7 +84,6 @@ async def start_group_call(c: Client, m: Message):
         await msg.edit_text("✅ Voice chat started successfully ⚡️")
     except ChatAdminRequired:
         try:
-            # Give temporary admin rights
             await app.promote_chat_member(
                 chat_id,
                 assid,
@@ -106,7 +110,6 @@ async def start_group_call(c: Client, m: Message):
                 )
             )
 
-            # Revoke permissions
             await app.promote_chat_member(
                 chat_id,
                 assid,
@@ -124,7 +127,7 @@ async def start_group_call(c: Client, m: Message):
 
             await msg.edit_text("✅ Voice chat started successfully ⚡️")
         except Exception as e:
-            await msg.edit_text(f"⚠️ Error: Give bot video chat permission!\n\n{e}")
+            await msg.edit_text(f"⚠️ Error: Give bot permission for video chat.\n{e}")
 
 
 # ==========================
@@ -138,7 +141,10 @@ async def stop_group_call(c: Client, m: Message):
     if assistant is None:
         return await app.send_message(chat_id, "❌ Error: Assistant not found!")
 
-    cli = assistant.client if hasattr(assistant, "client") else assistant
+    cli = getattr(assistant, "_client", None)
+    if cli is None:
+        return await app.send_message(chat_id, "❌ Assistant Pyrogram client missing!")
+
     ass_user = await cli.get_me()
     assid = ass_user.id
 
@@ -153,7 +159,6 @@ async def stop_group_call(c: Client, m: Message):
     except Exception as e:
         if "GROUPCALL_FORBIDDEN" in str(e):
             try:
-                # Temporarily promote for closing
                 await app.promote_chat_member(
                     chat_id,
                     assid,
@@ -174,7 +179,6 @@ async def stop_group_call(c: Client, m: Message):
                     return
                 await cli.invoke(DiscardGroupCall(call=group_call))
 
-                # Revoke rights
                 await app.promote_chat_member(
                     chat_id,
                     assid,
