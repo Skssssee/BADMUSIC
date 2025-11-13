@@ -15,9 +15,9 @@ from pyrogram.raw.functions.phone import (
     ExportGroupCallInvite,
     GetGroupParticipants,
 )
-from pyrogram.raw.types import InputGroupCall, InputPeerChannel, InputPeerChat
+from pyrogram.raw.types import InputGroupCall, InputPeerChannel, InputPeerChat 
 from pyrogram.types import Message
-from pyrogram import ChatPrivileges 
+from pyrogram.raw.types import ChatAdminRights as ChatPrivileges
 
 from BADMUSIC.utils import admin_check
 from BADMUSIC.utils.database import get_assistant
