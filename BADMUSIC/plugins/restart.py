@@ -110,20 +110,11 @@ async def _logger(_, m: types.Message):
 async def _restart(_, m: types.Message):
     sent = await m.reply_text(m.lang["restarting"])
 
-    for directory in ["downloads", "cache"]:
-        try:
-            shutil.rmtree(directory)
-        except:
-            pass
+    for directory in ["cache", "downloads"]:
+        shutil.rmtree(directory, ignore_errors=True)
 
     await sent.edit_text(m.lang["restarted"])
+    asyncio.create_task(stop())
+    await asyncio.sleep(2)
 
-    try:
-        await app.exit()
-        await userbot.exit()
-        await db.close()
-    except:
-        pass
-
-    os.system(f"kill -9 {os.getpid()} && bash start")
-    exit()
+    os.execl(sys.executable, sys.executable, "-m", "BADMUSIC")
