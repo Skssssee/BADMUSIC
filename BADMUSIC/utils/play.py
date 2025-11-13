@@ -2,7 +2,7 @@ import asyncio
 
 from pyrogram import enums, errors, types
 
-from BADMUSIC import app, config, db, yt
+from BADMUSIC import app, config, db, queue, yt
 
 
 def checkUB(play):
@@ -18,6 +18,9 @@ def checkUB(play):
             len(m.command) < 2 or (len(m.command) == 2 and m.command[1] == "-f")
         ):
             return await m.reply_text(m.lang["play_usage"])
+
+        if len(queue.get_queue(m.chat.id)) >= config.QUEUE_LIMIT:
+            return await m.reply_text(m.lang["play_queue_full"].format(config.QUEUE_LIMIT))
 
         force = m.command[0].endswith("force") or (
             len(m.command) > 1 and "-f" in m.command[1]
@@ -108,4 +111,3 @@ def checkUB(play):
         return await play(_, m, force, video, url)
 
     return wrapper
-    
