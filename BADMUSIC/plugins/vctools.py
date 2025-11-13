@@ -4,7 +4,6 @@ import uuid
 from typing import List, Optional, Union
 
 from pyrogram import filters, Client
-from pyrogram.errors import ChatAdminRequired
 from pyrogram.errors.exceptions.bad_request_400 import ChatAdminRequired as ChatAdminRequiredException
 from pyrogram.raw import base
 from pyrogram.raw.functions.channels import GetFullChannel
@@ -16,7 +15,8 @@ from pyrogram.raw.functions.phone import (
     GetGroupParticipants,
 )
 from pyrogram.raw.types import InputGroupCall, InputPeerChannel, InputPeerChat
-from pyrogram.types import ChatPrivileges, Message
+from pyrogram.types.user_and_chats import ChatPrivileges
+from pyrogram.types import Message
 
 from BADMUSIC.utils import admin_check
 from BADMUSIC.utils.database import get_assistant
@@ -67,16 +67,13 @@ async def start_group_call(c: Client, m: Message):
         peer = await assistant.resolve_peer(chat_id)
         await assistant.invoke(
             CreateGroupCall(
-                peer=InputPeerChannel(
-                    channel_id=peer.channel_id,
-                    access_hash=peer.access_hash,
-                ),
+                peer=peer,
                 random_id=assistant.rnd_id() // 9000000000,
                 title=call_name,
             )
         )
         await msg.edit_text("ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ꜱᴛᴀʀᴛᴇᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ⚡️~!")
-    except ChatAdminRequired:
+    except ChatAdminRequiredException:
         try:
             await app.promote_chat_member(
                 chat_id,
@@ -95,10 +92,7 @@ async def start_group_call(c: Client, m: Message):
             peer = await assistant.resolve_peer(chat_id)
             await assistant.invoke(
                 CreateGroupCall(
-                    peer=InputPeerChannel(
-                        channel_id=peer.channel_id,
-                        access_hash=peer.access_hash,
-                    ),
+                    peer=peer,
                     random_id=assistant.rnd_id() // 9000000000,
                     title=call_name,
                 )
@@ -228,10 +222,13 @@ async def vclink(client, message: Message):
         chat_peer = await assistant.resolve_peer(chat_id)
         if isinstance(chat_peer, InputPeerChannel):
             full_chat = (await assistant.invoke(GetFullChannel(channel=chat_peer))).full_chat
-            invite = await assistant.invoke(ExportGroupCallInvite(call=full_chat.call))
-            await hell.edit_text(f"ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ʟɪɴᴋ: {invite.link}")
+        elif isinstance(chat_peer, InputPeerChat):
+            full_chat = (await assistant.invoke(GetFullChat(chat_id=chat_peer.chat_id))).full_chat
         else:
             await hell.edit_text("ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ ᴏɴʟʏ ᴡᴏʀᴋꜱ ɪɴ ɢʀᴏᴜᴘꜱ/ᴄʜᴀɴɴᴇʟꜱ")
+            return
+        invite = await assistant.invoke(ExportGroupCallInvite(call=full_chat.call))
+        await hell.edit_text(f"ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ʟɪɴᴋ: {invite.link}")
 
     except ChatAdminRequiredException:
         await hell.edit_text(
@@ -271,27 +268,30 @@ async def vcmembers(client, message: Message):
         chat_peer = await assistant.resolve_peer(chat_id)
         if isinstance(chat_peer, InputPeerChannel):
             full_chat = (await assistant.invoke(GetFullChannel(channel=chat_peer))).full_chat
-            participants = await assistant.invoke(
-                GetGroupParticipants(
-                    call=full_chat.call,
-                    ids=[],
-                    sources=[],
-                    offset="",
-                    limit=1000,
-                )
-            )
-            count = participants.count
-            text = f"ᴛᴏᴛᴀʟ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴍᴇᴍʙᴇʀꜱ: {count}\n"
-            users = []
-            for participant in participants.participants:
-                users.append(participant.peer.user_id)
-            for i in users:
-                b = await app.get_users(i)
-                text += f"[{b.first_name + (' ' + b.last_name if b.last_name else '')}](tg://user?id={b.id})\n"
-
-            await hell.edit_text(text)
+        elif isinstance(chat_peer, InputPeerChat):
+            full_chat = (await assistant.invoke(GetFullChat(chat_id=chat_peer.chat_id))).full_chat
         else:
             await hell.edit_text("ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ ᴏɴʟʏ ᴡᴏʀᴋꜱ ɪɴ ɢʀᴏᴜᴘꜱ/ᴄʜᴀɴɴᴇʟꜱ")
+            return
+        participants = await assistant.invoke(
+            GetGroupParticipants(
+                call=full_chat.call,
+                ids=[],
+                sources=[],
+                offset="",
+                limit=1000,
+            )
+        )
+        count = participants.count
+        text = f"ᴛᴏᴛᴀʟ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴍᴇᴍʙᴇʀꜱ: {count}\n"
+        users = []
+        for participant in participants.participants:
+            users.append(participant.peer.user_id)
+        for i in users:
+            b = await app.get_users(i)
+            text += f"[{b.first_name + (' ' + b.last_name if b.last_name else '')}](tg://user?id={b.id})\n"
+
+        await hell.edit_text(text)
 
     except ChatAdminRequiredException:
         await hell.edit_text(
