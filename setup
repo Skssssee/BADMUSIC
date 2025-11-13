@@ -11,33 +11,7 @@ cpink='\033[1;35m'
 cblue='\033[1;34m'
 credlight='\033[1;31m'
 cmagenta='\033[0;35m'
-cyellow='\033[1;33m'
 creset='\033[0m'
-
-sc_welcome="ᴡᴇʟᴄᴏᴍᴇ"
-sc_installer="ɪɴsᴛᴀʟʟᴇʀ"
-sc_api_id="ᴀᴘɪ ɪᴅ"
-sc_api_hash="ᴀᴘɪ ʜᴀsʜ"
-sc_bot_token="ʙᴏᴛ ᴛᴏᴋᴇɴ"
-sc_owner_id="ᴏᴡɴᴇʀ ɪᴅ"
-sc_mongo_db="ᴍᴏɴɢᴏ ᴅʙ ᴜʀɪ"
-sc_log_group="ʟᴏɢ ɢʀᴏᴜᴘ ɪᴅ"
-sc_string_session="sᴛʀɪɴɢ sᴇssɪᴏɴ"
-sc_processing="ᴘʀᴏᴄᴇssɪɴɢ"
-sc_thanks="ᴛʜᴀɴᴋs"
-sc_start_bot="sᴛᴀʀᴛ ʙᴏᴛ"
-sc_update="ᴜᴘᴅᴀᴛᴇ"
-sc_packages="ᴘᴀᴄᴋᴀɢᴇs"
-sc_node="ɴᴏᴅᴇ"
-sc_installation="ɪɴsᴛᴀʟʟᴀᴛɪᴏɴ"
-sc_completed="ᴄᴏᴍᴘʟᴇᴛᴇᴅ"
-sc_configure="ᴄᴏɴғɪɢᴜʀᴇ"
-sc_optional="ᴏᴘᴛɪᴏɴᴀʟ"
-sc_vars="ᴠᴀʀs"
-sc_wait="ᴡᴀɪᴛ"
-sc_saved="sᴀᴠᴇᴅ"
-sc_happy="ʜᴀᴘᴘʏ"
-sc_streaming="sᴛʀᴇᴀᴍɪɴɢ"
 
 pprint() {
     color=$1
@@ -51,101 +25,97 @@ color_reset() {
 
 yesnoprompt() {
     old_stty_cfg=$(stty -g)
-    stty raw -echo 
+    stty raw -echo
     answer=$(head -c 1)
     stty $old_stty_cfg
     echo "$answer" | grep -iq "^y"
 }
 
-# Animated header function with small caps
 BADMUSIC_HEADER() {
-    clear
-    echo -e "${cskyblue}                                                 "
     echo -e "${cskyblue}  ____          _____  __  __ _    _  _____ _____ _____ "
-    echo -e "${cpink} |  _ \   /\   |  __ \|  \/  | |  | |/ ____|_   _/ ____|"
-    echo -e "${cskyblue} | |_) | /  \  | |  | | \  / | |  | | (___   | || |     "
-    echo -e "${cpink} |  _ < / /\ \ | |  | | |\/| | |  | |\___ \  | || |     "
-    echo -e "${cskyblue} | |_) / ____ \| |__| | |  | | |__| |____) |_| || |____ "
-    echo -e "${cpink} |____/_/    \_\_____/|_|  |_|\____/|_____/|_____\_____|${creset}"
-    echo -e "${cyellow}                                                 "
-    echo -e "${cyellow}                  🔥 ${sc_installer^^} 🔥${creset}\n"
+    echo -e "${cskyblue} |  _ \   /\   |  __ \|  \/  | |  | |/ ____|_   _/ ____|"
+    echo -e "${cpink} | |_) | /  \  | |  | | \  / | |  | | (___   | || |     "
+    echo -e "${cskyblue} |  _ < / /\ \ | |  | | |\/| | |  | |\___ \  | || |     "
+    echo -e "${cpink} | |_) / ____ \| |__| | |  | | |__| |____) |_| || |____ "
+    echo -e "${cskyblue} |____/_/    \_\_____/|_|  |_|\____/|_____/|_____\_____|${creset}"
 }
 
-# Spinner for loading
-spinner() {
-    local pid=$!
-    local delay=0.1
-    local spinstr='|/-\'
-    while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
-        local temp=${spinstr#?}
-        printf " [%c]  " "$spinstr"
-        local spinstr=$temp${spinstr%"$temp"}
-        sleep $delay
-        printf "\b\b\b\b\b\b"
-    done
-    printf "    \b\b\b\b"
-}
-
+# Clear screen and show header
 clear
 BADMUSIC_HEADER
 
-pprint "${cparrot}" "${sc_welcome^^} ᴛᴏ ʙᴀᴅᴍᴜsɪᴄ ${sc_installer^^}! 🚀\n"
-pprint "${cblue}" "ɪғ ʏᴏᴜ sᴇᴇ ᴀɴʏ ᴇʀʀᴏʀ ᴅᴜʀɪɴɢ ɪɴsᴛᴀʟʟᴀᴛɪᴏɴ ᴘʀᴏᴄᴇss, ᴘʟᴇᴀsᴇ ʀᴇғᴇʀ ᴛᴏ ᴛʜᴇsᴇ ғɪʟᴇs ғᴏʀ ʟᴏɢs:\n"
-pprint "${cjamun}"   "📝 ғᴏʀ ɴᴏᴅᴇ js ᴇʀʀᴏʀs, ᴄʜᴇᴄᴋᴏᴜᴛ ɴᴏᴅᴇʟᴏɢ.ᴛxᴛ\n"
-pprint "${credlight}" "📝 ғᴏʀ ᴘʏᴘɪ ᴘᴀᴄᴋᴀɢᴇs ᴇʀʀᴏʀs, ᴄʜᴇᴄᴋᴏᴜᴛ ᴘʏᴘɪʟᴏɢ.ᴛxᴛ\n"
+pprint "${cparrot}" "\nWelcome to BADMUSIC Installer!\n"
+pprint "${cblue}" "If you see any error during Installation Process, Please refer to these files for logs:\n"
+pprint "${cjamun}"   "For node js errors , Checkout nodelog.txt\n"
+pprint "${credlight}" "For pypi packages errors , Checkout pypilog.txt\n"
 sleep 2
 
-pprint "${cgreen}" "sᴄʀɪᴘᴛ ɴᴇᴇᴅs sᴜᴅᴏ ᴘʀɪᴠɪʟᴇɢᴇs ɪɴ ᴏʀᴅᴇʀ ᴛᴏ ${sc_update^^} & ɪɴsᴛᴀʟʟ ᴘᴀᴄᴋᴀɢᴇs.\n"
-sudo test &>/dev/null || { pprint "${cred}" "❌ sᴜᴅᴏ ᴀᴄᴄᴇss ᴅᴇɴɪᴇᴅ. ᴇxɪᴛɪɴɢ...\n"; exit 1; }
+# Check for sudo privileges
+pprint "${cgreen}" "Script needs sudo privileges in order to update & install packages.\n"
+if ! sudo test &>/dev/null; then
+    pprint "${cred}" "Sudo privileges not available. Please run as sudo or fix permissions.\n"
+    exit 1
+fi
+pprint "${cgreen}" "Sudo check passed.\n"
+sleep 1
 
 update() {
-    pprint "${cyellow}" "🔄 ${sc_update^^}.. " && spinner
-    sudo apt update -qq 2>&1 | grep "can be upgraded" &>/dev/null
-    if [ $? -eq 0 ]; then
-        pprint "${cgreen}" "✅ ${sc_update^^} ᴀᴠᴀɪʟᴀʙʟᴇ\n"
-        pprint "${cparrot}" "ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴀᴜᴛᴏᴍᴀᴛɪᴄᴀʟʟʏ ${sc_update^^} ᴘᴀᴄᴋᴀɢᴇs? (ʏ/ɴ): "
+    pprint "${cjamun}" "\nUpdating package list.. "
+    if sudo apt update &>/dev/null; then
+        pprint "${cgreen}" "DONE\n"
+    else
+        pprint "${cred}" "FAILED\n"
+        exit 1
+    fi
+
+    # Check for upgrades
+    if sudo apt list --upgradable &>/dev/null | grep -q "done"; then
+        pprint "${cgreen}" "No updates available.\n"
+    else
+        pprint "${cgreen}" "UPDATES AVAILABLE\n"
+        pprint "${cparrot}" "Do you want to automatically upgrade (y/n)? "
         if yesnoprompt; then
-            pprint "${cyellow}" "🔄 ${sc_update^^} ᴘᴀᴄᴋᴀɢᴇs.. " && spinner
-            if sudo apt upgrade -y -qq &>/dev/null; then
-                pprint "${cgreen}" "✅ ᴅᴏɴᴇ!\n"
+            pprint "${cjamun}" "Upgrading packages.. "
+            if sudo apt upgrade -y &>/dev/null; then
+                pprint "${cgreen}" "DONE!\n"
             else
-                pprint "${cred}" "❌ ${sc_update^^} ғᴀɪʟᴇᴅ!\n"
+                pprint "${cred}" "FAILED!\n"
                 exit 1
             fi
         else
-            echo -e "\n${cblue}sᴋɪᴘᴘɪɴɢ ${sc_update^^}s. ᴘʀᴏᴄᴇᴇᴅ ᴡɪᴛʜ ᴄᴀᴜᴛɪᴏɴ! ⚠️\n"
+            pprint "${cgreen}" "Skipping upgrades.\n"
         fi
-    else
-        pprint "${cgreen}" "✅ ᴀʟʀᴇᴀᴅʏ ᴜᴘ ᴛᴏ ᴅᴀᴛᴇ\n"
     fi
 }
 
 packages() {
-    if ! command -v pip &>/dev/null; then
-        pprint "${cyellow}" "🔄 ɪɴsᴛᴀʟʟɪɴɢ ᴘɪᴘ..." && spinner
-        if sudo apt install python3-pip -y -qq 2>>pypilog.txt; then
-            pprint "${cgreen}" "✅ sᴜᴄᴄᴇss.\n"
+    # Install pip if not present
+    if ! command -v pip3 &>/dev/null; then
+        pprint "${cparrot}" "Couldn't find pip3, installing now..."
+        if sudo apt install python3-pip -y &>>pypilog.txt 2>&1; then
+            pprint "${cgreen}" "SUCCESS.\n"
         else
-            pprint "${cred}" "❌ ғᴀɪʟᴇᴅ. ᴄʜᴇᴄᴋ ᴘʏᴘɪʟᴏɢ.ᴛxᴛ\n"
+            pprint "${cred}" "FAILED. Check pypilog.txt.\n"
             exit 1
         fi
     fi
 
+    # Install ffmpeg if not present
     if ! command -v ffmpeg &>/dev/null; then
-        pprint "${cyellow}" "🔄 ɪɴsᴛᴀʟʟɪɴɢ ғғᴍᴘᴇɢ..." && spinner
-        if sudo apt install ffmpeg -y -qq &>/dev/null; then
-            pprint "${cgreen}" "✅ sᴜᴄᴄᴇss.\n"
+        pprint "${cparrot}" "Couldn't find ffmpeg, installing now..."
+        if sudo apt install ffmpeg -y &>/dev/null; then
+            pprint "${cgreen}" "SUCCESS.\n"
         else
-            pprint "${cred}" "❌ ғᴀɪʟᴇᴅ.\n"
-            pprint "${credlight}" "ʏᴏᴜ ɴᴇᴇᴅ ᴛᴏ ɪɴsᴛᴀʟʟ ғғᴍᴘᴇɢ ᴍᴀɴᴜᴀʟʟʏ ᴛᴏ ᴅᴇᴘʟᴏʏ ʙᴀᴅᴍᴜsɪᴄ. ᴇxɪᴛɪɴɢ...\n"
+            pprint "${cred}" "FAILED.\n"
+            pprint "${cred}" "You need to install ffmpeg manually in order to deploy BADMUSIC, exiting...\n"
             exit 1
         fi
     fi
 
-    # Check ffmpeg version and warn if necessary
-    fv=$(ffmpeg -version 2>&1 | grep -Po 'version (3\.[0-9]+)' | head -1)
-    if [[ "$fv" == "version 3."* ]]; then
-        pprint "${credlight}" "⚠️  ᴘʟᴀʏɪɴɢ ʟɪᴠᴇ sᴛʀᴇᴀᴍs ᴍᴀʏ ɴᴏᴛ ᴡᴏʀᴋ ᴡɪᴛʜ ғғᴍᴘᴇɢ $fv (ʀᴇQᴜɪʀᴇs 4+).\n"
+    # Check ffmpeg version and warn if <4
+    fv=$(ffmpeg -version 2>/dev/null | grep -Po 'version (3\.[0-9]+)' | head -1)
+    if [[ "$fv" =~ ^3\..* ]]; then
+        pprint "${cjamun}" "⚠️  Playing live streams may not work with ffmpeg $fv. Live streams require version 4+.\n"
     fi
 }
 
@@ -153,89 +123,70 @@ node() {
     if command -v npm &>/dev/null; then
         return
     fi
-    pprint "${cyellow}" "🔄 ɪɴsᴛᴀʟʟɪɴɢ ɴᴏᴅᴇ.js ʟᴛs ᴀɴᴅ ɴᴘᴍ..." && spinner
-    if curl -fssL https://deb.nodesource.com/setup_lts.x | sudo -E bash - &>>nodelog.txt &&
-       sudo apt install -y nodejs &>>nodelog.txt &&
-       sudo npm i -g npm &>>nodelog.txt; then
-        pprint "${cgreen}" "✅ sᴜᴄᴄᴇss!\n"
+    pprint "${cmagenta}" "Installing Node.js and NPM.. "
+    if curl -fssL https://deb.nodesource.com/setup_20.x | sudo -E bash - &>>nodelog.txt && \
+       sudo apt install -y nodejs &>>nodelog.txt && \
+       sudo npm install -g npm &>>nodelog.txt; then
+        pprint "${cgreen}" "SUCCESS!\n"
     else
-        pprint "${cred}" "❌ ғᴀɪʟᴇᴅ. ᴄʜᴇᴄᴋ ɴᴏᴅᴇʟᴏɢ.ᴛxᴛ\n"
+        pprint "${cred}" "FAILED. Check nodelog.txt.\n"
         exit 1
     fi
 }
 
 installation() {
-    pprint "${cyellow}" "🔄 ᴜᴘɢʀᴀᴅɪɴɢ ᴘɪᴘ ᴀɴᴅ ɪɴsᴛᴀʟʟɪɴɢ ᴅᴇᴘᴇɴᴅᴇɴᴄʏ ᴘᴀᴄᴋᴀɢᴇs..." && spinner
-    if pip3 install -U pip &>>pypilog.txt &&
+    pprint "${cparrot}" "\nUpgrading pip and installing dependency packages..."
+    if pip3 install -U pip &>>pypilog.txt && \
        pip3 install -U -r requirements.txt &>>pypilog.txt; then
-        pprint "${cgreen}" "✅ ᴅᴏɴᴇ.\n"
+        pprint "${cgreen}" "DONE.\n"
     else
-        pprint "${cred}" "❌ ғᴀɪʟᴇᴅ. ᴄʜᴇᴄᴋ ᴘʏᴘɪʟᴏɢ.ᴛxᴛ\n"
+        pprint "${cred}" "FAILED. Check pypilog.txt.\n"
         exit 1
     fi
 }
 
-# Run installations
-pprint "${cparrot}" "\n🚀 sᴛᴀʀᴛɪɴɢ ${sc_installation^^}...\n"
+# Run setup steps
 update
 packages
 node
 installation
 
-pprint "${cgreen}" "\n🎉 ʙᴀᴅᴍᴜsɪᴄ ${sc_completed^^} sᴜᴄᴄᴇssғᴜʟʟʏ!\n"
+pprint "${cgreen}" "\n\n🎉 BADMUSIC Installation Completed!\n"
 sleep 2
+clear
 
-# Config input section
 BADMUSIC_HEADER
-pprint "${cparrot}" "ɴᴏᴡ, ʟᴇᴛ's ${sc_configure^^} ʏᴏᴜʀ ʙᴏᴛ! 📝\n\n"
 
-pprint "${cskyblue}" "🔑 ${sc_api_id^^}: "; color_reset; read -r api_id
-pprint "${cpink}"     "🔑 ${sc_api_hash^^}: "; color_reset; read -r api_hash
-pprint "${cblue}"     "🤖 ${sc_bot_token^^}: "; color_reset; read -r bot_token
-pprint "${cblack}"    "👑 ${sc_owner_id^^}: "; color_reset; read -r ownid
-pprint "${cred}"      "🗄️  ${sc_mongo_db^^}: "; color_reset; read -r mongo_db
-pprint "${cmagenta}"  "📊 ${sc_log_group^^}: "; color_reset; read -r logger
-pprint "${cyellow}"   "🔗 ${sc_string_session^^}: "; color_reset; read -r string_session
+# Prompt for environment variables
+pprint "${cparrot}"   "Enter API ID: "; color_reset; read -r api_id
+pprint "${cpink}"     "Enter API HASH: "; color_reset; read -r api_hash
+pprint "${cskyblue}"  "Enter BOT TOKEN: "; color_reset; read -r bot_token
+pprint "${cblack}"    "Enter OWNER ID: "; color_reset; read -r ownid
+pprint "${cred}"      "Enter MONGO DB URI: "; color_reset; read -r mongo_db
+pprint "${cblue}"     "Enter LOG GROUP ID: "; color_reset; read -r logger
+pprint "${cmagenta}"  "Enter STRING SESSION (SESSION1): "; color_reset; read -r string_session
 
-# Optional vars prompt
-pprint "${cparrot}" "\n💡 ᴅᴏ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴀᴅᴅ ${sc_optional^^} ${sc_vars^^} ʟɪᴋᴇ ᴀᴘɪ_ᴜʀʟ, ᴄᴏᴏᴋɪᴇs_ᴇɴᴀʙʟᴇᴅ ᴇᴛᴄ.? (ʏ/ɴ): "
-if yesnoprompt; then
-    pprint "${cblue}" "🌐 ᴀᴘɪ ᴜʀʟ (ᴅᴇғᴀᴜʟᴛ: ʜᴛᴛᴘ://47.129.201.23:2020/ᴛʀʏ): "; color_reset; read -r api_url
-    api_url=${api_url:-"http://47.129.201.23:2020/try"}
-    pprint "${cjamun}" "🍪 ᴄᴏᴏᴋɪᴇs_ᴇɴᴀʙʟᴇᴅ (ᴛʀᴜᴇ/ғᴀʟsᴇ, ᴅᴇғᴀᴜʟᴛ: ғᴀʟsᴇ): "; color_reset; read -r cookies_enabled
-    cookies_enabled=${cookies_enabled:-"False"}
-    # Add more if needed
-else
-    api_url="http://47.129.201.23:2020/try"
-    cookies_enabled="False"
-fi
+pprint "${cgreen}" "\n\nProcessing your vars, wait a while!"
 
-pprint "${cyellow}" "\n⏳ ${sc_processing^^} ʏᴏᴜʀ ${sc_vars^^}, ${sc_wait^^} ᴀ ᴡʜɪʟᴇ! " && spinner
-
-# Backup existing .env if exists
+# Remove existing .env if present
 if [ -f .env ]; then
-    cp .env .env.backup
-    pprint "${cblue}" "📁 ʙᴀᴄᴋᴜᴘ ᴏғ ᴇxɪsᴛɪɴɢ .ᴇɴᴠ ᴄʀᴇᴀᴛᴇᴅ ᴀs .ᴇɴᴠ.ʙᴀᴄᴋᴜᴘ\n"
+    rm .env
 fi
 
-# Create .env
+# Create .env file with vars
 cat > .env << EOF
-API_ID = $api_id
-API_HASH = $api_hash
-BOT_TOKEN = $bot_token
-MONGO_URL = $mongo_db
-LOGGER_ID = $logger
-SESSION = $string_session
-OWNER_ID = $ownid
-API_URL = $api_url
-API_ENABLED = True
-COOKIES_ENABLED = $cookies_enabled
+API_ID=$api_id
+API_HASH=$api_hash
+BOT_TOKEN=$bot_token
+MONGO_URL=$mongo_db
+LOGGER_ID=$logger
+OWNER_ID=$ownid
+SESSION=$string_session
 EOF
 
 clear
-BADMUSIC_HEADER
 
-pprint "${cpink}" "✨ ${sc_thanks^^} ғᴏʀ ᴜsɪɴɢ ʙᴀᴅᴍᴜsɪᴄ ${sc_installer^^}! ʏᴏᴜʀ ${sc_vars^^} ʜᴀᴠᴇ ʙᴇᴇɴ ${sc_saved^^} sᴜᴄᴄᴇssғᴜʟʟʏ! 🎊\n"
-pprint "${cblue}" "📝 ɪғ ʏᴏᴜ ᴡᴀɴɴᴀ ᴀᴅᴅ/ᴇᴅɪᴛ ᴍᴏʀᴇ ${sc_vars^^}, ᴀᴅᴅ ᴛʜᴇᴍ ɪɴ ʏᴏᴜʀ ᴇɴᴠ ʙʏ : ᴠɪ .ᴇɴᴠ\n"
-pprint "${cgreen}" "🚀 ɴᴏᴡ ʏᴏᴜ ᴄᴀɴ ${sc_start_bot^^} ᴛʜᴇ ʙᴏᴛ ʙʏ : ʙᴀsʜ sᴛᴀʀᴛ\n\n"
-pprint "${cyellow}" "${sc_happy^^} ${sc_streaming^^}! 🎵🔥\n"
+pprint "${cpink}" "\n\n✅ Thanks for using BADMUSIC installer! Your vars have been saved successfully to .env\n"
+pprint "${cjamun}" "💡 If you want to add more variables (e.g., API_URL, COOKIES_URL), edit .env with: vi .env or nano .env\n"
+pprint "${cparrot}" "🚀 Now you can start the bot by: bash start\n\n"
+pprint "${cgreen}" "Happy Music-ing! 🎵\n"
