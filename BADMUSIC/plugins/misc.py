@@ -68,7 +68,7 @@ async def update_timer(length=10):
                 percentage = int((played / duration) * 100)
                 Bad = percentage 
 
-                if 0 < Bad <= 10:
+                if 0 <= Bad <= 10:
                     ba = "⚪─────────"
                 elif 10 < Bad < 20:
                     ba = "━⚪────────"
@@ -91,11 +91,12 @@ async def update_timer(length=10):
 
                 timer = ba  
 
-                if remaining <= 30:
-                    next.file_path = await yt.download(next.id, video=next.video)
-                    if next and not next.file_path:
+                next_song = queue.get_next(chat_id)  
+                if remaining <= 30 and next_song:
+                    next_song.file_path = await yt.download(next_song.id, video=next_song.video)
+                    if not next_song.file_path:
                         try:
-                            next.file_path = await yt.download(next.id, video=next.video)
+                            next_song.file_path = await yt.download(next_song.id, video=next_song.video)
                         except:
                             pass
 
