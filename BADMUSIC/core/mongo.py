@@ -2,6 +2,7 @@ from random import randint
 from time import time
 
 from pymongo import AsyncMongoClient
+from pymongo.errors import BulkWriteError, WriteError
 
 from BADMUSIC import config, logger, userbot
 
