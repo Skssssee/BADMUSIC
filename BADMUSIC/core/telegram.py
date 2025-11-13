@@ -4,6 +4,7 @@ import time
 
 from pyrogram import types
 
+from BADMUSIC import config
 from BADMUSIC.utils import Media, buttons, utils
 
 
@@ -32,6 +33,10 @@ class Telegram:
         file_title = getattr(media, "title", "Telegram File") or "Telegram File"
         duration = getattr(media, "duration", 0)
         video = bool(getattr(media, "mime_type", "").startswith("video/"))
+
+        if duration > config.DURATION_LIMIT:
+            await sent.edit_text(sent.lang["play_duration_limit"].format(config.DURATION_LIMIT // 60))
+            return await sent.stop_propagation()
 
         if file_size > 200 * 1024 * 1024:
             await sent.edit_text(sent.lang["dl_limit"])
@@ -76,10 +81,10 @@ class Telegram:
                 await task
                 self.active.remove(file_id)
                 self.active_tasks.pop(msg_id, None)
+                await sent.edit_text(
+                    sent.lang["dl_complete"].format(round(time.time() - start_time, 2))
+                )
 
-            await sent.edit_text(
-                sent.lang["dl_complete"].format(round(time.time() - start_time, 2))
-            )
             return Media(
                 id=file_id,
                 duration=time.strftime("%M:%S", time.gmtime(duration)),
