@@ -11,7 +11,7 @@ from pyrogram.raw.functions.phone import (
     ExportGroupCallInvite,
     GetGroupParticipants,
 )
-from pyrogram.types import Message, ChatPrivileges
+from pyrogram.types import Message
 from BADMUSIC.utils import admin_check
 from BADMUSIC import Bad, app, config, userbot
 
@@ -42,16 +42,7 @@ async def startvc(client, message: Message):
             await app.promote_chat_member(
                 message.chat.id, 
                 assistant.id,  
-                privileges=ChatPrivileges(
-                    can_change_info=False,
-                    can_invite_users=False,
-                    can_delete_messages=False,
-                    can_restrict_members=False,
-                    can_pin_messages=False,
-                    can_promote_members=False,
-                    can_manage_chat=False,
-                    can_manage_video_chats=True,
-                ),
+                can_manage_video_chats=True,
             )
             await assistant.invoke(
                 CreateGroupCall(
