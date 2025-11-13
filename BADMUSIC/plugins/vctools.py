@@ -63,7 +63,8 @@ async def startvc(client, message: Message):
         )
 
 
-@app.on_message(filters.command("endvc") & admin_check)
+@app.on_message(filters.command("endvc"))
+@admin_check
 async def endvc(client, message: Message):
     hell = await message.reply_text("ᴇɴᴅɪɴɢ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ...")
     if len(userbot.clients) == 0:
@@ -93,7 +94,8 @@ async def endvc(client, message: Message):
             await hell.edit_text(e)
 
 
-@app.on_message(filters.command("vclink") & admin_check)
+@app.on_message(filters.command("vclink"))
+@admin_check
 async def vclink(client, message: Message):
     if len(userbot.clients) == 0:
         await message.reply("ɴᴏ ᴀꜱꜱɪꜱᴛᴀɴᴛ ᴀᴠᴀɪʟᴀʙʟᴇ.")
