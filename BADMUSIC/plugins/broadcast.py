@@ -1,3 +1,4 @@
+import os
 import asyncio
 
 from pyrogram import errors, filters, types
@@ -41,6 +42,7 @@ async def _broadcast(_, message: types.Message):
     )).pin(disable_notification=False)
     await asyncio.sleep(5)
 
+    failed = ""
     for chat in chats:
         if not broadcasting:
             await sent.edit_text(message.lang["gcast_stopped"].format(count, ucount))
@@ -59,11 +61,21 @@ async def _broadcast(_, message: types.Message):
             await asyncio.sleep(0.1)
         except errors.FloodWait as fw:
             await asyncio.sleep(fw.value + 30)
-        except:
+        except Exception as ex:
+            failed += f"{chat} - {ex}\n"
             continue
 
+    text = message.lang["gcast_end"].format(count, ucount)
+    if failed:
+        with open("errors.txt", "w") as f:
+            f.write(failed)
+        await message.reply_document(
+            document="errors.txt",
+            caption=text,
+        )
+        os.remove("errors.txt")
     broadcasting = False
-    await sent.edit_text(message.lang["gcast_end"].format(count, ucount))
+    await sent.edit_text(text)
 
 
 @app.on_message(filters.command(["stop_gcast", "stop_broadcast"]) & app.sudoers)
