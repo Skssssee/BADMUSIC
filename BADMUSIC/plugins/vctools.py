@@ -44,7 +44,7 @@ async def get_group_call(
 async def start_group_call(c: Client, m: Message):
     chat_id = m.chat.id
     assistant = await db.get_assistant(chat_id)
-    ass = await assistant.get_me()
+    ass = await assistant.client.get_me()
     assid = ass.id
     if assistant is None:
         await app.send_message(chat_id, "ᴇʀʀᴏʀ ᴡɪᴛʜ ᴀꜱꜱɪꜱᴛᴀɴᴛ")
@@ -52,12 +52,18 @@ async def start_group_call(c: Client, m: Message):
     msg = await app.send_message(chat_id, "ꜱᴛᴀʀᴛɪɴɢ ᴛʜᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ..")
     try:
         peer = await assistant.resolve_peer(chat_id)
+        if isinstance(peer, InputPeerChannel):
+            create_peer = InputPeerChannel(
+                channel_id=peer.channel_id,
+                access_hash=peer.access_hash,
+            )
+        elif isinstance(peer, InputPeerChat):
+            create_peer = InputPeerChat(chat_id=peer.chat_id)
+        else:
+            raise ValueError("Unsupported peer type")
         await assistant.invoke(
             CreateGroupCall(
-                peer=InputPeerChannel(
-                    channel_id=peer.channel_id,
-                    access_hash=peer.access_hash,
-                ),
+                peer=create_peer,
                 random_id=assistant.rnd_id() // 9000000000,
             )
         )
@@ -79,12 +85,18 @@ async def start_group_call(c: Client, m: Message):
                 ),
             )
             peer = await assistant.resolve_peer(chat_id)
+            if isinstance(peer, InputPeerChannel):
+                create_peer = InputPeerChannel(
+                    channel_id=peer.channel_id,
+                    access_hash=peer.access_hash,
+                )
+            elif isinstance(peer, InputPeerChat):
+                create_peer = InputPeerChat(chat_id=peer.chat_id)
+            else:
+                raise ValueError("Unsupported peer type")
             await assistant.invoke(
                 CreateGroupCall(
-                    peer=InputPeerChannel(
-                        channel_id=peer.channel_id,
-                        access_hash=peer.access_hash,
-                    ),
+                    peer=create_peer,
                     random_id=assistant.rnd_id() // 9000000000,
                 )
             )
@@ -111,7 +123,7 @@ async def start_group_call(c: Client, m: Message):
 async def stop_group_call(c: Client, m: Message):
     chat_id = m.chat.id
     assistant = await db.get_assistant(chat_id)
-    ass = await assistant.get_me()
+    ass = await assistant.client.get_me()
     assid = ass.id
     if assistant is None:
         await app.send_message(chat_id, "ᴇʀʀᴏʀ ᴡɪᴛʜ ᴀꜱꜱɪꜱᴛᴀɴᴛ")
@@ -171,4 +183,3 @@ async def stop_group_call(c: Client, m: Message):
                 await msg.edit_text("ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ⚡️~!")
             except:
                 await msg.edit_text("ɢɪᴠᴇ ᴛʜᴇ ʙᴏᴛ ᴀʟʟ ᴘᴇʀᴍɪꜱꜱɪᴏɴꜱ ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ")
-                  
