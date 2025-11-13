@@ -69,7 +69,7 @@ async def update_timer(length=10):
                 timer = "—" * pos + "♡" + "—" * (length - pos - 1)
 
                 if remaining <= 30:
-                    next = queue.get_next(chat_id, check=True)
+                    next.file_path = await yt.download(next.id, video=next.video)
                     if next and not next.file_path:
                         try:
                             next.file_path = await yt.download(next.id, video=next.video)
