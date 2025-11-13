@@ -36,7 +36,7 @@ async def get_group_call(
             ).full_chat
         if full_chat is not None:
             return full_chat.call
-    await app.send_message(f"ɴᴏ ɢʀᴏᴜᴘ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ғᴏᴜɴᴅ** {err_msg}")
+    await app.send_message(f"ɴᴏ ɢʀᴏᴜᴘ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ғᴏᴜɴᴅ {err_msg}")
     return False
 
 
@@ -44,7 +44,7 @@ async def get_group_call(
 async def start_group_call(c: Client, m: Message):
     chat_id = m.chat.id
     assistant = await db.get_assistant(chat_id)
-    ass = await assistant.client.get_me()
+    ass = await assistant.mtproto.client.get_me()
     assid = ass.id
     if assistant is None:
         await app.send_message(chat_id, "ᴇʀʀᴏʀ ᴡɪᴛʜ ᴀꜱꜱɪꜱᴛᴀɴᴛ")
@@ -123,7 +123,7 @@ async def start_group_call(c: Client, m: Message):
 async def stop_group_call(c: Client, m: Message):
     chat_id = m.chat.id
     assistant = await db.get_assistant(chat_id)
-    ass = await assistant.client.get_me()
+    ass = await assistant.mtproto.client.get_me()
     assid = ass.id
     if assistant is None:
         await app.send_message(chat_id, "ᴇʀʀᴏʀ ᴡɪᴛʜ ᴀꜱꜱɪꜱᴛᴀɴᴛ")
