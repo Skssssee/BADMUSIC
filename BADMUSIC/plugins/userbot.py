@@ -1,292 +1,158 @@
-import logging
-import uuid
+import asyncio
 
-from typing import List, Optional, Union
+from pyrogram import filters
+from pyrogram.enums import ChatMemberStatus
+from pyrogram.errors import InviteRequestSent
 
-from pyrogram import filters, Client
-from pyrogram.errors import ChatAdminRequired
-from pyrogram.errors.exceptions.bad_request_400 import ChatAdminRequired as ChatAdminRequiredException
-from pyrogram.raw import base
-from pyrogram.raw.functions.channels import GetFullChannel
-from pyrogram.raw.functions.messages import GetFullChat
-from pyrogram.raw.functions.phone import (
-    CreateGroupCall,
-    DiscardGroupCall,
-    ExportGroupCallInvite,
-    GetGroupParticipants,
-)
-from pyrogram.raw.types import InputGroupCall, InputPeerChannel, InputPeerChat 
-from pyrogram.types import Message
-from pyrogram.raw.types import ChatAdminRights as ChatPrivileges
-
-from BADMUSIC.utils import admin_check
-from BADMUSIC import app, Bad, config, userbot
+from BADMUSIC import Bad, app, config, userbot
 
 
-other_filters = filters.group & ~filters.via_bot & ~filters.forwarded
-other_filters2 = filters.private & ~filters.via_bot & ~filters.forwarded
+links = {}
 
 
-def command(commands: Union[str, List[str]]):
-    return filters.command(commands, "")
-
-
-async def get_group_call(
-    client: Client, message: Message, err_msg: str = ""
-) -> Optional[InputGroupCall]:
-    chat_peer = await client.resolve_peer(message.chat.id)
-    if isinstance(chat_peer, (InputPeerChannel, InputPeerChat)):
-        if isinstance(chat_peer, InputPeerChannel):
-            full_chat = (
-                await client.invoke(GetFullChannel(channel=chat_peer))
-            ).full_chat
-        elif isinstance(chat_peer, InputPeerChat):
-            full_chat = (
-                await client.invoke(GetFullChat(chat_id=chat_peer.chat_id))
-            ).full_chat
-        if full_chat is not None:
-            return full_chat.call
-    await app.send_message(message.chat.id, f"**No group ᴠᴏɪᴄᴇ ᴄʜᴀᴛ Found{err_msg}**")
-    return False
-
-
-@app.on_message(filters.command(["vcstart", "startvc", "vcon"], ["/", "!"]))
-async def start_group_call(c: Client, m: Message):
-    logging.info(f"startvc called: {m.command}")
-    chat_id = m.chat.id
-    assistant = userbot
-    ass = await assistant.get_me()
-    assid = ass.id
-    msg = await app.send_message(chat_id, "ꜱᴛᴀʀᴛɪɴɢ ᴛʜᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ..")
-    call_name = m.text.split(maxsplit=1)[1] if len(m.command) > 1 else " VC"
+@app.on_message(filters.command(["ucjoin"]) & filters.user(app.owner))
+async def join_group(client, message):
+    chat_id = message.chat.id
+    done = await message.reply("<b>ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ ɪɴᴠɪᴛɪɴɢ ᴀssɪsᴛᴀɴᴛ</b>...")
+    await asyncio.sleep(1)
+    
+    # Get chat member object for bot
     try:
-        peer = await assistant.resolve_peer(chat_id)
-        await assistant.invoke(
-            CreateGroupCall(
-                peer=InputPeerChannel(
-                    channel_id=peer.channel_id,
-                    access_hash=peer.access_hash,
-                ),
-                random_id=assistant.rnd_id() // 9000000000,
-                title=call_name,
-            )
-        )
-        await msg.edit_text("ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ꜱᴛᴀʀᴛᴇᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ⚡️~!")
-    except ChatAdminRequired:
-        try:
-            await app.promote_chat_member(
-                chat_id,
-                assid,
-                privileges=ChatPrivileges(
-                    can_manage_chat=False,
-                    can_delete_messages=False,
-                    can_manage_video_chats=True,
-                    can_restrict_members=False,
-                    can_change_info=False,
-                    can_invite_users=False,
-                    can_pin_messages=False,
-                    can_promote_members=False,
-                ),
-            )
-            peer = await assistant.resolve_peer(chat_id)
-            await assistant.invoke(
-                CreateGroupCall(
-                    peer=InputPeerChannel(
-                        channel_id=peer.channel_id,
-                        access_hash=peer.access_hash,
-                    ),
-                    random_id=assistant.rnd_id() // 9000000000,
-                    title=call_name,
-                )
-            )
-            await app.promote_chat_member(
-                chat_id,
-                assid,
-                privileges=ChatPrivileges(
-                    can_manage_chat=False,
-                    can_delete_messages=False,
-                    can_manage_video_chats=False,
-                    can_restrict_members=False,
-                    can_change_info=False,
-                    can_invite_users=False,
-                    can_pin_messages=False,
-                    can_promote_members=False,
-                ),
-            )
-            await msg.edit_text("ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ꜱᴛᴀʀᴛᴇᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ⚡️~!")
-        except Exception as e:
-            await msg.edit_text(f"ᴘʟᴇᴀꜱᴇ ᴍᴀᴋᴇ ᴍᴇ ᴀᴅᴍɪɴ ᴡɪᴛʜ ᴍᴀɴᴀɢᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴘᴇʀᴍɪꜱꜱɪᴏɴꜱ ᴀɴᴅ ᴀᴅᴅ ɴᴇᴡ ᴀᴅᴍɪɴ ᴘᴏᴡᴇʀ.\nᴇʀʀᴏʀ: {e}")
-    except Exception as e:
-        await msg.edit_text(
-            f"ɢɪᴠᴇ ᴍᴀɴᴀɢᴇ ᴠᴄ ᴘᴏᴡᴇʀ ᴛᴏ ᴍʏ [ᴀꜱꜱɪꜱᴛᴀɴᴛ](tg://openmessage?user_id={assid}) ɪɴꜱᴛᴇᴀᴅ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ.\nᴇʀʀᴏʀ: {e}"
-        )
-
-
-@app.on_message(filters.command("endvc", ["/", "!"]) & admin_check)
-async def stop_group_call(c: Client, m: Message):
-    logging.info(f"endvc called: {m.command}")
-    chat_id = m.chat.id
-    assistant = userbot
-    ass = await assistant.get_me()
-    assid = ass.id
-    msg = await app.send_message(chat_id, "ᴄʟᴏꜱɪɴɢ ᴛʜᴇ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ..")
+        chat_member = await app.get_chat_member(chat_id, app.id)
+    except Exception:
+        await done.edit_text("<b>ᴜɴᴀʙʟᴇ ᴛᴏ ɢᴇᴛ ʙᴏᴛ sᴛᴀᴛᴜs.</b>")
+        return
+    
+    is_bot_admin = chat_member.status in [ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER]
+    has_username = bool(message.chat.username)
+    
+    if len(userbot.clients) == 0:
+        await done.edit_text("<b>ɴᴏ ᴀssɪsᴛᴀɴᴛ ᴀᴠᴀɪʟᴀʙʟᴇ.</b>")
+        return
+    
+    assistant = userbot.clients[0]  # Use the first client as assistant
+    assistant_id = assistant.me.id
+    
+    if not is_bot_admin:
+        await done.edit_text("<b>ɪ ɴᴇᴇᴅ ᴀᴅᴍɪɴ ᴘᴏᴡᴇʀ ᴛᴏ ɪɴᴠɪᴛᴇ ᴍʏ ᴀssɪsᴛᴀɴᴛ!</b>")
+        return
+    
+    # Check if assistant is already a member
     try:
-        if not (
-            group_call := (
-                await get_group_call(
-                    assistant, m, err_msg=", ɢʀᴏᴜᴘ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴀʟʀᴇᴀᴅʏ ᴇɴᴅᴇᴅ"
-                )
-            )
-        ):
+        assistant_member = await app.get_chat_member(chat_id, assistant_id)
+        if assistant_member.status not in [ChatMemberStatus.BANNED, ChatMemberStatus.KICKED, ChatMemberStatus.RESTRICTED]:
+            await done.edit_text("<b>✅ ᴀssɪsᴛᴀɴᴛ ᴀʟʀᴇᴀᴅʏ ᴊᴏɪɴᴇᴅ.</b>")
             return
-        await assistant.invoke(DiscardGroupCall(call=group_call))
-        await msg.edit_text("ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴄʟᴏꜱᴇᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ⚡️~!")
-    except ChatAdminRequiredException:
+        is_banned = True
+    except Exception:
+        is_banned = False
+    
+    if has_username:
+        # Public group
         try:
-            await app.promote_chat_member(
-                chat_id,
-                assid,
-                privileges=ChatPrivileges(
-                    can_manage_chat=False,
-                    can_delete_messages=False,
-                    can_manage_video_chats=True,
-                    can_restrict_members=False,
-                    can_change_info=False,
-                    can_invite_users=False,
-                    can_pin_messages=False,
-                    can_promote_members=False,
-                ),
-            )
-            if not (
-                group_call := (
-                    await get_group_call(
-                        assistant, m, err_msg=", ɢʀᴏᴜᴘ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴀʟʀᴇᴀᴅʏ ᴇɴᴅᴇᴅ"
-                    )
+            await assistant.join_chat(f"@{message.chat.username}")
+            await done.edit_text("<b>✅ ᴀssɪsᴛᴀɴᴛ ᴊᴏɪɴᴇᴅ.</b>")
+            return
+        except InviteRequestSent:
+            try:
+                await app.approve_chat_join_request(chat_id, assistant_id)
+                await done.edit_text("<b>✅ ᴀssɪsᴛᴀɴᴛ ᴊᴏɪɴᴇᴅ ᴠɪᴀ ᴀᴘᴘʀᴏᴠᴀʟ.</b>")
+            except Exception:
+                await done.edit_text("<b>ᴀᴘᴘʀᴏᴠᴀʟ ғᴀɪʟᴇᴅ, ᴘʟᴇᴀsᴇ ᴀᴘᴘʀᴏᴠᴇ ᴍᴀɴᴜᴀʟʟʏ.</b>")
+            return
+        except Exception as e:
+            if is_banned:
+                try:
+                    await app.unban_chat_member(chat_id, assistant_id)
+                    await asyncio.sleep(1)
+                    await assistant.join_chat(f"@{message.chat.username}")
+                    await done.edit_text("<b>ᴀssɪsᴛᴀɴᴛ ᴡᴀs ʙᴀɴɴᴇᴅ, ʙᴜᴛ ɴᴏᴡ ᴜɴʙᴀɴɴᴇᴅ ᴀɴᴅ ᴊᴏɪɴᴇᴅ ✅</b>")
+                    return
+                except Exception as e2:
+                    await done.edit_text(f"<b>ғᴀɪʟᴇᴅ ᴛᴏ ᴜɴʙᴀɴ/ᴊᴏɪɴ: {str(e2)}</b>")
+            else:
+                await done.edit_text(f"<b>ᴇʀʀᴏʀ: {str(e)}</b>")
+            return
+    else:
+        # Private group
+        if is_banned:
+            try:
+                await app.unban_chat_member(chat_id, assistant_id)
+                await done.edit_text("<b>ᴀssɪsᴛᴀɴᴛ ɪs ᴜɴʙᴀɴɴᴇᴅ. ᴛʏᴘᴇ /ᴜᴄᴊᴏɪɴ ᴀɢᴀɪɴ.</b>")
+                # Recreate the function call or just return, but to chain, we'll proceed
+            except Exception as e:
+                await done.edit_text(
+                    f"<b>➻ ᴀᴄᴛᴜᴀʟʟʏ ɪ ғᴏᴜɴᴅ ᴛʜᴀᴛ ᴍʏ ᴀssɪsᴛᴀɴᴛ ɪs ʙᴀɴɴᴇᴅ ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ ᴀɴᴅ ɪ ᴀᴍ ɴᴏᴛ ᴀʙʟᴇ ᴛᴏ ᴜɴʙᴀɴ ᴍʏ ᴀssɪsᴛᴀɴᴛ ʙᴇᴄᴀᴜsᴇ [ ɪ ᴅᴏɴᴛ ʜᴀᴠᴇ ʙᴀɴ ᴘᴏᴡᴇʀ ] sᴏ ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴍᴇ ʙᴀɴ ᴘᴏᴡᴇʀ ᴏʀ ᴜɴʙᴀɴ ᴍʏ ᴀssɪsᴛᴀɴᴛ ᴍᴀɴᴜᴀʟʟʏ ᴛʜᴇɴ ᴛʀʏ ᴀɢᴀɪɴ ʙʏ- /ᴜᴄᴊᴏɪɴ.</b>\n\n<b>➥ ɪᴅ »</b> @{assistant.me.username}"
                 )
-            ):
                 return
-            await assistant.invoke(DiscardGroupCall(call=group_call))
-            await app.promote_chat_member(
-                chat_id,
-                assid,
-                privileges=ChatPrivileges(
-                    can_manage_chat=False,
-                    can_delete_messages=False,
-                    can_manage_video_chats=False,
-                    can_restrict_members=False,
-                    can_change_info=False,
-                    can_invite_users=False,
-                    can_pin_messages=False,
-                    can_promote_members=False,
-                ),
-            )
-            await msg.edit_text("ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴄʟᴏꜱᴇᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ⚡️~!")
+        
+        try:
+            invite_link = await app.create_chat_invite_link(chat_id, expire_date=None)
+            await asyncio.sleep(2)
+            await assistant.join_chat(invite_link.invite_link)
+            await done.edit_text("<b>✅ ᴀssɪsᴛᴀɴᴛ ᴊᴏɪɴᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ.</b>")
+        except InviteRequestSent:
+            try:
+                await app.approve_chat_join_request(chat_id, assistant_id)
+                await done.edit_text("<b>✅ ᴀssɪsᴛᴀɴᴛ ᴊᴏɪɴᴇᴅ ᴠɪᴀ ᴀᴘᴘʀᴏᴠᴀʟ.</b>")
+            except Exception:
+                await done.edit_text("<b>ᴀᴘᴘʀᴏᴠᴀʟ ғᴀɪʟᴇᴅ, ᴘʟᴇᴀsᴇ ᴀᴘᴘʀᴏᴠᴇ ᴍᴀɴᴜᴀʟʟʏ.</b>")
         except Exception as e:
-            await msg.edit_text(f"ɢɪᴠᴇ ᴍᴇ ᴍᴀɴᴀɢᴇ ᴠᴄ ᴘᴏᴡᴇʀ ᴛᴏ ᴍʏ [ᴀꜱꜱɪꜱᴛᴀɴᴛ](tg://openmessage?user_id={assid}) ɪɴꜱᴛᴇᴀᴅ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ")
-    except Exception as e:
-        if "'NoneType' object has no attribute 'write'" in str(e):
-            await msg.edit_text("**ᴠᴄ ɪꜱ ᴀʟʀᴇᴀᴅʏ ᴏꜰꜰ ʙᴀʙʏ**")
-        elif "GROUPCALL_FORBIDDEN" in str(e):
-            await msg.edit_text(
-                f"ɢɪᴠᴇ ᴍᴇ ᴍᴀɴᴀɢᴇ ᴠᴄ ᴘᴏᴡᴇʀ ᴛᴏ ᴍʏ [ᴀꜱꜱɪꜱᴛᴀɴᴛ](tg://openmessage?user_id={assid}) ɪɴꜱᴛᴇᴀᴅ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ"
+            await done.edit_text(
+                f"<b>➻ ᴀᴄᴛᴜᴀʟʟʏ ɪ ғᴏᴜɴᴅ ᴛʜᴀᴛ ᴍʏ ᴀssɪsᴛᴀɴᴛ ʜᴀs ɴᴏᴛ ᴊᴏɪɴᴇᴅ ᴛʜɪs ɢʀᴏᴜᴘ ᴀɴᴅ ɪ ᴀᴍ ɴᴏᴛ ᴀʙʟᴇ ᴛᴏ ɪɴᴠɪᴛᴇ ᴍʏ ᴀssɪsᴛᴀɴᴛ ʙᴇᴄᴀᴜsᴇ [ ɪ ᴅᴏɴᴛ ʜᴀᴠᴇ ɪɴᴠɪᴛᴇ ᴜsᴇʀ ᴀᴅᴍɪɴ ᴘᴏᴡᴇʀ ] sᴏ ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴍᴇ ɪɴᴠɪᴛᴇ ᴜsᴇʀs ᴀᴅᴍɪɴ ᴘᴏᴡᴇʀ ᴛʜᴇɴ ᴛʀʏ ᴀɢᴀɪɴ ʙʏ- /ᴜᴄᴊᴏɪɴ.</b>\n\n<b>➥ ɪᴅ »</b> @{assistant.me.username}"
             )
-        else:
-            logging.exception(e)
-            await msg.edit_text(str(e))
 
 
-@app.on_message(filters.command("vclink", ["/", "!"]) & admin_check)
-async def vclink(client, message: Message):
-    logging.info(f"vclink called: {message.command}")
-    chat_id = message.chat.id
-    assistant = userbot
-    ass = await assistant.get_me()
-    assid = ass.id
-    hell = await message.reply_text("ɢᴇᴛᴛɪɴɢ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ʟɪɴᴋ...")
-
+@app.on_message(filters.command(["uleave"]) & filters.user(app.owner))
+async def leave_one(client, message):
+    if len(userbot.clients) == 0:
+        await message.reply("<b>ɴᴏ ᴀssɪsᴛᴀɴᴛ ᴀᴠᴀɪʟᴀʙʟᴇ.</b>")
+        return
+    assistant = userbot.clients[0]
     try:
-        if not (
-            group_call := (
-                await get_group_call(
-                    assistant, message, err_msg=", ɢʀᴏᴜᴘ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴀʟʀᴇᴀᴅʏ ᴇɴᴅᴇᴅ"
-                )
-            )
-        ):
-            return
-
-        # To get the invite, we need to re-fetch full_chat since get_group_call only returns call
-        chat_peer = await assistant.resolve_peer(chat_id)
-        if isinstance(chat_peer, InputPeerChannel):
-            full_chat = (await assistant.invoke(GetFullChannel(channel=chat_peer))).full_chat
-            invite = await assistant.invoke(ExportGroupCallInvite(call=full_chat.call))
-            await hell.edit_text(f"ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ʟɪɴᴋ: {invite.link}")
-        else:
-            await hell.edit_text("ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ ᴏɴʟʏ ᴡᴏʀᴋꜱ ɪɴ ɢʀᴏᴜᴘꜱ/ᴄʜᴀɴɴᴇʟꜱ")
-
-    except ChatAdminRequiredException:
-        await hell.edit_text(
-            f"ɢɪᴠᴇ ᴍᴇ ᴍᴀɴᴀɢᴇ ᴠᴄ ᴘᴏᴡᴇʀ ᴛᴏ ᴍʏ [ᴀꜱꜱɪꜱᴛᴀɴᴛ](tg://openmessage?user_id={assid}) ɪɴꜱᴛᴇᴀᴅ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ"
+        await assistant.leave_chat(message.chat.id)
+        await app.send_message(
+            message.chat.id, "<b>✅ ᴜsᴇʀʙᴏᴛ sᴜᴄᴄᴇssғᴜʟʟʏ ʟᴇғᴛ ᴛʜɪs Chat.</b>"
         )
     except Exception as e:
-        if "'NoneType' object has no attribute 'write'" in str(e):
-            await hell.edit_text("ᴠᴄ ɪꜱ  ᴏꜰꜰ ʙᴀʙʏ")
-        else:
-            logging.exception(e)
-            await hell.edit_text(str(e))
+        print(e)
+        await message.reply(f"<b>ᴇʀʀᴏʀ: {str(e)}</b>")
 
 
-@app.on_message(filters.command("vcuser", ["/", "!"]))
-async def vcmembers(client, message: Message):
-    logging.info(f"vcuser called: {message.command}")
-    chat_id = message.chat.id
-    assistant = userbot
-    ass = await assistant.get_me()
-    assid = ass.id
-    hell = await message.reply_text("ɢᴇᴛᴛɪɴɢ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴍᴇᴍʙᴇʀꜱ...")
+@app.on_message(filters.command(["lall"]) & filters.user(app.owner))
+async def leave_all(client, message):
+    # Assuming SUDOERS is defined in config or BADMUSIC, e.g., config.SUDOERS
+    # If not, replace with appropriate variable
+    if message.from_user.id not in config.SUDOERS:  # Adjust if needed
+        await message.reply("<b>ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀᴜᴛʜᴏʀɪᴢᴇᴅ!</b>")
+        return
 
+    if len(userbot.clients) == 0:
+        await message.reply("<b>ɴᴏ ᴀssɪsᴛᴀɴᴛ ᴀᴠᴀɪʟᴀʙʟᴇ.</b>")
+        return
+    
+    assistant = userbot.clients[0]
+    left = 0
+    failed = 0
+    lol = await message.reply("🔄 <b>ᴜsᴇʀʙᴏᴛ</b> ʟᴇᴀᴠɪɴɢ ᴀʟʟ ᴄʜᴀᴛs !")
     try:
-        if not (
-            group_call := (
-                await get_group_call(
-                    assistant, message, err_msg=", ɢʀᴏᴜᴘ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴀʟʀᴇᴀᴅʏ ᴇɴᴅᴇᴅ"
+        async for dialog in assistant.get_dialogs():
+            if dialog.chat.id == -1002056907061:
+                continue
+            try:
+                await assistant.leave_chat(dialog.chat.id)
+                left += 1
+                await lol.edit(
+                    f"<b>ᴜsᴇʀʙᴏᴛ ʟᴇᴀᴠɪɴɢ ᴀʟʟ ɢʀᴏᴜᴘ...</b>\n\n<b>ʟᴇғᴛ:</b> {left} ᴄʜᴀᴛs.\n<b>ғᴀɪʟᴇᴅ:</b> {failed} ᴄʜᴀᴛs."
                 )
-            )
-        ):
-            return
-
-        # To get participants, we need to re-fetch full_chat since get_group_call only returns call
-        chat_peer = await assistant.resolve_peer(chat_id)
-        if isinstance(chat_peer, InputPeerChannel):
-            full_chat = (await assistant.invoke(GetFullChannel(channel=chat_peer))).full_chat
-            participants = await assistant.invoke(
-                GetGroupParticipants(
-                    call=full_chat.call,
-                    ids=[],
-                    sources=[],
-                    offset="",
-                    limit=1000,
+            except Exception:
+                failed += 1
+                await lol.edit(
+                    f"<b>ᴜsᴇʀʙᴏᴛ ʟᴇᴀᴠɪɴɢ...</b>\n\n<b>ʟᴇғᴛ:</b> {left} chats.\n<b>ғᴀɪʟᴇᴅ:</b> {failed} chats."
                 )
-            )
-            count = participants.count
-            text = f"ᴛᴏᴛᴀʟ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴍᴇᴍʙᴇʀꜱ: {count}\n"
-            users = []
-            for participant in participants.participants:
-                users.append(participant.peer.user_id)
-            for i in users:
-                b = await app.get_users(i)
-                text += f"[{b.first_name + (' ' + b.last_name if b.last_name else '')}](tg://user?id={b.id})\n"
-
-            await hell.edit_text(text)
-        else:
-            await hell.edit_text("ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ ᴏɴʟʏ ᴡᴏʀᴋꜱ ɪɴ ɢʀᴏᴜᴘꜱ/ᴄʜᴀɴɴᴇʟꜱ")
-
-    except ChatAdminRequiredException:
-        await hell.edit_text(
-            f"ɢɪᴠᴇ ᴍᴇ ᴍᴀɴᴀɢᴇ ᴠᴄ ᴘᴏᴡᴇʀ ᴛᴏ ᴍʏ [ᴀꜱꜱɪꜱᴛᴀɴᴛ](tg://openmessage?user_id={assid}) ɪɴꜱᴛᴇᴀᴅ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ"
+            await asyncio.sleep(3)
+    finally:
+        await app.send_message(
+            message.chat.id,
+            f"<b>✅ ʟᴇғᴛ ғʀᴏᴍ:</b> {left} chats.\n<b>❌ ғᴀɪʟᴇᴅ ɪɴ:</b> {failed} chats.",
         )
-    except Exception as e:
-        if "'NoneType' object has no attribute 'write'" in str(e):
-            await hell.edit_text("ᴠᴄ ɪꜱ  ᴏꜰꜰ ʙᴀʙʏ")
-        else:
-            logging.exception(e)
-            await hell.edit_text(str(e))
