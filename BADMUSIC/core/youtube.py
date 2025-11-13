@@ -13,7 +13,7 @@ from pyrogram import enums, types
 from py_yt import Playlist, VideosSearch
 
 from BADMUSIC import app, config, logger
-from BADMUSIC.helpers import Track, utils
+from BADMUSIC.utils import Track, utils
 
 
 class YouTube:
