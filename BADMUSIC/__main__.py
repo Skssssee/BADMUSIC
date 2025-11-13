@@ -3,7 +3,8 @@ import importlib
 
 from pyrogram import idle
 
-from BADMUSIC import Bad, app, db, logger, tasks, userbot
+from BADMUSIC import (Bad, app, config, db,
+                   logger, stop, userbot, yt)
 from BADMUSIC.plugins import all_modules
 
 
@@ -17,6 +18,9 @@ async def main():
         importlib.import_module(f"BADMUSIC.plugins.{module}")
     logger.info(f"❖ ʟᴏᴀᴅᴇᴅ {len(all_modules)} ᴍᴏᴅᴜʟᴇꜱ 💫")
 
+    if config.COOKIES_URL:
+        await yt.save_cookies(config.COOKIES_URL)
+
     sudoers = await db.get_sudoers()
     app.sudoers.update(sudoers)
     app.bl_users.update(await db.get_blacklisted())
@@ -24,15 +28,7 @@ async def main():
 
     await idle()
     logger.info("❖ ꜱᴛᴏᴘᴘɪɴɢ...😥")
-    await app.exit()
-    await userbot.exit()
-    await db.close()
-    for task in tasks:
-        task.cancel()
-        try:
-            await task
-        except:
-            pass
+    await stop()
     logger.info("❖ ꜱᴛᴏᴘᴘᴇᴅ😥")
 
 
