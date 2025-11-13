@@ -65,8 +65,28 @@ async def update_timer(length=10):
                     continue
                 played = media.time
                 remaining = duration - played
-                pos = min(int((played / duration) * length), length - 1)
-                timer = ["⚪─────────","━⚪────────","━━⚪───────","━━━⚪──────","━━━━⚪─────","━━━━━⚪────","━━━━━━⚪───","━━━━━━━⚪──","━━━━━━━━⚪─","━━━━━━━━━⚪"][pos]
+                percentage = int((played / duration) * 100)
+                if 0 <= percentage <= 10:
+                    ba = "⚪─────────"
+                elif 10 < percentage < 20:
+                    ba = "━⚪────────"
+                elif 20 <= percentage < 30:
+                    ba = "━━⚪───────"
+                elif 30 <= percentage < 40:
+                    ba = "━━━⚪──────"
+                elif 40 <= percentage < 50:
+                    ba = "━━━━⚪─────"
+                elif 50 <= percentage < 60:
+                    ba = "━━━━━⚪────"
+                elif 60 <= percentage < 70:
+                    ba = "━━━━━━⚪───"
+                elif 70 <= percentage < 80:
+                    ba = "━━━━━━━⚪──"
+                elif 80 <= percentage < 95:
+                    ba = "━━━━━━━━⚪─"
+                else:
+                    ba = "━━━━━━━━━⚪"
+                timer = ba
 
                 if remaining <= 30:
                     next.file_path = await yt.download(next.id, video=next.video)
@@ -91,7 +111,7 @@ async def update_timer(length=10):
                 )
             except:
                 pass
-                
+                                
 async def vc_watcher(sleep=15):
     while True:
         await asyncio.sleep(sleep)
