@@ -65,38 +65,14 @@ async def update_timer(length=10):
                     continue
                 played = media.time
                 remaining = duration - played
-                percentage = int((played / duration) * 100)
-                Bad = percentage 
+                pos = min(int((played / duration) * length), length - 1)
+                timer = ["⚪─────────","━⚪────────","━━⚪───────","━━━⚪──────","━━━━⚪─────","━━━━━⚪────","━━━━━━⚪───","━━━━━━━⚪──","━━━━━━━━⚪─","━━━━━━━━━⚪"][pos]
 
-                if 0 <= Bad <= 10:
-                    ba = "⚪─────────"
-                elif 10 < Bad < 20:
-                    ba = "━⚪────────"
-                elif 20 <= Bad < 30:
-                    ba = "━━⚪───────"
-                elif 30 <= Bad < 40:
-                    ba = "━━━⚪──────"
-                elif 40 <= Bad < 50:
-                    ba = "━━━━⚪─────"
-                elif 50 <= Bad < 60:
-                    ba = "━━━━━⚪────"
-                elif 60 <= Bad < 70:
-                    ba = "━━━━━━⚪───"
-                elif 70 <= Bad < 80:
-                    ba = "━━━━━━━⚪──"
-                elif 80 <= Bad < 95:
-                    ba = "━━━━━━━━⚪─"
-                else:
-                    ba = "━━━━━━━━━⚪"
-
-                timer = ba  
-
-                next_song = queue.get_next(chat_id)  
-                if remaining <= 30 and next_song:
-                    next_song.file_path = await yt.download(next_song.id, video=next_song.video)
-                    if not next_song.file_path:
+                if remaining <= 30:
+                    next.file_path = await yt.download(next.id, video=next.video)
+                    if next and not next.file_path:
                         try:
-                            next_song.file_path = await yt.download(next_song.id, video=next_song.video)
+                            next.file_path = await yt.download(next.id, video=next.video)
                         except:
                             pass
 
@@ -115,8 +91,7 @@ async def update_timer(length=10):
                 )
             except:
                 pass
-
-
+                
 async def vc_watcher(sleep=15):
     while True:
         await asyncio.sleep(sleep)
