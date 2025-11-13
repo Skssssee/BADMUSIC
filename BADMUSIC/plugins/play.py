@@ -5,6 +5,14 @@ from BADMUSIC.utils import buttons, utils
 from BADMUSIC.utils.play import checkUB
 
 
+def playlist_to_queue(chat_id: int, tracks: list) -> str:
+    text = "<blockquote expandable>"
+    for track in tracks:
+        pos = queue.add(chat_id, track)
+        text += f"<b>{pos}.</b> {track.title}\n"
+    text = text[:1948] + "</blockquote>"
+    return text
+
 @app.on_message(
     filters.command(["play", "playforce", "vplay", "vplayforce"])
     & filters.group
@@ -20,14 +28,26 @@ async def play_hndlr(
     url: str = None,
 ) -> None:
     sent = await m.reply_text(m.lang["play_searching"])
-
-    if len(queue.get_queue(m.chat.id)) >= 20:
-        return await sent.edit_text(m.lang["queue_full"])
-
+    mention = m.from_user.mention
     media = tg.get_media(m.reply_to_message) if m.reply_to_message else None
+    tracks = []
 
     if url:
-        file = await yt.search(url, sent.id, video=video)
+        if "playlist" in url:
+            await sent.edit_text(m.lang["playlist_fetch"])
+            tracks = await yt.playlist(
+                config.PLAYLIST_LIMIT, mention, url, video
+            )
+
+            if not tracks:
+                return await sent.edit_text(m.lang["playlist_error"])
+
+            file = tracks[0]
+            tracks.remove(file)
+            file.message_id = sent.id
+        else:
+            file = await yt.search(url, sent.id, video=video)
+
         if not file:
             return await sent.edit_text(
                 m.lang["play_not_found"].format(config.SUPPORT_CHAT)
@@ -45,20 +65,22 @@ async def play_hndlr(
         setattr(sent, "lang", m.lang)
         file = await tg.download(m.reply_to_message, sent)
 
-    if file.duration_sec > 18000:
-        return await sent.edit_text(m.lang["play_duration_limit"])
+    if file.duration_sec > config.DURATION_LIMIT:
+        return await sent.edit_text(
+            m.lang["play_duration_limit"].format(config.DURATION_LIMIT // 60)
+        )
 
     if await db.is_logger():
         await utils.play_log(m, file.title, file.duration)
 
-    file.user = m.from_user.mention
+    file.user = mention
     if force:
         queue.force_add(m.chat.id, file)
     else:
         position = queue.add(m.chat.id, file)
 
         if await db.get_call(m.chat.id):
-            return await sent.edit_text(
+            await sent.edit_text(
                 m.lang["play_queued"].format(
                     position,
                     file.url,
@@ -70,15 +92,22 @@ async def play_hndlr(
                     m.chat.id, file.id, m.lang["play_now"]
                 ),
             )
+            if tracks:
+                added = playlist_to_queue(m.chat.id, tracks)
+                await app.send_message(
+                    chat_id=m.chat.id,
+                    text=m.lang["playlist_queued"].format(len(tracks)) + added,
+                )
+            return
 
     if not file.file_path:
-        try:
-            file.file_path = await yt.download(file.id, video=video)
-        except:
-            await Bad.stop(m.chat.id)
-            return await sent.edit_text(
-                m.lang["error_no_file"].format(config.SUPPORT_CHAT)
-            )
+        file.file_path = await yt.download(file.id, video=video)
 
     await Bad.play_media(chat_id=m.chat.id, message=sent, media=file)
-  
+    if not tracks:
+        return
+    added = playlist_to_queue(m.chat.id, tracks)
+    await app.send_message(
+        chat_id=m.chat.id,
+        text=m.lang["playlist_queued"].format(len(tracks)) + added,
+        )
