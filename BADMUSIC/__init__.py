@@ -19,7 +19,7 @@ logging.getLogger("pytgcalls").setLevel(logging.ERROR)
 logger = logging.getLogger(__name__)
 
 
-__version__ = "2.0"
+__version__ = "3.0"
 
 from config import Config
 
@@ -53,3 +53,19 @@ queue = Queue()
 
 from BADMUSIC.core.calls import TgCall
 Bad = TgCall()
+
+
+async def stop() -> None:
+    logger.info("❖ ꜱᴛᴏᴘᴘɪɴɢ...🪄")
+    for task in tasks:
+        task.cancel()
+        try:
+            await task
+        except:
+            pass
+
+    await app.exit()
+    await userbot.exit()
+    await db.close()
+
+    logger.info("❖ ꜱᴛᴏᴘᴘᴇᴅ.... 🍃\n")
