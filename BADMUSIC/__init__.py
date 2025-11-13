@@ -1,4 +1,4 @@
-import tim
+import time
 import logging
 from logging.handlers import RotatingFileHandler
 
