@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# Color codes (NO white/orange)
-cjamun='\033[0;35m'      # Jamun (purple)
-cparrot='\033[1;32m'     # Parrot (bright green, replacing yellow)
+cjamun='\033[0;35m'    
+cparrot='\033[1;32m' 
 cgreen='\033[0;32m'
 cblack='\033[0;30m'
 cred='\033[0;31m'
@@ -13,7 +12,7 @@ credlight='\033[1;31m'
 cmagenta='\033[0;35m'
 creset='\033[0m'
 
-# Multi-color print function
+
 pprint (){
     color=$1
     shift
@@ -29,7 +28,6 @@ yesnoprompt(){
     echo "$answer" | grep -iq "^y"
 }
 
-# BADMUSIC ASCII HEADER (called twice)
 BADMUSIC_HEADER() {
     echo -e "${cskyblue}  ____          _____  __  __ _    _  _____ _____ _____ "
     echo -e "${cskyblue} |  _ \   /\   |  __ \|  \/  | |  | |/ ____|_   _/ ____|"
@@ -118,10 +116,9 @@ pprint "${cgreen}" "\n\nBADMUSIC Installation Completed !"
 sleep 1
 clear
 
-# Show header again above API section
+
 BADMUSIC_HEADER
 
-# Vibrant multi-color prompts for API section (No white/orange/yellow)
 pprint "${cparrot}"   "\nAPI ID: "; color_reset; read api_id
 pprint "${cpink}"     "\nAPI HASH: "; color_reset; read api_hash
 pprint "${cskyblue}"  "\nBOT TOKEN: "; color_reset; read bot_token
@@ -139,9 +136,9 @@ fi
 echo """API_ID = $api_id
 API_HASH = $api_hash
 BOT_TOKEN = $bot_token
-MONGO_DB_URI = $mongo_db
+MONGO_URL = $mongo_db
 LOGGER_ID = $logger
-STRING_SESSION = $string_session
+SESSION = $string_session
 OWNER_ID = $ownid""" > .env
 clear
 
