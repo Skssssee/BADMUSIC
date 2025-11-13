@@ -2,6 +2,7 @@ from random import randint
 from time import time
 
 from pymongo import AsyncMongoClient
+from bson import ObjectId
 
 from BADMUSIC import config, logger, userbot
 
@@ -83,7 +84,9 @@ class MongoDB:
     # AUTH METHODS
     async def _get_auth(self, chat_id: int) -> set[int]:
         if chat_id not in self.auth:
-            doc = await self.authdb.find_one({"_id": chat_id}) or {}
+            doc = await self.authdb.find_one({"_id": chat_id})
+            if not doc:
+                doc = await self.authdb.find_one({"chat_id": chat_id})
             self.auth[chat_id] = set(doc.get("user_ids", []))
         return self.auth[chat_id]
 
@@ -97,6 +100,9 @@ class MongoDB:
             await self.authdb.update_one(
                 {"_id": chat_id}, {"$addToSet": {"user_ids": user_id}}, upsert=True
             )
+            await self.authdb.update_one(
+                {"chat_id": chat_id}, {"$addToSet": {"user_ids": user_id}}
+            )
 
     async def rm_auth(self, chat_id: int, user_id: int) -> None:
         users = await self._get_auth(chat_id)
@@ -104,6 +110,9 @@ class MongoDB:
             users.discard(user_id)
             await self.authdb.update_one(
                 {"_id": chat_id}, {"$pull": {"user_ids": user_id}}
+            )
+            await self.authdb.update_one(
+                {"chat_id": chat_id}, {"$pull": {"user_ids": user_id}}
             )
 
     # ASSISTANT METHODS
@@ -122,6 +131,8 @@ class MongoDB:
 
         if chat_id not in self.assistant:
             doc = await self.assistantdb.find_one({"_id": chat_id})
+            if not doc:
+                doc = await self.assistantdb.find_one({"chat_id": chat_id})
             num = doc["num"] if doc else await self.set_assistant(chat_id)
             self.assistant[chat_id] = num
 
@@ -177,12 +188,24 @@ class MongoDB:
 
     async def rm_chat(self, chat_id: int) -> None:
         if await self.is_chat(chat_id):
+            result = await self.chatsdb.delete_one({"_id": chat_id})
+            if result.deleted_count == 0:
+                await self.chatsdb.delete_one({"chat_id": chat_id})
             self.chats.remove(chat_id)
-            await self.chatsdb.delete_one({"_id": chat_id})
 
     async def get_chats(self) -> list:
         if not self.chats:
-            self.chats.extend([chat["_id"] async for chat in self.chatsdb.find()])
+            from bson import ObjectId
+            loaded = set()
+            async for chat in self.chatsdb.find():
+                cid_key = chat.get("_id")
+                if isinstance(cid_key, ObjectId):
+                    cid = int(chat.get("chat_id", str(cid_key)))
+                else:
+                    cid = int(cid_key)
+                if cid not in loaded:
+                    self.chats.append(cid)
+                    loaded.add(cid)
         return self.chats
 
     # LANGUAGE METHODS
@@ -197,6 +220,8 @@ class MongoDB:
     async def get_lang(self, chat_id: int) -> str:
         if chat_id not in self.lang:
             doc = await self.langdb.find_one({"_id": chat_id})
+            if not doc:
+                doc = await self.langdb.find_one({"chat_id": chat_id})
             self.lang[chat_id] = doc["lang"] if doc else "sm"
         return self.lang[chat_id]
 
@@ -222,14 +247,19 @@ class MongoDB:
     async def get_play_mode(self, chat_id: int) -> bool:
         if chat_id not in self.play_mode:
             doc = await self.playmodedb.find_one({"_id": chat_id})
+            if not doc:
+                doc = await self.playmodedb.find_one({"chat_id": chat_id})
             if doc:
                 self.play_mode.append(chat_id)
         return chat_id in self.play_mode
 
     async def set_play_mode(self, chat_id: int, remove: bool = False) -> None:
         if remove:
-            self.play_mode.remove(chat_id)
-            await self.playmodedb.delete_one({"_id": chat_id})
+            if chat_id in self.play_mode:
+                result = await self.playmodedb.delete_one({"_id": chat_id})
+                if result.deleted_count == 0:
+                    await self.playmodedb.delete_one({"chat_id": chat_id})
+                self.play_mode.remove(chat_id)
         else:
             self.play_mode.append(chat_id)
             await self.playmodedb.insert_one({"_id": chat_id})
@@ -260,54 +290,85 @@ class MongoDB:
 
     async def rm_user(self, user_id: int) -> None:
         if await self.is_user(user_id):
+            result = await self.usersdb.delete_one({"_id": user_id})
+            if result.deleted_count == 0:
+                await self.usersdb.delete_one({"user_id": user_id})
+            try:
+                await self.db.tgusersdb.delete_one({"user_id": user_id})
+            except Exception:
+                pass
             self.users.remove(user_id)
-            await self.usersdb.delete_one({"_id": user_id})
 
     async def get_users(self) -> list:
         if not self.users:
-            self.users.extend([user["_id"] async for user in self.usersdb.find()])
+            from bson import ObjectId
+            loaded = set()
+            # Load from usersdb
+            async for user in self.usersdb.find():
+                uid_key = user.get("_id")
+                if isinstance(uid_key, ObjectId):
+                    uid = int(user.get("user_id", str(uid_key)))
+                else:
+                    uid = int(uid_key)
+                if uid not in loaded:
+                    self.users.append(uid)
+                    loaded.add(uid)
+            # Load from old tgusersdb if exists
+            try:
+                async for user in self.db.tgusersdb.find():
+                    uid_key = user.get("_id")
+                    if isinstance(uid_key, ObjectId):
+                        uid = int(user.get("user_id", str(uid_key)))
+                    else:
+                        uid = int(uid_key)
+                    if uid not in loaded:
+                        self.users.append(uid)
+                        loaded.add(uid)
+            except Exception:
+                pass  # No tgusersdb or error
         return self.users
 
 
     async def migrate_coll(self) -> None:
-        from bson import ObjectId
         logger.info("❖ ᴍɪɢʀᴀᴛɪɴɢ ᴜꜱᴇʀꜱ ᴀɴᴅ ᴄʜᴀᴛꜱ ꜰʀᴏᴍ ᴏʟᴅ ᴄᴏʟʟᴇᴄᴛɪᴏɴꜱ 🔥")
 
-        musers, mchats, done = [], [], []
+        from bson import ObjectId
+        musers, mchats = [], []
+        user_ids = set()
+        chat_ids = set()
+
+        # Migrate users
         ulist = [user async for user in self.db.tgusersdb.find()]
         ulist.extend([user async for user in self.usersdb.find()])
 
         for user in ulist:
-            if isinstance(user.get("_id"), ObjectId):
-                user_id = int(user["user_id"])
-                if user_id in done:
-                    continue
-                done.append(user_id)
-                musers.append(user)
+            if "_id" not in user:
+                continue
+            if isinstance(user["_id"], ObjectId):
+                user_id = int(user.get("user_id", str(user["_id"])))
             else:
                 user_id = int(user["_id"])
-                if user_id in done:
-                    continue
-                done.append(user_id)
+            if user_id not in user_ids:
+                user_ids.add(user_id)
                 musers.append({"_id": user_id})
+
         await self.usersdb.drop()
         await self.db.tgusersdb.drop()
         if musers:
             await self.usersdb.insert_many(musers)
 
+        # Migrate chats
         async for chat in self.chatsdb.find():
-            if isinstance(chat.get("_id"), ObjectId):
-                chat_id = int(chat["chat_id"])
-                if chat_id in mchats:
-                    continue
-                done.append(chat_id)
-                mchats.append(chat)
+            if "_id" not in chat:
+                continue
+            if isinstance(chat["_id"], ObjectId):
+                chat_id = int(chat.get("chat_id", str(chat["_id"])))
             else:
                 chat_id = int(chat["_id"])
-                if chat_id in done:
-                    continue
-                done.append(chat_id)
+            if chat_id not in chat_ids:
+                chat_ids.add(chat_id)
                 mchats.append({"_id": chat_id})
+
         await self.chatsdb.drop()
         if mchats:
             await self.chatsdb.insert_many(mchats)
@@ -316,9 +377,21 @@ class MongoDB:
         logger.info("❖ ᴍɪɢʀᴀᴛɪᴏɴ ᴄᴏᴍᴘʟᴇᴛᴇᴅ 🥀")
 
     async def load_cache(self) -> None:
-        doc = await self.cache.find_one({"_id": "migrated"})
+        try:
+            doc = await self.cache.find_one({"_id": "migrated"})
+        except Exception as e:
+            logger.error(f"Can't access cache for migration check: {e}")
+            doc = None
+
         if not doc:
-            await self.migrate_coll()
+            try:
+                await self.migrate_coll()
+            except Exception as e:
+                logger.error(f"❖ Migration failed: {type(e).__name__}: {e} 🥲")
+            try:
+                await self.cache.insert_one({"_id": "migrated"})
+            except Exception as e:
+                logger.warning(f"Can't mark migration as done: {e}")
 
         await self.get_chats()
         await self.get_users()
