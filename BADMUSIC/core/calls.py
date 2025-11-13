@@ -1,4 +1,5 @@
 from ntgcalls import ConnectionNotFound, TelegramServerError
+from pyrogram.errors import MessageIdInvalid
 from pyrogram.types import InputMediaPhoto, Message
 from pytgcalls import PyTgCalls, exceptions, types
 from pytgcalls.pytgcalls_session import PyTgCallsSession
@@ -24,13 +25,13 @@ class TgCall(PyTgCalls):
     async def stop(self, chat_id: int) -> None:
         client = await db.get_assistant(chat_id)
         try:
-            await client.leave_call(chat_id, close=False)
+            queue.clear(chat_id)
+            await db.remove_call(chat_id)
         except:
             pass
 
         try:
-            queue.clear(chat_id)
-            await db.remove_call(chat_id)
+            await client.leave_call(chat_id, close=False)
         except:
             pass
 
@@ -74,24 +75,37 @@ class TgCall(PyTgCalls):
             if not seek_time:
                 media.playing = True
                 await db.add_call(chat_id)
-                await message.edit_media(
-                    media=InputMediaPhoto(
-                        media=_thumb,
-                        caption=_lang["play_media"].format(
-                            media.url,
-                            media.title,
-                            media.duration,
-                            media.user,
-                        ),
-                    ),
-                    reply_markup=buttons.controls(chat_id),
+                text = _lang["play_media"].format(
+                    media.url,
+                    media.title,
+                    media.duration,
+                    media.user,
                 )
+                keyboard = buttons.controls(chat_id)
+                try:
+                    await message.edit_media(
+                        media=InputMediaPhoto(
+                            media=_thumb,
+                            caption=text,
+                        ),
+                        reply_markup=keyboard,
+                    )
+                except MessageIdInvalid:
+                    await app.send_photo(
+                        chat_id=chat_id,
+                        photo=_thumb,
+                        caption=text,
+                        reply_markup=keyboard,
+                    )
         except FileNotFoundError:
             await message.edit_text(_lang["error_no_file"].format(config.SUPPORT_CHAT))
             await self.play_next(chat_id)
         except exceptions.NoActiveGroupCall:
             await self.stop(chat_id)
             await message.edit_text(_lang["error_no_call"])
+        except exceptions.NoAudioSourceFound:
+            await message.edit_text(_lang["error_no_audio"])
+            await self.play_next(chat_id)
         except (ConnectionNotFound, TelegramServerError):
             await self.stop(chat_id)
             await message.edit_text(_lang["error_tg_server"])
@@ -104,6 +118,7 @@ class TgCall(PyTgCalls):
         media = queue.get_current(chat_id)
         _lang = await lang.get_lang(chat_id)
         msg = await app.send_message(chat_id=chat_id, text=_lang["play_again"])
+        media.message_id = msg.id
         await self.play_media(chat_id, msg, media)
 
 
@@ -111,15 +126,22 @@ class TgCall(PyTgCalls):
         if not await db.get_call(chat_id):
             return
 
-        m_id = queue.get_current(chat_id).message_id
+        current = queue.get_current(chat_id)
         media = queue.get_next(chat_id)
         try:
-            await app.delete_messages(
-                chat_id=chat_id,
-                message_ids=[m_id, media.message_id if media else 0],
-                revoke=True,
-            )
-            media.message_id = None
+            ids = []
+            if current and current.message_id:
+                ids.append(current.message_id)
+            if media and media.message_id:
+                ids.append(media.message_id)
+            if ids:
+                await app.delete_messages(
+                    chat_id=chat_id,
+                    message_ids=ids,
+                    revoke=True,
+                )
+            if media:
+                media.message_id = None
         except:
             pass
 
@@ -129,9 +151,8 @@ class TgCall(PyTgCalls):
         _lang = await lang.get_lang(chat_id)
         msg = await app.send_message(chat_id=chat_id, text=_lang["play_next"])
         if not media.file_path:
-            try:
-                media.file_path = await yt.download(media.id, video=media.video)
-            except:
+            media.file_path = await yt.download(media.id, video=media.video)
+            if not media.file_path:
                 await self.stop(chat_id)
                 return await msg.edit_text(
                     _lang["error_no_file"].format(config.SUPPORT_CHAT)
