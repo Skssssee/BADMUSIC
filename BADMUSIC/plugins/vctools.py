@@ -18,13 +18,15 @@ from BADMUSIC import Bad, app, config, userbot
 
 @app.on_message(filters.command("startvc", "vcon"))
 async def startvc(client, message: Message):
-
+    logging.info(f"startvc called: {message.command}")
     call_name = message.text.split(maxsplit=1)[1] if len(message.command) > 1 else " VC"
     hell = await message.reply_text("ꜱᴛᴀʀᴛɪɴɢ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ...")
     if len(userbot.clients) == 0:
         await hell.edit_text("ɴᴏ ᴀꜱꜱɪꜱᴛᴀɴᴛ ᴀᴠᴀɪʟᴀʙʟᴇ.")
         return
     assistant = userbot.clients[0]
+    me = await assistant.get_me()
+    assistant_id = me.id
 
     try:
         await assistant.invoke(
@@ -41,7 +43,7 @@ async def startvc(client, message: Message):
         try:
             await app.promote_chat_member(
                 message.chat.id, 
-                assistant.id,  
+                assistant_id,  
                 can_manage_video_chats=True,
             )
             await assistant.invoke(
@@ -59,18 +61,21 @@ async def startvc(client, message: Message):
             )
     except Exception as e:
         await hell.edit_text(
-            f"ɢɪᴠᴇ ᴍᴀɴᴀɢᴇ ᴠᴄ ᴘᴏᴡᴇʀ ᴛᴏ ᴍʏ [ᴀꜱꜱɪꜱᴛᴀɴᴛ](tg://openmessage?user_id={assistant.id}) ɪɴꜱᴛᴇᴀᴅ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ.\nᴇʀʀᴏʀ: {e}"
+            f"ɢɪᴠᴇ ᴍᴀɴᴀɢᴇ ᴠᴄ ᴘᴏᴡᴇʀ ᴛᴏ ᴍʏ [ᴀꜱꜱɪꜱᴛᴀɴᴛ](tg://openmessage?user_id={assistant_id}) ɪɴꜱᴛᴇᴀᴅ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ.\nᴇʀʀᴏʀ: {e}"
         )
 
 
 @app.on_message(filters.command("endvc"))
 @admin_check
 async def endvc(client, message: Message):
+    logging.info(f"endvc called: {message.command}")
     hell = await message.reply_text("ᴇɴᴅɪɴɢ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ...")
     if len(userbot.clients) == 0:
         await hell.edit_text("ɴᴏ ᴀꜱꜱɪꜱᴛᴀɴᴛ ᴀᴠᴀɪʟᴀʙʟᴇ.")
         return
     assistant = userbot.clients[0]
+    me = await assistant.get_me()
+    assistant_id = me.id
 
     try:
         full_chat: base.messages.ChatFull = await assistant.invoke(
@@ -80,27 +85,30 @@ async def endvc(client, message: Message):
         await hell.edit_text("ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴇɴᴅᴇᴅ!")
     except ChatAdminRequired:
         await hell.edit_text(
-            f"ɢɪᴠᴇ ᴍᴇ ᴍᴀɴᴀɢᴇ ᴠᴄ ᴘᴏᴡᴇʀ ᴛᴏ ᴍʏ [ᴀꜱꜱɪꜱᴛᴀɴᴛ](tg://openmessage?user_id={assistant.id}) ɪɴꜱᴛᴇᴀᴅ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ"
+            f"ɢɪᴠᴇ ᴍᴇ ᴍᴀɴᴀɢᴇ ᴠᴄ ᴘᴏᴡᴇʀ ᴛᴏ ᴍʏ [ᴀꜱꜱɪꜱᴛᴀɴᴛ](tg://openmessage?user_id={assistant_id}) ɪɴꜱᴛᴇᴀᴅ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ"
         )
     except Exception as e:
         if "'NoneType' object has no attribute 'write'" in str(e):
             await hell.edit_text("**ᴠᴄ ɪꜱ ᴀʟʀᴇᴀᴅʏ ᴏꜰꜰ ʙᴀʙʏ**")
         elif "phone.DiscardGroupCall" in str(e):
             await hell.edit_text(
-                f"ɢɪᴠᴇ ᴍᴀɴᴀɢᴇ ᴠᴄ ᴘᴏᴡᴇʀ ᴛᴏ ᴍʏ [ᴀꜱꜱɪꜱᴛᴀɴᴛ](tg://openmessage?user_id={assistant.id}) ɪɴꜱᴛᴇᴀᴅ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ"
+                f"ɢɪᴠᴇ ᴍᴀɴᴀɢᴇ ᴠᴄ ᴘᴏᴡᴇʀ ᴛᴏ ᴍʏ [ᴀꜱꜱɪꜱᴛᴀɴᴛ](tg://openmessage?user_id={assistant_id}) ɪɴꜱᴛᴇᴀᴅ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ"
             )
         else:
             logging.exception(e)
-            await hell.edit_text(e)
+            await hell.edit_text(str(e))
 
 
 @app.on_message(filters.command("vclink"))
 @admin_check
 async def vclink(client, message: Message):
+    logging.info(f"vclink called: {message.command}")
     if len(userbot.clients) == 0:
         await message.reply("ɴᴏ ᴀꜱꜱɪꜱᴛᴀɴᴛ ᴀᴠᴀɪʟᴀʙʟᴇ.")
         return
     assistant = userbot.clients[0]
+    me = await assistant.get_me()
+    assistant_id = me.id
     hell = await message.reply_text("ɢᴇᴛᴛɪɴɢ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ʟɪɴᴋ...")
 
     try:
@@ -114,22 +122,25 @@ async def vclink(client, message: Message):
         await hell.edit_text(f"ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ʟɪɴᴋ: {invite.link}")
     except ChatAdminRequired:
         await hell.edit_text(
-            f"ɢɪᴠᴇ ᴍᴇ ᴍᴀɴᴀɢᴇ ᴠᴄ ᴘᴏᴡᴇʀ ᴛᴏ ᴍʏ [ᴀꜱꜱɪꜱᴛᴀɴᴛ](tg://openmessage?user_id={assistant.id}) ɪɴꜱᴛᴇᴀᴅ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ"
+            f"ɢɪᴠᴇ ᴍᴇ ᴍᴀɴᴀɢᴇ ᴠᴄ ᴘᴏᴡᴇʀ ᴛᴏ ᴍʏ [ᴀꜱꜱɪꜱᴛᴀɴᴛ](tg://openmessage?user_id={assistant_id}) ɪɴꜱᴛᴇᴀᴅ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ"
         )
     except Exception as e:
         if "'NoneType' object has no attribute 'write'" in str(e):
             await hell.edit_text("ᴠᴄ ɪꜱ  ᴏꜰꜰ ʙᴀʙʏ")
         else:
             logging.exception(e)
-            await hell.edit_text(e)
+            await hell.edit_text(str(e))
 
 
 @app.on_message(filters.command("vcuser"))
 async def vcmembers(client, message: Message):
+    logging.info(f"vcuser called: {message.command}")
     if len(userbot.clients) == 0:
         await message.reply("ɴᴏ ᴀꜱꜱɪꜱᴛᴀɴᴛ ᴀᴠᴀɪʟᴀʙʟᴇ.")
         return
     assistant = userbot.clients[0]
+    me = await assistant.get_me()
+    assistant_id = me.id
     hell = await message.reply_text("ɢᴇᴛᴛɪɴɢ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ ᴍᴇᴍʙᴇʀꜱ...")
 
     try:
@@ -157,11 +168,11 @@ async def vcmembers(client, message: Message):
         await hell.edit_text(text)
     except ChatAdminRequired:
         await hell.edit_text(
-            f"ɢɪᴠᴇ ᴍᴇ ᴍᴀɴᴀɢᴇ ᴠᴄ ᴘᴏᴡᴇʀ ᴛᴏ ᴍʏ [ᴀꜱꜱɪꜱᴛᴀɴᴛ](tg://openmessage?user_id={assistant.id}) ɪɴꜱᴛᴇᴀᴅ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ"
+            f"ɢɪᴠᴇ ᴍᴇ ᴍᴀɴᴀɢᴇ ᴠᴄ ᴘᴏᴡᴇʀ ᴛᴏ ᴍʏ [ᴀꜱꜱɪꜱᴛᴀɴᴛ](tg://openmessage?user_id={assistant_id}) ɪɴꜱᴛᴇᴀᴅ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ"
         )
     except Exception as e:
         if "'NoneType' object has no attribute 'write'" in str(e):
             await hell.edit_text("ᴠᴄ ɪꜱ  ᴏꜰꜰ ʙᴀʙʏ")
         else:
             logging.exception(e)
-            await hell.edit_text(e)
+            await hell.edit_text(str(e))
