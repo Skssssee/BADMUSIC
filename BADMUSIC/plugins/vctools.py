@@ -22,6 +22,12 @@ from pyrogram.raw.types import ChatAdminRights as ChatPrivileges
 from BADMUSIC.utils import admin_check
 from BADMUSIC import app, Bad, config, userbot
 
+# Monkey patch to fix missing is_connected attribute on Userbot
+if not hasattr(userbot, 'is_connected'):
+    def _is_connected(self):
+        # Assuming _connection exists in the Userbot class
+        return self._connection.connected
+    userbot.__class__.is_connected = property(_is_connected)
 
 other_filters = filters.group & ~filters.via_bot & ~filters.forwarded
 other_filters2 = filters.private & ~filters.via_bot & ~filters.forwarded
