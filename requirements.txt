@@ -11,3 +11,5 @@ py-yt-search~=0.5.1
 python-dotenv~=1.1.1
 yt-dlp[default]>=2025.10.31.222828.dev0
 aiofiles
+py_yt
+youtubesearchpython
